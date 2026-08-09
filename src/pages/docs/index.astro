@@ -41,7 +41,6 @@ const sections = await Promise.all(
 				.filter((heading) => heading.depth === 2)
 				.map((heading) => ({
 					anchor: `${anchor}-${heading.slug}`,
-					sourceAnchor: heading.slug,
 					text: heading.text,
 				})),
 		};
@@ -138,9 +137,14 @@ const sections = await Promise.all(
 
 				docTargets.push({ id: sectionId, element: section });
 
-				for (const heading of section.querySelectorAll<HTMLElement>('.docs-markdown h2[id]')) {
+				for (const heading of section.querySelectorAll<HTMLElement>(
+					'.docs-markdown :is(h2, h3, h4, h5, h6)[id]',
+				)) {
 					heading.id = `${sectionId}-${heading.id}`;
-					docTargets.push({ id: heading.id, element: heading });
+					heading.parentElement
+						?.querySelector<HTMLAnchorElement>('.sl-anchor-link')
+						?.setAttribute('href', `#${heading.id}`);
+					if (heading.matches('h2')) docTargets.push({ id: heading.id, element: heading });
 				}
 			}
 
