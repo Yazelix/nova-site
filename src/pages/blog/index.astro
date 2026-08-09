@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import SiteHead from '../../components/SiteHead.astro';
 import SiteNav from '../../components/SiteNav.astro';
 import '../../styles/home.css';
 
@@ -11,16 +12,12 @@ const posts = (await getCollection('blog')).sort(
 <!doctype html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Yazelix Blog</title>
-		<meta name="description" content="Release essays, design notes, and product writing for Yazelix." />
-		<link rel="icon" type="image/png" href="/favicon.png" />
+		<SiteHead title="Yazelix Blog" description="Release essays, design notes, and product writing for Yazelix." />
 	</head>
 	<body>
 		<div class="page-shell">
 			<SiteNav active="blog" />
-			<main class="section" style="padding-top: 8rem;">
+			<main id="main-content" class="section" style="padding-top: 8rem;" tabindex="-1">
 				<div class="section-inner">
 					<h1 style="font-size: clamp(2.7rem, 7vw, 5rem);">Yazelix Blog</h1>
 					<p class="section-lede">

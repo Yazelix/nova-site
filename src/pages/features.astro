@@ -1,5 +1,6 @@
 ---
 import FeatureMediaFrame from '../components/FeatureMediaFrame.astro';
+import SiteHead from '../components/SiteHead.astro';
 import SiteNav from '../components/SiteNav.astro';
 import { featureMediaGroups } from '../data/feature_media';
 import '../styles/home.css';
@@ -10,20 +11,16 @@ const demoCount = featureMediaGroups.reduce((count, group) => count + group.item
 <!doctype html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Yazelix Nova Features - Visual tour</title>
-		<meta
-			name="description"
-			content="A focused visual tour of the maintained Yazelix Nova workspace."
+		<SiteHead
+			title="Yazelix Nova Features - Visual tour"
+			description="A focused visual tour of the maintained Yazelix Nova workspace."
 		/>
-		<link rel="icon" type="image/png" href="/favicon.png" />
 	</head>
 	<body>
 		<div class="page-shell">
 			<SiteNav active="features" />
 
-			<main class="feature-page">
+			<main id="main-content" class="feature-page" tabindex="-1">
 				<section class="feature-intro">
 					<div class="section-inner">
 						<p class="eyebrow">{demoCount} visual demos</p>

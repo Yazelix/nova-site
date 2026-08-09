@@ -13,6 +13,14 @@ const routes = [
 	'/blog/docs-that-respect-runtime-boundaries/',
 ];
 
+const customRoutes = [
+	{ path: '/', type: 'website' },
+	{ path: '/features/', type: 'website' },
+	{ path: '/docs/', type: 'website' },
+	{ path: '/blog/', type: 'website' },
+	{ path: '/blog/docs-that-respect-runtime-boundaries/', type: 'article' },
+];
+
 for (const route of routes) {
 	test(`${route} renders without horizontal overflow`, async ({ page }) => {
 		await page.goto(route);
@@ -22,6 +30,39 @@ for (const route of routes) {
 		expect(overflow).toBe(false);
 	});
 }
+
+test('custom pages expose Nova metadata and a keyboard skip link', async ({ page }) => {
+	for (const route of customRoutes) {
+		await page.goto(route.path);
+		const title = await page.title();
+		const description = (await page.locator('meta[name="description"]').getAttribute('content')) ?? '';
+		const canonical = `https://nova.yazelix.com${route.path}`;
+		const image = 'https://nova.yazelix.com/images/nova_workspace.png';
+
+		expect.soft(description, `missing description: ${route.path}`).not.toBe('');
+		await expect(page.locator('meta[name="description"]')).toHaveCount(1);
+		await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
+		await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', canonical);
+		await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', route.type);
+		await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', title);
+		await expect(page.locator('meta[property="og:description"]')).toHaveAttribute('content', description);
+		await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', canonical);
+		await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', image);
+		await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute('content', /Yazelix Nova workspace/);
+		await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
+		await expect(page.locator('meta[name="twitter:title"]')).toHaveAttribute('content', title);
+		await expect(page.locator('meta[name="twitter:description"]')).toHaveAttribute('content', description);
+		await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute('content', image);
+		await expect(page.locator('meta[name="twitter:image:alt"]')).toHaveAttribute('content', /Yazelix Nova workspace/);
+
+		const skipLink = page.getByRole('link', { name: 'Skip to content' });
+		await page.keyboard.press('Tab');
+		await expect(skipLink).toBeFocused();
+		await expect(skipLink).toBeVisible();
+		await page.keyboard.press('Enter');
+		await expect(page.locator('#main-content')).toBeFocused();
+	}
+});
 
 test('home page exposes product and docs actions', async ({ page }) => {
 	await page.goto('/');

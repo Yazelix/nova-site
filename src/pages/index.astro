@@ -1,6 +1,7 @@
 ---
 import FeatureMediaFrame from '../components/FeatureMediaFrame.astro';
 import GitHubLink from '../components/GitHubLink.astro';
+import SiteHead from '../components/SiteHead.astro';
 import SiteNav from '../components/SiteNav.astro';
 import { featureItemsById, homepageFeatureIds } from '../data/feature_media';
 import '../styles/home.css';
@@ -14,14 +15,10 @@ const homepageFeatures = homepageFeatureIds
 <!doctype html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Yazelix Nova - Nix-packaged terminal workspace</title>
-		<meta
-			name="description"
-			content="Yazelix Nova is a Nix-packaged terminal workspace with Mars, Yazelix Zellij, Yazi, managed Helix, and one yzx front door."
+		<SiteHead
+			title="Yazelix Nova - Nix-packaged terminal workspace"
+			description="Yazelix Nova is a Nix-packaged terminal workspace with Mars, Yazelix Zellij, Yazi, managed Helix, and one yzx front door."
 		/>
-		<link rel="icon" type="image/png" href="/favicon.png" />
 	</head>
 	<body>
 		<div class="page-shell">
@@ -51,7 +48,7 @@ const homepageFeatures = homepageFeatureIds
 				</div>
 			</header>
 
-			<main>
+			<main id="main-content" tabindex="-1">
 				<section class="section strip">
 					<div class="section-inner">
 						<h2>Install Stable</h2>

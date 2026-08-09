@@ -24,6 +24,28 @@ a {
 	background: #0b110f;
 }
 
+.skip-link {
+	position: fixed;
+	z-index: 10;
+	top: 0.75rem;
+	left: 0.75rem;
+	transform: translateY(calc(-100% - 1.5rem));
+	border: 2px solid #06100b;
+	border-radius: 6px;
+	padding: 0.75rem 1rem;
+	background: #d9ffe8;
+	color: #06100b;
+	font-weight: 760;
+	text-decoration: none;
+	transition: transform 120ms ease;
+}
+
+.skip-link:focus-visible {
+	transform: translateY(0);
+	outline: 3px solid #8ae5b6;
+	outline-offset: 2px;
+}
+
 .hero {
 	position: relative;
 	min-height: 92vh;
@@ -554,5 +576,11 @@ h1 {
 
 	.nav-links .github-link {
 		min-width: 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.skip-link {
+		transition: none;
 	}
 }

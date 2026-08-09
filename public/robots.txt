@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yazelix.com/sitemap-index.xml
+Sitemap: https://nova.yazelix.com/sitemap-index.xml

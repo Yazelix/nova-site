@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import SiteHead from '../../components/SiteHead.astro';
 import SiteNav from '../../components/SiteNav.astro';
 import '../../styles/home.css';
 
@@ -15,16 +16,12 @@ const { Content } = await render(post);
 <!doctype html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>{post.data.title} - Yazelix Blog</title>
-		<meta name="description" content={post.data.description} />
-		<link rel="icon" type="image/png" href="/favicon.png" />
+		<SiteHead title={`${post.data.title} - Yazelix Blog`} description={post.data.description} type="article" />
 	</head>
 	<body>
 		<div class="page-shell">
 			<SiteNav active="blog" />
-			<main class="section" style="padding-top: 8rem;">
+			<main id="main-content" class="section" style="padding-top: 8rem;" tabindex="-1">
 				<article class="section-inner" style="max-width: 780px;">
 					<p class="eyebrow">{post.data.pubDate.toLocaleDateString('en', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
 					<h1 style="font-size: clamp(2.4rem, 6vw, 4.2rem);">{post.data.title}</h1>
