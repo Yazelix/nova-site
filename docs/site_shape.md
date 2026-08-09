@@ -1,8 +1,14 @@
 # Yazelix Site Shape
 
-This document records the current information architecture for `yazelix.com`.
-The launch site covers Yazelix Nova. Exact commands and product behavior remain
-owned by the canonical Yazelix repository.
+This document records the information architecture for `nova.yazelix.com`, the
+permanent Yazelix Nova site. Exact commands and product behavior remain owned
+by the canonical Yazelix repository.
+
+## Product Boundary
+
+Yazelix is the master brand. Yazelix Nova and Yazelix Eon are parallel product
+lines with separate architecture, documentation, and release evidence. This
+site covers Nova. The root domain and the Eon site have separate owners.
 
 ## Principle
 

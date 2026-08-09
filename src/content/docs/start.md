@@ -1,54 +1,81 @@
 ---
-title: Start with Yazelix
-description: Install Yazelix, launch the workspace, and learn the basic runtime model.
+title: Start with Yazelix Nova
+description: Try or install Stable, then choose the Mars or current-terminal entrypoint.
 ---
 
-Yazelix is a package-first terminal workspace. You need Nix with flakes enabled; Yazelix supplies the runtime tools it owns.
+Yazelix Nova is a Nix-packaged terminal workspace. You need Nix with flakes
+enabled.
 
 ## Install
 
 ```bash
-nix profile add github:luccahuguet/yazelix#yazelix
+nix profile add --refresh github:luccahuguet/yazelix/stable
 ```
 
-Then launch the workspace:
+Open the desktop workspace through Mars:
 
 ```bash
 yzx launch
 ```
 
-The default package uses the Ghostty runtime variant. Explicit terminal variants are available when you want Yazelix Terminal, Rio, WezTerm, Kitty, Foot on Linux, or Ratty on Linux.
+Start the same managed workspace in the current terminal or over SSH:
+
+```bash
+yzx enter
+```
 
 ## Try without installing
 
 ```bash
-nix run github:luccahuguet/yazelix#yazelix -- launch
+nix run github:luccahuguet/yazelix/stable -- launch
+nix run github:luccahuguet/yazelix/stable#yazelix-no-mars -- enter
 ```
 
-## Use the binary cache
-
-Yazelix publishes `x86_64-linux` package builds to `https://yazelix.cachix.org`. Interactive Nix commands can prompt you to accept the flake-advertised cache configuration.
-
-For noninteractive installs:
+Run the owned preflight without opening Mars or Zellij:
 
 ```bash
-nix profile add --accept-flake-config github:luccahuguet/yazelix#yazelix
+nix run github:luccahuguet/yazelix/stable -- doctor
 ```
 
-If a requested output is not present in the cache yet, Nix builds it from source.
+## Choose a channel
 
-## Force a fresh flake fetch
+| Channel | Install reference | Use |
+| --- | --- | --- |
+| Stable | `github:luccahuguet/yazelix/stable` | Checked and dogfooded release |
+| Main | `github:luccahuguet/yazelix/main#yazelix-main` | Frequent accepted updates |
+| Edge | `github:luccahuguet/yazelix/edge#yazelix-edge` | Experimental dogfooding |
 
-If you previously evaluated the flake and Nix serves an older revision, add `--refresh`:
+Immutable `nova-v*` tags select exact releases. A Nix lock file keeps its
+selected revision until you update it.
+
+## Choose a package
+
+Package names follow `yazelix[-no-mars][-no-helix][-no-yazi]`. The suffixes
+remove Mars, managed Helix, or managed Yazi while retaining the remaining Nova
+integration.
 
 ```bash
-nix profile add --refresh github:luccahuguet/yazelix#yazelix
+nix profile add --refresh github:luccahuguet/yazelix/stable#yazelix-no-mars
 ```
 
-## First model
+Use `yzx enter` with a Mars-free package. Helix-free packages need an installed
+editor selected through `editor.command`. Yazi-free packages need matching
+host `yazi` and `ya` commands.
 
-- `yzx launch` opens the packaged workspace
-- `~/.config/yazelix/settings.jsonc` is the main user config
-- `~/.local/share/yazelix` is generated runtime state
-- `Alt+Shift+H/J/K/L` toggles the main directional surfaces
-- `yzx doctor` is the first recovery command when launch behavior looks wrong
+See the canonical [installation and package guide](https://github.com/luccahuguet/yazelix/blob/stable/docs/installation.md)
+for the full matrix, platform evidence, Home Manager, and installed sizes.
+
+## First five minutes
+
+Start the packaged tutor after entering Nova:
+
+```bash
+yzx tutor begin
+```
+
+- `yzx launch` opens Mars, then the managed workspace
+- `yzx enter` opens the managed workspace in the current terminal
+- `yzx config` opens the Nova configuration UI
+- `~/.config/yazelix/config.toml` stores optional sparse semantic overrides
+- `~/.local/share/yazelix` stores generated runtime state by default
+- `yzx doctor` checks the owned runtime setup

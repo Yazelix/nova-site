@@ -16,10 +16,10 @@ const homepageFeatures = homepageFeatureIds
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Yazelix - Reproducible terminal workspace</title>
+		<title>Yazelix Nova - Nix-packaged terminal workspace</title>
 		<meta
 			name="description"
-			content="Yazelix is a reproducible terminal workspace built around Zellij, Yazi, Helix, and a fixed runtime toolset."
+			content="Yazelix Nova is a Nix-packaged terminal workspace with Mars, Yazelix Zellij, Yazi, managed Helix, and one yzx front door."
 		/>
 		<link rel="icon" type="image/png" href="/favicon.png" />
 	</head>
@@ -37,11 +37,11 @@ const homepageFeatures = homepageFeatureIds
 					/>
 				</div>
 				<div class="hero-content">
-					<p class="eyebrow">Zellij, Yazi, Helix, terminal, config, and runtime tools in one package</p>
-					<h1>Yazelix</h1>
+					<p class="eyebrow">Mars, Yazelix Zellij, Yazi, managed Helix, and Nushell in one Nix package</p>
+					<h1>Yazelix Nova</h1>
 					<p class="hero-copy">
-						A reproducible terminal workspace with a managed file tree, stable editor pane, directional
-						popups, a right agent sidebar, and a curated runtime that works the same locally or over SSH.
+						A keyboard-driven workspace with a managed Yazi sidebar, editor and shell panes, popup tools,
+						and the <code>yzx</code> command. Launch through Mars or enter from a capable terminal or SSH session.
 					</p>
 					<div class="hero-actions">
 						<a class="button primary" href="/start/">Start with Yazelix</a>
@@ -54,14 +54,14 @@ const homepageFeatures = homepageFeatureIds
 			<main>
 				<section class="section strip">
 					<div class="section-inner">
-						<h2>Install with one command</h2>
+						<h2>Install Stable</h2>
 						<p class="section-lede">
-							Add the flake output to your profile. After it installs, run `yzx launch` to open the managed
-							workspace.
+							Add the checked release to your Nix profile, then run <code>yzx launch</code> for Mars or
+							<code>yzx enter</code> in the current terminal.
 						</p>
 						<div class="terminal" aria-label="Yazelix install command">
 							<div class="terminal-header">install</div>
-							<pre><code>nix profile add github:luccahuguet/yazelix#yazelix</code></pre>
+							<pre><code>nix profile add --refresh github:luccahuguet/yazelix/stable</code></pre>
 						</div>
 					</div>
 				</section>

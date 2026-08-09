@@ -25,7 +25,7 @@ for (const route of routes) {
 
 test('home page exposes product and docs actions', async ({ page }) => {
 	await page.goto('/');
-	await expect(page.getByRole('heading', { name: 'Yazelix' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Yazelix Nova' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Home' })).toHaveAttribute('aria-current', 'page');
 	await expect(page.getByRole('link', { name: 'Start with Yazelix' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'See features' })).toBeVisible();
@@ -58,11 +58,11 @@ test('features page exposes the lean Nova product tour', async ({ page }) => {
 
 test('docs page exposes the docs index stream', async ({ page }) => {
 	await page.goto('/docs/');
-	await expect(page.getByRole('heading', { name: 'Yazelix docs' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Yazelix Nova docs' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Docs' })).toHaveAttribute('aria-current', 'page');
-	await expect(page.getByRole('heading', { name: 'Start with Yazelix' })).toBeVisible();
-	await expect(page.getByRole('heading', { name: 'Configure the Workspace' })).toBeVisible();
-	await expect(page.getByRole('heading', { name: 'Troubleshooting Checklist' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Start with Yazelix Nova' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Configure Yazelix Nova' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Nova Troubleshooting Checklist' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Standalone page' })).toHaveCount(8);
 	await expect(page.locator('[data-docs-rail-link="start-install"]')).toHaveCount(1);
 	await expect(page.locator('[data-docs-rail-link="configure-home-manager"]')).toHaveCount(1);

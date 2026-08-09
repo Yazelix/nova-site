@@ -1,56 +1,48 @@
 ---
-title: Keybindings
-description: The default Yazelix workspace key layer and where to customize it.
+title: Yazelix Nova Keybindings
+description: The packaged workspace key grid and its supported customization surface.
 ---
 
-Yazelix keeps the workspace layer spatial. The `Alt+Shift+H/J/K/L` bindings follow the Helix/Vim direction mnemonic.
+Nova extends the Helix and Vim `h/j/k/l` model across the workspace.
 
-## Core workspace keys
+## Movement grid
+
+| Layer | `h` | `j` | `k` | `l` |
+| --- | --- | --- | --- | --- |
+| `Alt` | Focus left or previous tab | Focus down | Focus up | Focus right or next tab |
+| `Ctrl Alt` | Move tab left | Move pane down | Move pane up | Move tab right |
+| `Alt Shift` | Yazi sidebar | Git popup | Config popup | Agent popup |
+
+## Workspace keys
 
 | Key | Action |
 | --- | --- |
-| `Alt+Shift+H` | Toggle the left sidebar |
-| `Alt+Shift+J` | Toggle the bottom popup |
-| `Alt+Shift+K` | Toggle the top popup |
-| `Alt+Shift+L` | Toggle the right agent sidebar |
-| `Alt+Shift+I` | Toggle the keep-alive Zenith process information popup |
-| `Alt+Shift+M` | Open the Yazelix menu popup |
-| `Alt+Shift+C` | Open the config UI popup |
-| `Ctrl+y` | Toggle focus between the editor and left sidebar |
-| `Ctrl+Shift+Y` | Toggle focus between the editor and right agent sidebar |
-| `Alt+Shift+F` | Toggle pane fullscreen |
-| `Alt+w` / `Alt+q` | Walk to next or previous tab |
-| `Ctrl+Alt+H/L` | Move tab left or right |
-| `Ctrl+Alt+J/K` | Move pane down or up |
+| `Alt Shift M` | Toggle the command menu |
+| `Alt Shift S` | Show a random full-screen visual |
+| `Alt Shift Y` | Toggle the full managed Yazi popup |
+| `Ctrl y` | Toggle focus between the editor and Yazi sidebar |
+| `Alt Shift F` | Toggle the focused pane fullscreen |
+| `Alt 1-9` | Go to tab 1-9 |
+| `Alt m` | Open a new pane |
+| `Ctrl q` | Quit the Nova session |
+| `Ctrl Alt o` | Open Zellij session mode |
+| `Alt r` | Reveal from the editor or return from Yazi |
+| `Alt z` | Retarget the tab workspace from Yazi with zoxide |
 
-Run:
-
-```bash
-yzx keys
-```
-
-Use tool-specific variants for discoverability hints:
-
-```bash
-yzx keys yazi
-yzx keys hx
-yzx keys nu
-```
-
-## Popup commands
-
-Built-in popup commands live in `zellij.popup_commands`:
-
-| Action | Default |
-| --- | --- |
-| `bottom_popup` | `lazygit` |
-| `top_popup` | `yzx config ui` |
-| `menu` | `yzx menu` |
-
-Custom popups live in `zellij.custom_popups`. The default custom popup is Zenith on `Alt+Shift+I`.
+Press a popup key again to hide or close that surface and return to the tiled
+workspace.
 
 ## Customize keys
 
-Use `zellij.keybindings` in `settings.jsonc` for Yazelix-owned actions. Use native sidecar configs only for the owning tool's broader keymap.
+Open `yzx config` to edit the managed config, agent, Git, menu, screen, sidebar,
+and sidebar-focus chords. The corresponding `keybindings.*` fields live in
+`~/.config/yazelix/config.toml` and accept a key chord or `false`. Changes apply
+to new sessions.
 
-Yazelix rejects duplicate semantic Zellij keys before launch.
+The fixed `Alt Shift Y`, application-local `Alt r`, and Yazi `Alt z` bindings
+remain in their native packaged owners. Nova rejects collisions among managed
+semantic keys.
+
+Ratconfig's Keys tab is the complete packaged reference. The runtime sources
+are `defaults/zellij/config.kdl`, the managed Helix config, and the managed Yazi
+keymap.

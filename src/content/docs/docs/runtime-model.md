@@ -1,25 +1,36 @@
 ---
-title: Runtime Model
-description: What Yazelix packages, owns, generates, and leaves to the user.
+title: Nova Runtime Model
+description: The yzx entrypoints, package variants, config boundary, and component owners.
 ---
 
-Yazelix is a reproducible terminal IDE built around Zellij, Yazi, Helix, and your configured editor.
+Yazelix Nova is a Nix-packaged terminal workspace with one front door: `yzx`.
 
-## Package-provided
+```text
+yzx launch -> Mars -> managed Zellij workspace
+yzx enter  -> current terminal -> managed Zellij workspace
+yzx run    -> prepared Nova environment -> requested program
+```
 
-The normal runtime includes:
+Bare `yzx` prints help. `launch` is the only Mars route. `enter` needs an
+interactive terminal and works without a display server.
 
-- `zellij`
-- `yazi`
-- `helix`
-- `nu`, `bash`, `fish`, and `zsh`
-- `fzf`, `zoxide`, `starship`, `lazygit`, `zenith`, `carapace`, and `macchina`
-- Yazi preview helpers such as `p7zip`, `jq`, `fd`, `ripgrep`, and `poppler`
-- one selected packaged terminal runtime
+## Packages
+
+The full package includes:
+
+- Mars for graphical launch
+- the Yazelix Zellij fork and managed layout
+- managed Yazi, Helix, and Nushell
+- popup, config, screen, tutor, Git, prompt, and completion tools
+
+Package names follow `yazelix[-no-mars][-no-helix][-no-yazi]`. Each suffix
+removes that managed package while retaining the remaining integration.
+Mars-free packages use `yzx enter`; Helix-free and Yazi-free packages use the
+selected host tools.
 
 ## Generated runtime state
 
-Yazelix renders runtime state under:
+Nova renders runtime state under:
 
 ```text
 ~/.local/share/yazelix
@@ -29,28 +40,32 @@ This directory is output. Edit the config inputs instead.
 
 ## User config
 
-The main semantic config is:
+The optional sparse semantic config is:
 
 ```text
-~/.config/yazelix/settings.jsonc
+~/.config/yazelix/config.toml
 ```
 
-Cursor presets use:
-
-```text
-~/.config/yazelix_cursors/settings.jsonc
-```
+Component-native files live under the same `~/.config/yazelix/` root. Normal
+host config at `~/.config/{helix,yazi,starship}` is not loaded by default.
 
 ## Workspace identity
 
-Yazelix targets managed panes by identity instead of pane scanning:
+Nova targets managed panes by identity:
 
 - the file tree is a managed Yazi sidebar
-- the editor pane is titled and reused
-- `yzx reveal` jumps the current file back into the file tree
-- popup slots are generated from semantic config
-- the right sidebar can host an agent command
+- each tab has one canonical workspace root
+- managed opens reuse the tab's editor
+- `yzx reveal` opens the persistent Yazi popup at a target
+- Git and agent tools use workspace-scoped popups
+- `Alt z` retargets the tab workspace and editor together
 
-## Child repositories
+## Ownership
 
-Focused child packages own reusable subsystems such as screen rendering, cursor shaders, popup plugins, pane orchestration, Zellij bar widgets, Yazi assets, and the ratconfig config editor. Normal users get those integrations through the Yazelix package.
+Mars owns the terminal. Yazelix Zellij owns multiplexing, Ratconfig owns the
+config UI toolkit, and focused first-party packages own popups, pane
+orchestration, the top bar, screens, cursors, and Yazi themes. Nova pins and
+composes their package outputs.
+
+See the canonical [architecture](https://github.com/luccahuguet/yazelix/blob/stable/ARCHITECTURE.md)
+for component contracts and verification gaps.

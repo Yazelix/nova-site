@@ -10,8 +10,8 @@ export default defineConfig({
 	},
 	integrations: [
 		starlight({
-			title: 'Yazelix',
-			description: 'A reproducible terminal workspace built around Zellij, Yazi, Helix, and a fixed runtime toolset.',
+			title: 'Yazelix Nova',
+			description: 'A Nix-packaged terminal workspace with Mars, Yazelix Zellij, Yazi, managed Helix, and yzx.',
 			logo: {
 				src: './public/favicon.png',
 				alt: 'Yazelix logo',

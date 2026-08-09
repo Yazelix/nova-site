@@ -1,21 +1,21 @@
 ---
-title: Customization Surfaces
-description: Where to change Yazelix behavior without fighting generated runtime state.
+title: Nova Customization Surfaces
+description: Choose the semantic root config, an owner-native file, or Home Manager.
 ---
 
-Start with `~/.config/yazelix/settings.jsonc`.
+Start with `yzx config`. It displays packaged defaults and writes sparse
+overrides to `~/.config/yazelix/config.toml`.
 
 ## Main settings
 
 Use it for:
 
-- shell choice
-- editor command
-- terminal variant settings
-- Zellij keybindings and popups
-- Yazi integration behavior
-- status widgets
-- layout behavior
+- appearance mode
+- shell and editor commands
+- welcome behavior
+- managed popup and sidebar keys
+- agent command and arguments
+- popup margins and top-bar widgets
 
 ## Native sidecars
 
@@ -23,17 +23,25 @@ Use sidecars for tool-specific preferences that Yazelix does not render:
 
 | Surface | Path |
 | --- | --- |
-| Ghostty overrides | `~/.config/yazelix/terminal_ghostty.conf` |
-| Kitty overrides | `~/.config/yazelix/terminal_kitty.conf` |
-| Zellij native settings | `~/.config/yazelix/zellij.kdl` |
-| Yazi overrides | `~/.config/yazelix/yazi/` |
-| Helix managed config | `~/.config/yazelix/helix/config.toml` |
-| Shell hooks | `~/.config/yazelix/shell_bash.sh`, `shell_zsh.zsh`, `shell_fish.fish`, `shell_nu.nu` |
+| Cursor config | `~/.config/yazelix/cursors.toml` |
+| Mars overrides | `~/.config/yazelix/mars/config.toml` |
+| Zellij scalar sidecar | `~/.config/yazelix/zellij/config.kdl` |
+| Extra Zellij plugins | `~/.config/yazelix/zellij/plugins.kdl` |
+| Starship overrides | `~/.config/yazelix/starship.toml` |
+| Nushell additions | `~/.config/yazelix/nu/` |
+| Yazi config and assets | `~/.config/yazelix/yazi/` |
+| Helix config, languages, and Steel files | `~/.config/yazelix/helix/` |
 
 ## Home Manager
 
-Home Manager can own Yazelix settings declaratively. The site docs intentionally separate Home Manager ownership from profile installs so users do not mix update paths for one runtime.
+Home Manager exposes `programs.yazelix.enable`, package selection, sparse
+settings, and optional native files. Store-backed files remain read-only in
+Ratconfig. Change the reported module option and run the normal switch.
 
-## Unsupported legacy inputs
+## Generated state
 
-Old mutable `yazelix.toml`, old `cursors.toml`, and old `user_configs/` paths are unsupported legacy state. Yazelix reports them clearly instead of silently migrating them forever.
+Files under `${XDG_DATA_HOME:-$HOME/.local/share}/yazelix` are generated output.
+Change the config input or package owner instead of editing runtime state.
+
+See the canonical [configuration guide](https://github.com/luccahuguet/yazelix/blob/stable/docs/configuration.md)
+for file layering and validation details.

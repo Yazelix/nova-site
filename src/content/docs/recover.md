@@ -1,31 +1,40 @@
 ---
-title: Recover a Broken Launch
-description: Use doctor, reset, stale-wrapper cleanup, and generated-state boundaries.
+title: Recover a Nova Launch
+description: Use the supported preflight, status, config, and package-owner checks.
 ---
 
 Start with doctor:
 
 ```bash
 yzx doctor
-yzx doctor --verbose
 ```
 
-Use `--fix` only for safe automated repairs:
+`yzx doctor` validates Nova's owned config, helpers, selected editor, Yazi pair,
+Zellij package, layout, and plugins. A failed preflight prints the failing
+check without opening Mars or Zellij.
+
+## Inspect runtime ownership
 
 ```bash
-yzx doctor --fix
+yzx status
+yzx status --json
+yzx --version
 ```
 
-## Reset main config
+Status reports the selected package, config home, state directory, shell,
+editor, popup keys, layout, Yazi source, and session context.
 
-Reset only the main settings file:
+## Check the root config
 
-```bash
-yzx reset config
-yzx launch
+The root config is optional:
+
+```text
+~/.config/yazelix/config.toml
 ```
 
-Managed override files such as `helix/`, `zellij.kdl`, `yazi/`, terminal snippets, shell hooks, legacy TOML inputs, and unknown adjacent files are preserved and reported.
+Open `yzx config` to inspect known invalid fields and exact native-file actions.
+Back up `config.toml` before manual recovery. Removing an optional override
+restores its packaged default on the next applicable launch.
 
 ## Clean up old manual installs
 
@@ -33,42 +42,36 @@ If an old clone, wrapper, or shell function shadows the current package:
 
 ```bash
 type yzx
-which yzx
-readlink -f "$(which yzx)"
+command -v yzx
 ```
 
-Remove stale local wrappers only after confirming they are obsolete:
-
-```bash
-rm -f ~/.local/bin/yzx
-```
-
-Open a fresh shell and check that `yzx` resolves to your profile or Home Manager owner path.
+The command should resolve to the Nix profile or Home Manager package that owns
+the install. Remove a stale wrapper only after you identify its owner.
 
 ## Stale flake cache
 
-If `yzx --version-short` reports an older version than expected:
+For a profile install:
 
 ```bash
-nix profile add --refresh github:luccahuguet/yazelix#yazelix
+nix profile upgrade --refresh yazelix
 ```
 
-## Plugin permissions
+Home Manager users update the declared input and run their normal switch.
 
-If the top bar or popup controls look broken after permissions were reset, run:
+## Treat Classic residue as a warning
+
+Doctor reports recognized Classic state and migration backups in the active
+roots. Nova does not load, archive, or remove those paths. External scripts may
+still reference them.
+
+## Start a fresh session
 
 ```bash
-yzx doctor --fix
-yzx restart
-```
-
-If a live plugin reload left Zellij stuck, the safer recovery is a fresh session:
-
-```bash
-zellij delete-all-sessions -f -y
 yzx enter
 ```
 
-## Ownership rule
+Use a new session when the updated package or a next-session setting needs to
+take effect. Zellij owns existing session lifetime and attachment.
 
-Never fix Yazelix by editing generated files under `~/.local/share/yazelix`. Fix the config input or run the supported recovery command.
+Do not repair Nova by editing generated files under `~/.local/share/yazelix`.
+Fix the owned config input or package owner instead.
