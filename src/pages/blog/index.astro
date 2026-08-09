@@ -1,18 +1,16 @@
 ---
-import { getCollection } from 'astro:content';
 import SiteHead from '../../components/SiteHead.astro';
 import SiteNav from '../../components/SiteNav.astro';
 import '../../styles/home.css';
-
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<SiteHead title="Yazelix Blog" description="Release essays, design notes, and product writing for Yazelix." />
+		<SiteHead
+			title="Yazelix Blog"
+			description="Yazelix has not published Blog articles yet. The first article will cover Yazelix Nova v1."
+		/>
 	</head>
 	<body>
 		<div class="page-shell">
@@ -21,20 +19,14 @@ const posts = (await getCollection('blog')).sort(
 				<div class="section-inner">
 					<h1 style="font-size: clamp(2.7rem, 7vw, 5rem);">Yazelix Blog</h1>
 					<p class="section-lede">
-						Release essays, design notes, and product writing for people following the Yazelix workspace.
+						We will publish Yazelix Nova release notes and design writing here after we review each draft.
 					</p>
-					<div class="blog-grid">
-						{
-							posts.map((post) => (
-								<article class="panel">
-									<h3>{post.data.title}</h3>
-									<p>{post.data.description}</p>
-									<p>{post.data.pubDate.toLocaleDateString('en', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
-									<a href={`/blog/${post.id}/`}>Read post</a>
-								</article>
-							))
-						}
-					</div>
+					<section class="panel" style="max-width: 44rem; margin-top: 2rem;" aria-labelledby="empty-blog-title">
+						<h2 id="empty-blog-title">No articles yet</h2>
+						<p>Yazelix Nova v1 will be the first subject.</p>
+						<p>Until then, use the Nova docs for supported commands and runtime behavior.</p>
+						<a href="/docs/">Read the Nova docs</a>
+					</section>
 				</div>
 			</main>
 		</div>

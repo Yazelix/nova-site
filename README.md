@@ -47,4 +47,4 @@ The information architecture is documented in
 - `/` stays a compact homepage with product identity, install path, and a few strongest demos
 - `/features/` owns the focused Nova product tour
 - `/docs/` is a single-page scroll version of the task and reference docs
-- `/blog/` carries approved essays, release writing, and design notes
+- `/blog/` stays visible with no articles until the source-backed Nova v1 article is approved

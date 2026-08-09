@@ -10,7 +10,6 @@ const routes = [
 	'/docs/',
 	'/features/',
 	'/blog/',
-	'/blog/docs-that-respect-runtime-boundaries/',
 ];
 
 const customRoutes = [
@@ -18,7 +17,12 @@ const customRoutes = [
 	{ path: '/features/', type: 'website' },
 	{ path: '/docs/', type: 'website' },
 	{ path: '/blog/', type: 'website' },
-	{ path: '/blog/docs-that-respect-runtime-boundaries/', type: 'article' },
+];
+
+const removedBlogRoutes = [
+	'/blog/docs-that-respect-runtime-boundaries/',
+	'/blog/reproducible-terminal-workspace/',
+	'/blog/the-shape-of-a-reproducible-workspace/',
 ];
 
 for (const route of routes) {
@@ -197,9 +201,17 @@ test('docs sidebar highlights the current section', async ({ page }) => {
 	await expect(page.locator('[data-docs-rail-link="docs-troubleshooting-checklist"]')).toHaveClass(/is-parent-active/);
 });
 
-test('blog index exposes multiple dated posts', async ({ page }) => {
+test('blog index exposes the approved empty state', async ({ page }) => {
 	await page.goto('/blog/');
 	await expect(page.getByRole('link', { name: 'Blog' })).toHaveAttribute('aria-current', 'page');
-	await expect(page.locator('.blog-grid article').first()).toBeVisible();
-	await expect(page.locator('.blog-grid a[href^="/blog/"]').first()).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'No articles yet' })).toBeVisible();
+	await expect(page.getByText('Yazelix Nova v1 will be the first subject.')).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Read the Nova docs' })).toBeVisible();
+	await expect(page.locator('main article')).toHaveCount(0);
+	await expect(page.locator('main a[href^="/blog/"]')).toHaveCount(0);
+
+	for (const route of removedBlogRoutes) {
+		const response = await page.goto(route);
+		expect(response?.status(), `removed Blog route still resolves: ${route}`).toBe(404);
+	}
 });

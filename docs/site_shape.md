@@ -18,7 +18,7 @@ manual or the docs into a media archive.
 - The homepage previews the product
 - The features page owns the focused visual tour
 - The docs own exact usage, reference, recovery, and settings behavior
-- The blog owns narrative, release writing, and design notes when approved
+- Visitors see an empty Blog until the project owner approves source-backed writing
 
 ## Routes
 
@@ -51,8 +51,10 @@ accepted workspace media only when it clarifies the exact task.
 
 ### `/blog/`
 
-Blog posts carry approved release essays, product reasoning, architecture
-writing, and lessons. The blog is not a source of truth for runtime behavior.
+The Blog stays in primary navigation and states that no articles are published.
+Yazelix Nova v1 is the first approved subject. The project owner will restore
+article routes and content configuration after approving a source-backed draft.
+The Blog does not own runtime behavior.
 
 ## Media Contract
 
