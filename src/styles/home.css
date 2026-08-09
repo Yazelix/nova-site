@@ -57,7 +57,7 @@ a {
 	display: block;
 	width: min(100%, 1240px);
 	height: auto;
-	aspect-ratio: 1862 / 1017;
+	aspect-ratio: 1864 / 1012;
 	object-fit: contain;
 	margin: 0 auto;
 }
@@ -255,14 +255,17 @@ h1 {
 	margin-top: 2rem;
 }
 
-.feature-preview-grid,
+.feature-preview-grid {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1rem;
+}
+
 .feature-gallery {
 	grid-template-columns: 1fr;
 	gap: 1.4rem;
 }
 
-.feature-preview-grid .feature-media-frame img,
-.feature-preview-grid .feature-media-frame video {
+.feature-preview-grid .feature-media-frame img {
 	object-fit: contain;
 }
 
@@ -315,45 +318,30 @@ h1 {
 		#07100c;
 }
 
-.feature-media-frame img,
-.feature-media-frame video {
+.feature-media-frame img {
 	display: block;
 	width: 100%;
 	height: 100%;
-	object-fit: cover;
-}
-
-.feature-gallery .feature-media-frame img,
-.feature-gallery .feature-media-frame video {
 	object-fit: contain;
 }
 
-.feature-placeholder {
-	display: grid;
-	width: 100%;
-	height: 100%;
-	place-items: center;
-	align-content: center;
-	gap: 0.65rem;
-	padding: 1rem;
-	color: #c8d6ce;
-	text-align: center;
+.feature-media-frame:not(.focus-full) img {
+	object-fit: cover;
 }
 
-.feature-placeholder span {
-	font-size: 0.92rem;
-	font-weight: 760;
+.focus-files img {
+	transform: scale(1.8);
+	transform-origin: left center;
 }
 
-.feature-placeholder code {
-	max-width: 100%;
-	border: 1px solid rgba(255, 255, 255, 0.12);
-	border-radius: 4px;
-	padding: 0.25rem 0.4rem;
-	overflow-wrap: anywhere;
-	background: rgba(255, 255, 255, 0.06);
-	color: #8fb8ca;
-	font-size: 0.78rem;
+.focus-status img {
+	transform: scale(2.5);
+	transform-origin: right top;
+}
+
+.focus-keys img {
+	transform: scale(2.7);
+	transform-origin: center bottom;
 }
 
 .feature-media figcaption {
@@ -540,6 +528,10 @@ h1 {
 }
 
 @media (max-width: 560px) {
+	.compact-hero {
+		padding-top: 8rem;
+	}
+
 	.nav {
 		flex-wrap: wrap;
 		gap: 0.75rem;

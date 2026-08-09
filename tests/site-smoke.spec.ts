@@ -30,22 +30,29 @@ test('home page exposes product and docs actions', async ({ page }) => {
 	await expect(page.getByRole('link', { name: 'Start with Yazelix' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'See features' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Read docs' })).toBeVisible();
+	await expect(page.locator('.feature-preview-grid .feature-media')).toHaveCount(3);
 	await expect(page.getByRole('link', { name: 'GitHub (opens in a new tab)' }).first()).toHaveAttribute(
 		'target',
 		'_blank',
 	);
 });
 
-test('features page exposes filled visual demo groups', async ({ page }) => {
+test('features page exposes the lean Nova product tour', async ({ page }) => {
 	await page.goto('/features/');
-	await expect(page.getByRole('heading', { name: 'Yazelix features' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Yazelix Nova features' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Features' })).toHaveAttribute('aria-current', 'page');
-	await expect(page.getByText('26 visual demos')).toBeVisible();
-	await expect(page.getByRole('heading', { name: 'Yazi Jumps And Opening' })).toBeVisible();
-	await expect(page.locator('.feature-page .feature-media img')).toHaveCount(26);
-	await expect(page.locator('.feature-page .feature-placeholder')).toHaveCount(0);
-	await expect(page.getByText('Yazi git decorations')).toBeVisible();
-	await expect(page.getByText('Icon-only Starship prompt')).toBeVisible();
+	await expect(page.getByText('4 visual demos')).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'One workspace, four useful views' })).toBeVisible();
+	await expect(page.locator('.feature-page .feature-media img')).toHaveCount(4);
+	await expect(page.locator('.feature-page video')).toHaveCount(0);
+	await expect(page.locator('.feature-page img[src$=".gif"]')).toHaveCount(0);
+	await expect(page.getByText('Files beside the editor')).toBeVisible();
+	await expect(page.getByText('Runtime status at a glance')).toBeVisible();
+	await expect(page.getByText('Keyboard map in view')).toBeVisible();
+	const mediaSources = await page.locator('.feature-page .feature-media img').evaluateAll((images) =>
+		images.map((image) => image.getAttribute('src')),
+	);
+	expect(new Set(mediaSources)).toEqual(new Set(['/images/nova_workspace.png']));
 	await expect(page.getByRole('link', { name: 'Docs' }).first()).toBeVisible();
 });
 

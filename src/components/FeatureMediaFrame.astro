@@ -1,5 +1,5 @@
 ---
-import type { FeatureMediaItem } from '../data/feature_media';
+import { novaWorkspaceAsset, type FeatureMediaItem } from '../data/feature_media';
 
 const { item, compact = false } = Astro.props as {
 	item: FeatureMediaItem;
@@ -10,19 +10,15 @@ const mediaClass = compact ? 'feature-media compact' : 'feature-media';
 ---
 
 <figure class={mediaClass}>
-	<div class="feature-media-frame">
-		{
-			item.kind === 'image' && item.asset ? (
-				<img src={item.asset} alt={item.title} loading="lazy" />
-			) : item.kind === 'video' && item.asset ? (
-				<video src={item.asset} poster={item.poster} preload="metadata" muted playsinline loop controls />
-			) : (
-				<div class="feature-placeholder" aria-label={`${item.title} capture planned`}>
-					<span>Capture planned</span>
-					<code>{item.id}</code>
-				</div>
-			)
-		}
+	<div class:list={['feature-media-frame', `focus-${item.focus}`]}>
+		<img
+			src={novaWorkspaceAsset}
+			alt={item.title}
+			width="1864"
+			height="1012"
+			loading="lazy"
+			decoding="async"
+		/>
 	</div>
 	<figcaption>
 		<strong>{item.title}</strong>

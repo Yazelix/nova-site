@@ -13,7 +13,7 @@ export default defineConfig({
 			title: 'Yazelix',
 			description: 'A reproducible terminal workspace built around Zellij, Yazi, Helix, and a fixed runtime toolset.',
 			logo: {
-				src: './public/images/logo.png',
+				src: './public/favicon.png',
 				alt: 'Yazelix logo',
 			},
 			favicon: '/favicon.png',

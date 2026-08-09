@@ -28,7 +28,13 @@ const homepageFeatures = homepageFeatureIds
 			<header class="hero compact-hero">
 				<SiteNav active="home" />
 				<div class="hero-visual">
-					<img src="/images/yazelix_current_example.png" alt="Yazelix terminal workspace screenshot" />
+					<img
+						src="/images/nova_workspace.png"
+						alt="Yazelix Nova workspace with Yazi, Helix, shell, and runtime status"
+						width="1864"
+						height="1012"
+						fetchpriority="high"
+					/>
 				</div>
 				<div class="hero-content">
 					<p class="eyebrow">Zellij, Yazi, Helix, terminal, config, and runtime tools in one package</p>
@@ -64,8 +70,8 @@ const homepageFeatures = homepageFeatureIds
 					<div class="section-inner">
 						<h2>Watch what it does</h2>
 						<p class="section-lede">
-							The features page shows the workspace flows directly: Yazi jumps, editor targeting, sidebars,
-							popups, cursor behavior, widgets, and visual settings.
+							The product tour focuses on the parts visible in the maintained Nova workspace: file navigation,
+							runtime identity, and the keyboard map.
 						</p>
 						<div class="feature-preview-grid">
 							{homepageFeatures.map((item) => <FeatureMediaFrame item={item} compact />)}
@@ -83,7 +89,7 @@ const homepageFeatures = homepageFeatureIds
 						<div class="blog-grid">
 							<article class="panel">
 								<h3>Features</h3>
-								<p>Workspace screens, opening flows, sidebars, popups, cursors, widgets, and visual settings.</p>
+								<p>One maintained Nova workspace with focused views of files, runtime status, and controls.</p>
 								<a href="/features/">View tour</a>
 							</article>
 							<article class="panel">

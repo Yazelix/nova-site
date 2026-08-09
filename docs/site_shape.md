@@ -1,205 +1,93 @@
 # Yazelix Site Shape
 
-This document records the target information architecture for `yazelix.com`.
-It is a planning surface for the website, not a claim that every route or media
-asset exists yet.
+This document records the current information architecture for `yazelix.com`.
+The launch site covers Yazelix Nova. Exact commands and product behavior remain
+owned by the canonical Yazelix repository.
 
 ## Principle
 
-The site should make Yazelix understandable visually without turning the docs
-into a gallery or the homepage into an exhaustive manual.
+The site should make Nova understandable without turning the homepage into a
+manual or the docs into a media archive.
 
 - The homepage previews the product
-- The features page owns the visual tour
+- The features page owns the focused visual tour
 - The docs own exact usage, reference, recovery, and settings behavior
-- The blog owns narrative, release writing, and design notes
+- The blog owns narrative, release writing, and design notes when approved
 
 ## Routes
 
 ### `/`
 
-The homepage is compact.
-
-It should include:
-
-- product name and one direct sentence
-- the maintained workspace screenshot or one short launch demo
-- the install command
-- primary links to Features, Docs, Blog, and GitHub
-- three or four strongest demos, not the full catalog
-
-Good homepage demo candidates:
-
-- launch into the workspace
-- `Alt+z` from Yazi into the managed editor/workspace
-- open the config UI popup
-- toggle the right agent sidebar or LazyGit popup
-
-The homepage should not carry every terminal variant, every setting comparison,
-every keybinding, or every recovery/update path.
+The homepage stays compact: product identity, the maintained workspace image,
+the install path, primary links, and three focused previews from the same
+accepted image. It does not carry terminal variants, exhaustive settings,
+keybinding tables, or recovery/update details.
 
 ### `/features/`
 
-The features page owns the complete visual demo gallery.
+The launch tour uses one current Nova workspace image and four views:
 
-It should be structured as grouped product behavior, not as an unfiltered list
-of media files. In the first version, every capture gets a large full-width row
-so screenshots and short clips can carry the explanation visually.
+1. The complete workspace composition
+2. Yazi beside the managed editor
+3. Runtime and Nova identity in the top bar
+4. The visible keyboard map in the bottom bar
 
-Feature groups:
-
-1. Workspace screens
-   - every `yzx screen` surface
-   - launch starting in a full-pane Yazi view
-2. Yazi jumps and opening
-   - `Z` using Yazi-native zoxide navigation without opening the editor
-   - `z` using Yazi-native fuzzy path jumping without opening the editor
-   - `Alt+z` using Yazelix's zoxide picker to retarget the managed editor/workspace
-   - editor pane already exists
-   - editor pane does not exist yet
-   - `editor.hide_sidebar_on_file_open = false`
-   - `editor.hide_sidebar_on_file_open = true`
-3. Sidebar behavior
-   - left and right sidebars toggled
-   - left sidebar focus with `Ctrl+y`
-   - right sidebar focus with `Ctrl+Shift+Y`
-4. Popups and tools
-   - ratconfig config UI popup being used
-   - information popup
-   - menu popup
-   - LazyGit popup in action
-5. Terminal and cursor feel
-   - Ghostty cursor behavior outside Helix
-   - Ghostty cursor behavior inside Helix
-   - yzxterm cursor behavior outside Helix
-   - yzxterm cursor behavior inside Helix
-6. Status and visual settings
-   - widget photos
-   - Yazi git decorations in the managed file tree
-   - compact icon-only Starship prompt sized for the sidebar
-   - pane frames on and off
-   - rounded corners on and off
-   - other visual settings that are better shown than described
+The focused views are CSS crops of the same source image. They add no duplicate
+download and make no behavior claim beyond what the image shows. Add a separate
+capture only when motion or a second state materially explains a stable public
+contract.
 
 ### `/docs/`
 
-Docs stay task-oriented and reference-oriented, but the `/docs/` index should
-be one continuous scroll page. Users should be able to start at the top and keep
-reading through install, config, keybindings, update, recovery, runtime model,
-customization, and troubleshooting.
-
-Individual docs pages should remain available for direct links, search results,
-and focused reading. The single-page docs route can include section anchors and
-links back to those standalone pages.
-
-Docs can embed or link to the same media assets, but they should not become the
-primary owner of the visual gallery. A docs section should use a demo only when
-it helps explain the exact task in that section.
+The docs index remains a continuous task/reference stream. Individual docs
+pages stay available for direct links and search. A docs section can reuse the
+accepted workspace media only when it clarifies the exact task.
 
 ### `/blog/`
 
-Blog posts carry release essays, product reasoning, architecture writing, and
-lessons from the project.
+Blog posts carry approved release essays, product reasoning, architecture
+writing, and lessons. The blog is not a source of truth for runtime behavior.
 
-Blog posts can reference feature demos when useful, but they should not become
-the canonical location for product behavior.
+## Media Contract
 
-## Media Model
+The accepted launch source is:
 
-The first implemented version can use static screenshots and planned capture
-slots. Motion clips should replace the highest-value screenshots after the page
-rhythm, grouping, captions, and docs links feel right.
+- canonical repository revision: `37f36efcabf16c41d03e182917926e7b8e56139c`
+- source: `assets/screenshots/nova_workspace.png`
+- site asset: `public/images/nova_workspace.png`
 
-Prefer short video loops over actual GIF files.
+Every public image or clip must record current Nova provenance. Stale Classic
+captures, planned placeholders, and media kept only to fill a gallery do not
+ship.
 
-Use:
+Static images are the default. Motion is justified only when a still cannot
+communicate the behavior honestly. Any future motion media must:
 
-- `.webm` or `.mp4` for motion demos
-- `.webp` or `.png` poster images
-- `.webp` or `.png` for static comparisons and widget photos
-
-Reasons:
-
-- smaller downloads
-- cleaner rendering
-- better poster frames
-- better reduced-motion handling
-- fewer huge files in the page load path
-
-Each motion demo should be short enough to understand at a glance. The target
-length is roughly three to eight seconds.
-
-Media should:
-
+- use a short muted video with a poster rather than an animated GIF
 - lazy-load outside the first viewport
-- have stable aspect ratios
-- have a poster image
-- include a short caption
-- avoid audio
+- keep a stable aspect ratio
+- remain understandable without motion
 - avoid autoplay when reduced motion is requested
-- have a docs link for exact commands or settings
+- link to the exact docs contract
 
-## Media Registry
-
-The implementation should use a small registry instead of hard-coding every
-asset into page markup. Missing assets can render as planned demo slots until
-the real capture exists.
-
-Example shape:
-
-```ts
-{
-	id: "open-zoxide-in-editor",
-	group: "opening_files",
-	title: "Alt+z: zoxide to editor",
-	summary: "Yazelix uses the zoxide picker to retarget the managed editor/workspace directly to the picked location.",
-	kind: "video",
-	asset: "/media/features/open-zoxide-in-editor.webm",
-	poster: "/media/features/open-zoxide-in-editor.webp",
-	docsHref: "/keybindings/"
-}
-```
-
-The registry should support:
-
-- feature grouping
-- primary and variant demos
-- static image comparisons
-- missing asset placeholders
-- links back to docs pages
+The small media registry owns titles, captions, focus, and docs links. The
+component owns rendering. Neither layer reconstructs product behavior.
 
 ## Layout Rules
 
-Use one large media row per demo on the features page. The screenshot or clip
-should occupy the full row width, with the caption and docs link below it.
+The homepage uses three compact preview cards. The features page uses one large
+row per view so the terminal content stays readable. Both surfaces collapse to
+one column on narrow screens.
 
-Use smaller media cards only for homepage previews or future dense comparison
-surfaces where a full-width row would make comparison worse.
+## Future Capture Gate
 
-The page should feel like a product tour, not a folder listing.
+There is no standing capture backlog. Add one accepted media item when all of
+these are true:
 
-## Capture Backlog
+- the user-facing behavior is current and documented
+- a still or clip can be captured from an accepted Nova revision
+- the media explains the behavior better than text alone
+- its download, motion, and maintenance cost is justified
 
-The initial capture backlog is:
-
-- all `yzx screen` surfaces
-- full-pane Yazi startup
-- `Z` native zoxide navigation staying inside Yazi
-- `z` native fuzzy path jumping staying inside Yazi
-- `Alt+z` zoxide picker retargeting the managed editor/workspace
-- open behavior when the editor pane exists
-- open behavior when the editor pane does not exist
-- `editor.hide_sidebar_on_file_open` on and off
-- ratconfig config UI popup usage
-- information popup
-- menu popup
-- sidebar toggling
-- sidebar focus with `Ctrl+y` and `Ctrl+Shift+Y`
-- LazyGit popup usage
-- Ghostty cursor behavior inside and outside Helix
-- yzxterm cursor behavior inside and outside Helix
-- status/widget images
-- Yazi git decorations in the managed file tree
-- icon-only Starship prompt fitted to the sidebar width
-- pane frames on and off
-- rounded corners on and off
+Do not launch a GUI capture session or restore the Classic catalog merely to
+make the tour larger.
