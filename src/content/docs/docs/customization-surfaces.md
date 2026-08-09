@@ -43,5 +43,5 @@ Ratconfig. Change the reported module option and run the normal switch.
 Files under `${XDG_DATA_HOME:-$HOME/.local/share}/yazelix` are generated output.
 Change the config input or package owner instead of editing runtime state.
 
-See the canonical [configuration guide](https://github.com/luccahuguet/yazelix/blob/stable/docs/configuration.md)
+See the canonical [configuration guide](https://github.com/Yazelix/nova/blob/stable/docs/configuration.md)
 for file layering and validation details.

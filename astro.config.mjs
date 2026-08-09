@@ -22,7 +22,7 @@ export default defineConfig({
 			},
 			customCss: ['./src/styles/starlight.css'],
 			social: [
-				{ icon: 'github', label: 'GitHub', href: 'https://github.com/luccahuguet/yazelix' },
+				{ icon: 'github', label: 'GitHub', href: 'https://github.com/Yazelix/nova' },
 			],
 			sidebar: [
 				{

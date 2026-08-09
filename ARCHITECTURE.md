@@ -2,7 +2,7 @@
 
 This repository builds and publishes the static Yazelix Nova website at
 `https://nova.yazelix.com`. It owns Nova presentation. The canonical
-[Yazelix repository](https://github.com/luccahuguet/yazelix) owns product
+[Yazelix repository](https://github.com/Yazelix/nova) owns product
 commands, configuration, packages, keybindings, and release truth.
 [README.md](README.md) records the exact revision used for site claims and media.
 

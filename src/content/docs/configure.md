@@ -83,5 +83,5 @@ Nova writes generated runtime state to
 `${XDG_DATA_HOME:-$HOME/.local/share}/yazelix` unless `YAZELIX_STATE_DIR`
 overrides it. Edit the config inputs, not generated output.
 
-See the canonical [configuration guide](https://github.com/luccahuguet/yazelix/blob/stable/docs/configuration.md)
+See the canonical [configuration guide](https://github.com/Yazelix/nova/blob/stable/docs/configuration.md)
 for the complete field and native-file contracts.

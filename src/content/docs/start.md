@@ -6,10 +6,21 @@ description: Try or install Stable, then choose the Mars or current-terminal ent
 Yazelix Nova is a Nix-packaged terminal workspace. You need Nix with flakes
 enabled.
 
+## Choose a channel
+
+| Channel | Install reference | Use |
+| --- | --- | --- |
+| Stable | `github:Yazelix/nova/stable` | Checked and dogfooded release |
+| Main | `github:Yazelix/nova/main#yazelix-main` | Frequent accepted updates |
+| Edge | `github:Yazelix/nova/edge#yazelix-edge` | Experimental dogfooding |
+
+Immutable `nova-v*` tags select exact releases. A Nix lock file keeps its
+selected revision until you update it.
+
 ## Install
 
 ```bash
-nix profile add --refresh github:luccahuguet/yazelix/stable
+nix profile add --refresh github:Yazelix/nova/stable
 ```
 
 Open the desktop workspace through Mars:
@@ -27,26 +38,15 @@ yzx enter
 ## Try without installing
 
 ```bash
-nix run github:luccahuguet/yazelix/stable -- launch
-nix run github:luccahuguet/yazelix/stable#yazelix-no-mars -- enter
+nix run github:Yazelix/nova/stable -- launch
+nix run github:Yazelix/nova/stable#yazelix-no-mars -- enter
 ```
 
 Run the owned preflight without opening Mars or Zellij:
 
 ```bash
-nix run github:luccahuguet/yazelix/stable -- doctor
+nix run github:Yazelix/nova/stable -- doctor
 ```
-
-## Choose a channel
-
-| Channel | Install reference | Use |
-| --- | --- | --- |
-| Stable | `github:luccahuguet/yazelix/stable` | Checked and dogfooded release |
-| Main | `github:luccahuguet/yazelix/main#yazelix-main` | Frequent accepted updates |
-| Edge | `github:luccahuguet/yazelix/edge#yazelix-edge` | Experimental dogfooding |
-
-Immutable `nova-v*` tags select exact releases. A Nix lock file keeps its
-selected revision until you update it.
 
 ## Choose a package
 
@@ -55,14 +55,14 @@ remove Mars, managed Helix, or managed Yazi while retaining the remaining Nova
 integration.
 
 ```bash
-nix profile add --refresh github:luccahuguet/yazelix/stable#yazelix-no-mars
+nix profile add --refresh github:Yazelix/nova/stable#yazelix-no-mars
 ```
 
 Use `yzx enter` with a Mars-free package. Helix-free packages need an installed
 editor selected through `editor.command`. Yazi-free packages need matching
 host `yazi` and `ya` commands.
 
-See the canonical [installation and package guide](https://github.com/luccahuguet/yazelix/blob/stable/docs/installation.md)
+See the canonical [installation and package guide](https://github.com/Yazelix/nova/blob/stable/docs/installation.md)
 for the full matrix, platform evidence, Home Manager, and installed sizes.
 
 ## First five minutes

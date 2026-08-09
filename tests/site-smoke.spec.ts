@@ -107,6 +107,7 @@ test('docs page exposes the docs index stream', async ({ page }) => {
 	await expect(page.getByRole('heading', { name: 'Start with Yazelix Nova' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Configure Yazelix Nova' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Nova Troubleshooting Checklist' })).toBeVisible();
+	await expect(page.locator('#start .docs-markdown h2').first()).toHaveText('Choose a channel');
 	await expect(page.locator('[data-docs-rail-link="start-install"]')).toHaveCount(1);
 	await expect(page.locator('[data-docs-rail-link="configure-home-manager"]')).toHaveCount(1);
 });
@@ -148,9 +149,9 @@ test('public Nova contract and internal links stay valid', async ({ page }) => {
 	const publicCopy = `${homeCopy}\n${docsCopy}`;
 
 	for (const required of [
-		'nix profile add --refresh github:luccahuguet/yazelix/stable',
-		'nix run github:luccahuguet/yazelix/stable -- launch',
-		'nix run github:luccahuguet/yazelix/stable#yazelix-no-mars -- enter',
+		'nix profile add --refresh github:Yazelix/nova/stable',
+		'nix run github:Yazelix/nova/stable -- launch',
+		'nix run github:Yazelix/nova/stable#yazelix-no-mars -- enter',
 		'~/.config/yazelix/config.toml',
 	]) {
 		expect.soft(publicCopy.includes(required), `missing public Nova contract: ${required}`).toBe(true);
@@ -163,11 +164,11 @@ test('public Nova contract and internal links stay valid', async ({ page }) => {
 		links.map((link) => (link as HTMLAnchorElement).href),
 	);
 	for (const required of [
-		'https://github.com/luccahuguet/yazelix',
-		'https://github.com/luccahuguet/yazelix/blob/stable/docs/installation.md',
-		'https://github.com/luccahuguet/yazelix/blob/stable/docs/installation.md#updates',
-		'https://github.com/luccahuguet/yazelix/blob/stable/docs/configuration.md',
-		'https://github.com/luccahuguet/yazelix/blob/stable/ARCHITECTURE.md',
+		'https://github.com/Yazelix/nova',
+		'https://github.com/Yazelix/nova/blob/stable/docs/installation.md',
+		'https://github.com/Yazelix/nova/blob/stable/docs/installation.md#updates',
+		'https://github.com/Yazelix/nova/blob/stable/docs/configuration.md',
+		'https://github.com/Yazelix/nova/blob/stable/ARCHITECTURE.md',
 	]) {
 		expect.soft(externalLinks.includes(required), `missing canonical link: ${required}`).toBe(true);
 	}

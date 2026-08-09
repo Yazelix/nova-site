@@ -67,5 +67,5 @@ config UI toolkit, and focused first-party packages own popups, pane
 orchestration, the top bar, screens, cursors, and Yazi themes. Nova pins and
 composes their package outputs.
 
-See the canonical [architecture](https://github.com/luccahuguet/yazelix/blob/stable/ARCHITECTURE.md)
+See the canonical [architecture](https://github.com/Yazelix/nova/blob/stable/ARCHITECTURE.md)
 for component contracts and verification gaps.

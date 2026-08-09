@@ -45,5 +45,5 @@ more often, and Edge carries experimental dogfood changes.
 The updated package applies to future launches. Open Nova sessions keep their
 current immutable Nix store paths until you close and relaunch them.
 
-See the canonical [update guide](https://github.com/luccahuguet/yazelix/blob/stable/docs/installation.md#updates)
+See the canonical [update guide](https://github.com/Yazelix/nova/blob/stable/docs/installation.md#updates)
 for package-owner details.

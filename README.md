@@ -30,9 +30,9 @@ bun run test:e2e
 
 ## Product Source
 
-The canonical [Yazelix repository](https://github.com/luccahuguet/yazelix)
+The canonical [Yazelix repository](https://github.com/Yazelix/nova)
 owns Nova behavior. Site copy and media were checked against revision
-`37f36efcabf16c41d03e182917926e7b8e56139c`, including:
+`e733f1996c4d3997ab091415a39607a2154d2378`, including:
 
 - `README.md` for the public product and command surface
 - `docs/installation.md` for channels, packages, updates, and Home Manager
