@@ -1,49 +1,37 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getEntry, render } from 'astro:content';
+import PrefixedDocsContent from '../../components/PrefixedDocsContent.astro';
 import SiteHead from '../../components/SiteHead.astro';
 import SiteNav from '../../components/SiteNav.astro';
 import '../../styles/docs.css';
 
-type DocsSectionConfig = {
-	id: string;
-	label: string;
-	href: string;
-};
-
-const docsOrder: DocsSectionConfig[] = [
-	{ id: 'start', label: 'Start', href: '/start/' },
-	{ id: 'configure', label: 'Configure', href: '/configure/' },
-	{ id: 'keybindings', label: 'Keys', href: '/keybindings/' },
-	{ id: 'update', label: 'Update', href: '/update/' },
-	{ id: 'recover', label: 'Recover', href: '/recover/' },
-	{ id: 'docs/runtime-model', label: 'Runtime', href: '/docs/runtime-model/' },
-	{ id: 'docs/customization-surfaces', label: 'Customize', href: '/docs/customization-surfaces/' },
-	{ id: 'docs/troubleshooting-checklist', label: 'Troubleshoot', href: '/docs/troubleshooting-checklist/' },
+const docsOrder = [
+	'start',
+	'configure',
+	'keybindings',
+	'update',
+	'recover',
+	'docs/runtime-model',
+	'docs/customization-surfaces',
+	'docs/troubleshooting-checklist',
 ];
 
-const docsEntries = await getCollection('docs');
 const sections = await Promise.all(
-	docsOrder.map(async (section) => {
-		const entry = docsEntries.find((candidate) => candidate.id === section.id);
+	docsOrder.map(async (id) => {
+		const entry = await getEntry('docs', id);
 
 		if (!entry) {
-			throw new Error(`Missing docs entry: ${section.id}`);
+			throw new Error(`Missing docs entry: ${id}`);
 		}
 
 		const { Content, headings } = await render(entry);
-		const anchor = section.id.replaceAll('/', '-');
+		const anchor = entry.id.replaceAll('/', '-');
 
 		return {
-			...section,
 			entry,
 			Content,
 			anchor,
-			subsections: headings
-				.filter((heading) => heading.depth === 2)
-				.map((heading) => ({
-					anchor: `${anchor}-${heading.slug}`,
-					text: heading.text,
-				})),
+			headings: headings.map((heading) => ({ ...heading, anchor: `${anchor}-${heading.slug}` })),
 		};
 	}),
 );
@@ -85,16 +73,18 @@ const sections = await Promise.all(
 											{section.entry.data.title}
 										</a>
 										<div class="docs-rail-subsections">
-											{section.subsections.map((subsection) => (
-												<a
-													class="docs-rail-subsection"
-													href={`#${subsection.anchor}`}
-													data-docs-rail-link={subsection.anchor}
-													data-docs-rail-section={section.anchor}
-												>
-													{subsection.text}
-												</a>
-											))}
+											{section.headings
+												.filter((heading) => heading.depth === 2)
+												.map((heading) => (
+													<a
+														class="docs-rail-subsection"
+														href={`#${heading.anchor}`}
+														data-docs-rail-link={heading.anchor}
+														data-docs-rail-section={section.anchor}
+													>
+														{heading.text}
+													</a>
+												))}
 										</div>
 									</div>
 								))
@@ -110,10 +100,12 @@ const sections = await Promise.all(
 										<p>{String(index + 1).padStart(2, '0')}</p>
 										<h2>{section.entry.data.title}</h2>
 										<span>{section.entry.data.description}</span>
-										<a href={section.href}>Standalone page</a>
+										<a href={`/${section.entry.id}/`}>Standalone page</a>
 									</header>
 									<div class="docs-markdown">
-										<section.Content />
+										<PrefixedDocsContent headings={section.headings}>
+											<section.Content />
+										</PrefixedDocsContent>
 									</div>
 								</section>
 							))
@@ -134,14 +126,8 @@ const sections = await Promise.all(
 
 				docTargets.push({ id: sectionId, element: section });
 
-				for (const heading of section.querySelectorAll<HTMLElement>(
-					'.docs-markdown :is(h2, h3, h4, h5, h6)[id]',
-				)) {
-					heading.id = `${sectionId}-${heading.id}`;
-					heading.parentElement
-						?.querySelector<HTMLAnchorElement>('.sl-anchor-link')
-						?.setAttribute('href', `#${heading.id}`);
-					if (heading.matches('h2')) docTargets.push({ id: heading.id, element: heading });
+				for (const heading of section.querySelectorAll<HTMLElement>('.docs-markdown h2[id]')) {
+					docTargets.push({ id: heading.id, element: heading });
 				}
 			}
 

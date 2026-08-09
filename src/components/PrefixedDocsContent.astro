@@ -1,0 +1,17 @@
+---
+interface Props {
+	headings: { slug: string; anchor: string }[];
+}
+
+const { headings } = Astro.props;
+let content = await Astro.slots.render('default');
+
+// Avoid treating a newly prefixed anchor as a later heading's original slug.
+for (const heading of headings.toSorted((a, b) => b.slug.length - a.slug.length)) {
+	content = content
+		.replaceAll(`id="${heading.slug}"`, `id="${heading.anchor}"`)
+		.replaceAll(`href="#${heading.slug}"`, `href="#${heading.anchor}"`);
+}
+---
+
+<Fragment set:html={content} />

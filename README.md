@@ -15,6 +15,9 @@ repository covers Nova only.
 - Pagefind search through Starlight
 - Playwright smoke tests
 
+[ARCHITECTURE.md](ARCHITECTURE.md) maps product, route, component, build,
+verification, deployment, and DNS ownership.
+
 ## Commands
 
 ```sh

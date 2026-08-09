@@ -111,6 +111,35 @@ test('docs page exposes the docs index stream', async ({ page }) => {
 	await expect(page.locator('[data-docs-rail-link="configure-home-manager"]')).toHaveCount(1);
 });
 
+test.describe('without JavaScript', () => {
+	test.use({ javaScriptEnabled: false });
+
+	test('combined Docs ships complete, unique fragment targets', async ({ page }) => {
+		await page.goto('/docs/#configure-home-manager');
+
+		const ids = await page.locator('[id]').evaluateAll((elements) => elements.map((element) => element.id));
+		expect(new Set(ids).size).toBe(ids.length);
+
+		const fragments = await page.locator('a[href^="#"]').evaluateAll((links) =>
+			links.map((link) => decodeURIComponent((link.getAttribute('href') ?? '').slice(1))),
+		);
+		for (const fragment of fragments) {
+			expect.soft(ids.includes(fragment), `missing combined Docs target: #${fragment}`).toBe(true);
+		}
+
+		await expect(page.locator('#configure-home-manager')).toBeInViewport();
+		await page.goto('/configure/');
+		await page.goBack();
+		await expect(page.locator('#configure-home-manager')).toBeInViewport();
+		await page.goForward();
+		await expect(page).toHaveURL(/\/configure\/$/);
+
+		await page.goto('/configure/#home-manager');
+		await expect(page.locator('#home-manager')).toBeInViewport();
+		await expect(page.locator('#configure-home-manager')).toHaveCount(0);
+	});
+});
+
 test('public Nova contract and internal links stay valid', async ({ page }) => {
 	await page.goto('/');
 	const homeCopy = await page.locator('body').innerText();
