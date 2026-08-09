@@ -13,13 +13,13 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.40.0",
-    "astro": "^6.3.1",
-    "sharp": "^0.34.5"
+    "@astrojs/starlight": "^0.41.7",
+    "astro": "^7.2.0",
+    "sharp": "^0.35.3"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.5",
-    "@playwright/test": "^1.57.0",
+    "@astrojs/check": "^0.9.10",
+    "@playwright/test": "^1.62.1",
     "typescript": "^5.9.3"
   }
 }
