@@ -82,7 +82,7 @@ The verification layers prove different contracts:
 | --- | --- |
 | `bun run check` | Astro, content, and TypeScript diagnostics |
 | `bun run build` | Static routes, Pagefind, sitemap, assets, and build-time content composition |
-| `bun run test:e2e` | Representative desktop/mobile routes, metadata, navigation, content invariants, links, Docs rail behavior, overflow, and Blog absence contracts |
+| `bun run test:e2e` | Built static output, Pagefind, assets, 404 behavior, representative routes, metadata, navigation, content invariants, links, Docs rail behavior, overflow, and Blog absence contracts |
 | Production inspection | The deployed revision, DNS, TLS, cache behavior, Pagefind, canonical URLs, routes, assets, and rollback surface delivered to visitors |
 
 Local source-tree checks do not prove Vercel publication, DNS, TLS, or the

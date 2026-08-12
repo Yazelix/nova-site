@@ -82,6 +82,23 @@ test('home page exposes product and docs actions', async ({ page }) => {
 	);
 });
 
+test('home page keeps its identity and primary action in the first viewport', async ({ page }) => {
+	for (const viewport of [
+		{ width: 1440, height: 900 },
+		{ width: 1280, height: 720 },
+		{ width: 412, height: 915 },
+		{ width: 320, height: 568 },
+	]) {
+		await page.setViewportSize(viewport);
+		await page.goto('/');
+		await expect(page.getByRole('heading', { name: 'Yazelix Nova' })).toBeInViewport({ ratio: 1 });
+		await expect(page.getByRole('link', { name: 'Start with Yazelix' })).toBeInViewport({ ratio: 1 });
+		expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1)).toBe(false);
+	}
+
+	await expect(page.locator('.compact-hero > .hero-content + .hero-visual')).toHaveCount(1);
+});
+
 test('features page exposes the lean Nova product tour', async ({ page }) => {
 	await page.goto('/features/');
 	await expect(page.getByRole('heading', { name: 'Yazelix Nova features' })).toBeVisible();
@@ -110,6 +127,21 @@ test('docs page exposes the docs index stream', async ({ page }) => {
 	await expect(page.locator('#start .docs-markdown h2').first()).toHaveText('Choose a channel');
 	await expect(page.locator('[data-docs-rail-link="start-install"]')).toHaveCount(1);
 	await expect(page.locator('[data-docs-rail-link="configure-home-manager"]')).toHaveCount(1);
+});
+
+test('built output serves search and static assets', async ({ page, request }) => {
+	const image = await request.get('/images/nova_workspace.png');
+	expect(image.ok()).toBe(true);
+	expect(image.headers()['content-type']).toBe('image/png');
+	expect((await image.body()).byteLength).toBeGreaterThan(0);
+
+	await page.goto('/start/');
+	await page.getByRole('button', { name: /Search/ }).click();
+	await page.getByPlaceholder('Search').fill('Home Manager');
+	await expect(page.getByRole('dialog').getByRole('link', { name: 'Configure Yazelix Nova' }).first()).toHaveAttribute(
+		'href',
+		'/configure/',
+	);
 });
 
 test.describe('without JavaScript', () => {
@@ -244,4 +276,5 @@ test('blog index exposes the approved empty state', async ({ page }) => {
 		const response = await page.goto(route);
 		expect(response?.status(), `removed Blog route still resolves: ${route}`).toBe(404);
 	}
+	await expect(page).toHaveTitle('404 | Yazelix Nova');
 });

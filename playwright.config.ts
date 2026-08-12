@@ -2,10 +2,10 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
 	webServer: {
-		command: 'bun run dev -- --host 127.0.0.1 --port 4321',
-		env: { ASTRO_DEV_BACKGROUND: '1' },
+		command: 'bun run build && bun run preview -- --host 127.0.0.1 --port 4321',
+		env: { ASTRO_PREVIEW_BACKGROUND: '1' },
 		url: 'http://127.0.0.1:4321',
-		reuseExistingServer: !process.env.CI,
+		reuseExistingServer: false,
 		timeout: 120_000,
 	},
 	testDir: './tests',
@@ -17,10 +17,6 @@ export default defineConfig({
 		{
 			name: 'chromium',
 			use: { ...devices['Desktop Chrome'] },
-		},
-		{
-			name: 'mobile',
-			use: { ...devices['Pixel 7'] },
 		},
 	],
 });

@@ -79,7 +79,7 @@ a {
 	display: block;
 	width: min(100%, 1240px);
 	height: auto;
-	aspect-ratio: 1864 / 1012;
+	aspect-ratio: 16 / 9;
 	object-fit: contain;
 	margin: 0 auto;
 }

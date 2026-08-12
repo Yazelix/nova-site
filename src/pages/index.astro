@@ -24,15 +24,6 @@ const homepageFeatures = homepageFeatureIds
 		<div class="page-shell">
 			<header class="hero compact-hero">
 				<SiteNav active="home" />
-				<div class="hero-visual">
-					<img
-						src="/images/nova_workspace.png"
-						alt="Yazelix Nova workspace with Yazi, Helix, shell, and runtime status"
-						width="1864"
-						height="1012"
-						fetchpriority="high"
-					/>
-				</div>
 				<div class="hero-content">
 					<p class="eyebrow">Mars, Yazelix Zellij, Yazi, managed Helix, and Nushell in one Nix package</p>
 					<h1>Yazelix Nova</h1>
@@ -46,6 +37,15 @@ const homepageFeatures = homepageFeatureIds
 						<a class="button secondary" href="/docs/">Read docs</a>
 					</div>
 				</div>
+				<div class="hero-visual">
+					<img
+						src="/images/nova_workspace.png"
+						alt="Yazelix Nova workspace with Yazi, Helix, shell, and runtime status"
+						width="1920"
+						height="1080"
+						fetchpriority="high"
+					/>
+				</div>
 			</header>
 
 			<main id="main-content" tabindex="-1">
@@ -56,7 +56,7 @@ const homepageFeatures = homepageFeatureIds
 							Add the checked release to your Nix profile, then run <code>yzx launch</code> for Mars or
 							<code>yzx enter</code> in the current terminal.
 						</p>
-						<div class="terminal" aria-label="Yazelix install command">
+						<div class="terminal">
 							<div class="terminal-header">install</div>
 							<pre><code>nix profile add --refresh github:Yazelix/nova/stable</code></pre>
 						</div>
