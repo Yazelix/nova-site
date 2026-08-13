@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 
 const routes = [
 	'/',
@@ -124,9 +125,67 @@ test('docs page exposes the docs index stream', async ({ page }) => {
 	await expect(page.getByRole('heading', { name: 'Start with Yazelix Nova' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Configure Yazelix Nova' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Nova Troubleshooting Checklist' })).toBeVisible();
-	await expect(page.locator('#start .docs-markdown h2').first()).toHaveText('Choose a channel');
+	await expect(page.locator('.docs-chapter > .docs-chapter-header > h2')).toHaveCount(8);
+	await expect(page.locator('.docs-markdown h2')).toHaveCount(0);
+	await expect(page.locator('#start .docs-markdown h3').first()).toHaveText('Choose a channel');
+	await expect(page.locator('[data-docs-rail-link="start"]')).toHaveAttribute('aria-current', 'location');
 	await expect(page.locator('[data-docs-rail-link="start-install"]')).toHaveCount(1);
 	await expect(page.locator('[data-docs-rail-link="configure-home-manager"]')).toHaveCount(1);
+});
+
+test('combined Docs navigation stays accessible at narrow widths', async ({ page }) => {
+	for (const viewport of [
+		{ width: 412, height: 915 },
+		{ width: 320, height: 568 },
+	]) {
+		await page.setViewportSize(viewport);
+		await page.goto('/docs/');
+		await expect(page.locator('.docs-rail')).toBeVisible();
+		const layout = await page.evaluate(() => ({
+			overflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+			navBottom: document.querySelector('.nav')?.getBoundingClientRect().bottom ?? 0,
+			headingTop: document.querySelector('h1')?.getBoundingClientRect().top ?? 0,
+		}));
+		expect(layout.overflow).toBe(false);
+		expect(layout.headingTop).toBeGreaterThanOrEqual(layout.navBottom);
+	}
+
+	const chapterLinks = page.locator('.docs-rail-section-link');
+	await expect(chapterLinks).toHaveCount(8);
+	await chapterLinks.first().focus();
+	for (let index = 0; index < 8; index += 1) {
+		await expect(chapterLinks.nth(index)).toBeFocused();
+		if (index < 7) await page.keyboard.press('Tab');
+	}
+
+	for (const link of await chapterLinks.all()) {
+		const target = await link.getAttribute('href');
+		await link.click();
+		await expect(page.locator(target!)).toBeInViewport();
+	}
+
+	await page.locator('#docs-troubleshooting-checklist-6-report-precise-failures').evaluate((element) =>
+		element.scrollIntoView({ block: 'start' }),
+	);
+	await expect(page.locator('[data-docs-rail-link="docs-troubleshooting-checklist"]')).toHaveAttribute(
+		'aria-current',
+		'location',
+	);
+	await expect(page.locator('[data-docs-rail-link="docs-troubleshooting-checklist"]')).toBeInViewport();
+
+	await page.emulateMedia({ reducedMotion: 'reduce' });
+	expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('auto');
+});
+
+test('combined Docs passes automated accessibility checks', async ({ page }) => {
+	for (const viewport of [
+		{ width: 1440, height: 900 },
+		{ width: 320, height: 568 },
+	]) {
+		await page.setViewportSize(viewport);
+		await page.goto('/docs/');
+		expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+	}
 });
 
 test('built output serves search and static assets', async ({ page, request }) => {
@@ -149,6 +208,7 @@ test.describe('without JavaScript', () => {
 
 	test('combined Docs ships complete, unique fragment targets', async ({ page }) => {
 		await page.goto('/docs/#configure-home-manager');
+		await expect(page.locator('.docs-rail [aria-current="location"]')).toHaveCount(0);
 
 		const ids = await page.locator('[id]').evaluateAll((elements) => elements.map((element) => element.id));
 		expect(new Set(ids).size).toBe(ids.length);
@@ -252,14 +312,14 @@ test('docs sidebar highlights the current section', async ({ page }) => {
 		document.documentElement.style.scrollBehavior = 'auto';
 	});
 	await page.locator('#recover').evaluate((element) => element.scrollIntoView({ block: 'start' }));
-	await expect(page.locator('[data-docs-rail-link="recover"]')).toHaveClass(/is-active/);
+	await expect(page.locator('[data-docs-rail-link="recover"]')).toHaveAttribute('aria-current', 'location');
 	const deepTargetTop = await page
 		.locator('#docs-troubleshooting-checklist-6-report-precise-failures')
 		.evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
 	await page.evaluate((top) => window.scrollTo(0, top), deepTargetTop);
 	await expect(
 		page.locator('[data-docs-rail-link="docs-troubleshooting-checklist-6-report-precise-failures"]'),
-	).toHaveClass(/is-active/);
+	).toHaveAttribute('aria-current', 'location');
 	await expect(page.locator('[data-docs-rail-link="docs-troubleshooting-checklist"]')).toHaveClass(/is-parent-active/);
 });
 
