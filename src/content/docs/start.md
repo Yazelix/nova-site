@@ -48,6 +48,33 @@ Run the owned preflight without opening Mars or Zellij:
 nix run github:Yazelix/nova/stable -- doctor
 ```
 
+## Named sessions
+
+Plain `yzx launch` and `yzx enter` start independent sessions. Add
+`--session NAME` to create a fresh named session:
+
+```bash
+yzx enter --session project
+yzx launch --session project
+```
+
+Attach to a live session by its full name:
+
+```bash
+yzx enter attach project
+yzx launch attach project
+```
+
+Creation fails for a live name; attachment fails for a missing name.
+
+Inside Nova, press `Ctrl Alt o`, then `w` to open the session manager. Select a
+live session to switch, or type a missing name and press `Enter` with the
+Yazelix layout selected to create it.
+
+After you switch sessions, popups or `Alt h` / `Alt l` may pause for several
+seconds. Press `Alt 1-9` to select a tab, then retry. See
+[Workspace keys](/keybindings/#workspace-keys) for the session-manager chord.
+
 ## Choose a package
 
 Package names follow `yazelix[-no-mars][-no-helix][-no-yazi]`. The suffixes

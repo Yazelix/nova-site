@@ -244,6 +244,14 @@ test('public Nova contract and internal links stay valid', async ({ page }) => {
 		'nix profile add --refresh github:Yazelix/nova/stable',
 		'nix run github:Yazelix/nova/stable -- launch',
 		'nix run github:Yazelix/nova/stable#yazelix-no-mars -- enter',
+		'yzx enter --session project',
+		'yzx launch --session project',
+		'yzx enter attach project',
+		'yzx launch attach project',
+		'Creation fails for a live name; attachment fails for a missing name.',
+		'Ctrl Alt o, then w',
+		'Select a live session to switch, or type a missing name and press Enter',
+		'may pause for several seconds. Press Alt 1-9 to select a tab, then retry',
 		'~/.config/yazelix/config.toml',
 	]) {
 		expect.soft(publicCopy.includes(required), `missing public Nova contract: ${required}`).toBe(true);
