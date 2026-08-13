@@ -14,23 +14,12 @@
 	--sl-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
-:root[data-theme='light'] {
-	--sl-color-accent-low: #dff7e9;
-	--sl-color-accent: #0b7f57;
-	--sl-color-accent-high: #073f30;
-	--sl-color-white: #0d1411;
-	--sl-color-gray-1: #1e2823;
-	--sl-color-gray-2: #36443d;
-	--sl-color-gray-3: #68776e;
-	--sl-color-gray-4: #98a69e;
-	--sl-color-gray-5: #d7dfd9;
-	--sl-color-gray-6: #edf2ee;
-	--sl-color-gray-7: #f7faf7;
-	--sl-color-black: #ffffff;
-}
-
 body {
 	letter-spacing: 0;
+}
+
+.right-group .social-icons::after {
+	display: none;
 }
 
 .site-title {

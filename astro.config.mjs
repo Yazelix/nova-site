@@ -19,6 +19,7 @@ export default defineConfig({
 			favicon: '/favicon.png',
 			components: {
 				ThemeProvider: './src/components/starlight/ThemeProvider.astro',
+				ThemeSelect: './src/components/starlight/ThemeProvider.astro',
 			},
 			customCss: ['./src/styles/starlight.css'],
 			social: [

@@ -203,10 +203,28 @@ test('built output serves search and static assets', async ({ page, request }) =
 	);
 });
 
+test('custom and Starlight pages stay dark without a preference control', async ({ page }) => {
+	await page.emulateMedia({ colorScheme: 'light' });
+	await page.goto('/');
+	expect(await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme)).toBe('dark');
+
+	await page.evaluate(() => localStorage.setItem('starlight-theme', 'light'));
+	await page.setViewportSize({ width: 320, height: 568 });
+	for (const route of ['/start/', '/docs/']) {
+		await page.goto(route);
+		expect(await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme)).toBe('dark');
+		await expect(page.locator('starlight-theme-select')).toHaveCount(0);
+	}
+});
+
 test.describe('without JavaScript', () => {
 	test.use({ javaScriptEnabled: false });
 
 	test('combined Docs ships complete, unique fragment targets', async ({ page }) => {
+		await page.goto('/start/');
+		expect(await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme)).toBe('dark');
+		await expect(page.locator('starlight-theme-select')).toHaveCount(0);
+
 		await page.goto('/docs/#configure-home-manager');
 		await expect(page.locator('.docs-rail [aria-current="location"]')).toHaveCount(0);
 
