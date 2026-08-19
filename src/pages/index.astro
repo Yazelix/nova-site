@@ -1,15 +1,9 @@
 ---
-import FeatureMediaFrame from '../components/FeatureMediaFrame.astro';
+import HomeWatchStage from '../components/HomeWatchStage.astro';
 import GitHubLink from '../components/GitHubLink.astro';
 import SiteHead from '../components/SiteHead.astro';
 import SiteNav from '../components/SiteNav.astro';
-import { featureItemsById, homepageFeatureIds } from '../data/feature_media';
 import '../styles/home.css';
-
-const itemsById = featureItemsById();
-const homepageFeatures = homepageFeatureIds
-	.map((id) => itemsById.get(id))
-	.filter((item): item is NonNullable<typeof item> => item !== undefined);
 ---
 
 <!doctype html>
@@ -66,12 +60,11 @@ const homepageFeatures = homepageFeatureIds
 					<div class="section-inner">
 						<h2>Watch what it does</h2>
 						<p class="section-lede">
-							The product tour focuses on the parts visible in the maintained Nova workspace: file navigation,
-							runtime identity, and the keyboard map.
+							Three moments from the v1 walkthrough.
+							<a href="/features/">See them on Features</a>, or
+							<a href="/blog/yazelix-nova-v1/">watch the full 54 seconds</a>.
 						</p>
-						<div class="feature-preview-grid">
-							{homepageFeatures.map((item) => <FeatureMediaFrame item={item} compact />)}
-						</div>
+						<HomeWatchStage />
 					</div>
 				</section>
 
@@ -85,7 +78,7 @@ const homepageFeatures = homepageFeatureIds
 						<div class="blog-grid">
 							<article class="panel">
 								<h3>Features</h3>
-								<p>One maintained Nova workspace with focused views of files, runtime status, and controls.</p>
+								<p>Short loops of tabs, panes, and config, plus one workspace in four views.</p>
 								<a href="/features/">View tour</a>
 							</article>
 							<article class="panel">

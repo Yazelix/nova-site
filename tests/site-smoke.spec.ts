@@ -71,7 +71,7 @@ test('custom pages expose Nova metadata and a keyboard skip link', async ({ page
 	}
 });
 
-test('home page exposes product and docs actions', async ({ page }) => {
+test('home page exposes product and docs actions', async ({ page, request }) => {
 	await page.goto('/');
 	await expect(page.getByRole('heading', { name: 'Yazelix Nova' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Home' })).toHaveAttribute('aria-current', 'page');
@@ -82,11 +82,51 @@ test('home page exposes product and docs actions', async ({ page }) => {
 		'href',
 		'/blog/yazelix-nova-v1/',
 	);
-	await expect(page.locator('.feature-preview-grid .feature-media').first()).toBeVisible();
+	await expect(page.getByRole('link', { name: 'See them on Features' })).toHaveAttribute('href', '/features/');
+	await expect(page.getByRole('link', { name: 'watch the full 54 seconds' })).toHaveAttribute(
+		'href',
+		'/blog/yazelix-nova-v1/',
+	);
+	const stage = page.locator('.watch-stage video');
+	await expect(stage).toHaveCount(1);
+	await expect(page.locator('.hero-visual video')).toHaveCount(0);
+	await expect(page.locator('.watch-stage source')).toHaveAttribute(
+		'src',
+		'/media/watch/project-tabs.mp4',
+	);
+	await expect(page.locator('.watch-stage source')).toHaveAttribute(
+		'media',
+		'(prefers-reduced-motion: no-preference)',
+	);
+	await expect(page.getByRole('button', { name: 'Project tabs' })).toHaveAttribute('aria-pressed', 'true');
+	await page.getByRole('button', { name: 'Stacked panes' }).click();
+	await expect(page.getByRole('button', { name: 'Stacked panes' })).toHaveAttribute('aria-pressed', 'true');
+	await expect(page.locator('.watch-stage source')).toHaveAttribute('src', '/media/watch/stacked-panes.mp4');
+	await expect(page.getByRole('link', { name: 'See it on Features' })).toHaveAttribute(
+		'href',
+		'/features/#stacked-panes',
+	);
+	await page.getByRole('button', { name: 'Live config' }).click();
+	await expect(page.locator('.watch-stage source')).toHaveAttribute('src', '/media/watch/ratconfig-popup.mp4');
 	await expect(page.getByRole('link', { name: 'GitHub (opens in a new tab)' }).first()).toHaveAttribute(
 		'target',
 		'_blank',
 	);
+
+	for (const asset of [
+		'/media/watch/project-tabs.mp4',
+		'/media/watch/project-tabs-poster.png',
+		'/media/watch/stacked-panes.mp4',
+		'/media/watch/stacked-panes-poster.png',
+		'/media/watch/ratconfig-popup.mp4',
+		'/media/watch/ratconfig-popup-poster.png',
+	]) {
+		expect((await request.get(asset)).ok(), `missing homepage loop: ${asset}`).toBe(true);
+	}
+
+	await page.emulateMedia({ reducedMotion: 'reduce' });
+	await page.reload();
+	expect(await stage.evaluate((video) => (video as HTMLVideoElement).currentSrc)).toBe('');
 });
 
 test('home page keeps its identity and primary action in the first viewport', async ({ page }) => {
@@ -110,8 +150,12 @@ test('features page exposes the lean Nova product tour', async ({ page }) => {
 	await page.goto('/features/');
 	await expect(page.getByRole('heading', { name: 'Yazelix Nova features' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Features' })).toHaveAttribute('aria-current', 'page');
+	await expect(page.getByRole('heading', { name: 'Watch what it does' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'One workspace, four useful views' })).toBeVisible();
-	await expect(page.locator('.feature-page video')).toHaveCount(0);
+	await expect(page.locator('.feature-page video')).toHaveCount(3);
+	await expect(page.locator('#project-tabs')).toBeVisible();
+	await expect(page.locator('#stacked-panes')).toBeVisible();
+	await expect(page.locator('#ratconfig-popup')).toBeVisible();
 	await expect(page.locator('.feature-page img[src$=".gif"]')).toHaveCount(0);
 	await expect(page.getByText('Yazelix Nova workspace', { exact: true })).toBeVisible();
 	await expect(page.getByText('Files beside the editor')).toBeVisible();
@@ -398,6 +442,34 @@ test('blog exposes the Nova v1 article', async ({ page, request }) => {
 		'/blog/yazelix-nova-v1/media/nova-in-60-seconds.mp4',
 	);
 	await expect(page.locator('.media-take-label')).toHaveText('Nova in under 60 seconds');
+	await expect(page.locator('.blog-lead-strip')).toBeVisible();
+	const leadLayout = await page.evaluate(() => {
+		const strip = document.querySelector('.blog-lead-strip');
+		const video = document.querySelector('.blog-lead-media video');
+		const caption = document.querySelector('.blog-lead-media figcaption');
+		const timeline = document.querySelector('.video-timeline');
+		const article = document.querySelector('.article-content');
+		if (!strip || !video || !caption || !timeline || !article) {
+			throw new Error('missing lead layout elements');
+		}
+		const stripBox = strip.getBoundingClientRect();
+		const videoBox = video.getBoundingClientRect();
+		const captionBox = caption.getBoundingClientRect();
+		const timelineBox = timeline.getBoundingClientRect();
+		const articleBox = article.getBoundingClientRect();
+		return {
+			stripFullBleed: Math.abs(stripBox.width - window.innerWidth) < 2,
+			captionMatchesVideo:
+				Math.abs(captionBox.left - videoBox.left) < 2 && Math.abs(captionBox.right - videoBox.right) < 2,
+			timelineMatchesVideo:
+				Math.abs(timelineBox.left - videoBox.left) < 2 && Math.abs(timelineBox.right - videoBox.right) < 2,
+			articleNarrowerThanVideo: articleBox.width < videoBox.width - 40,
+		};
+	});
+	expect(leadLayout.stripFullBleed).toBe(true);
+	expect(leadLayout.captionMatchesVideo).toBe(true);
+	expect(leadLayout.timelineMatchesVideo).toBe(true);
+	expect(leadLayout.articleNarrowerThanVideo).toBe(true);
 	await expect(page.locator('.video-timeline li')).toHaveCount(10);
 	await expect(page.getByRole('button', { name: 'Jump to 0:03' })).toBeVisible();
 	await expect(page.getByRole('button', { name: 'Jump to 0:49' })).toBeVisible();

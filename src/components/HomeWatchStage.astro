@@ -1,0 +1,115 @@
+---
+import { homeWatchClips } from '../data/home_watch';
+
+const first = homeWatchClips[0];
+if (!first) throw new Error('homeWatchClips is empty');
+---
+
+<figure class="watch-stage">
+	<div class="watch-stage-frame">
+		<video
+			class="watch-stage-video"
+			autoplay
+			muted
+			loop
+			playsinline
+			preload="metadata"
+			poster={first.poster}
+			width="960"
+			height="536"
+			aria-label={first.label}
+		>
+			<source media="(prefers-reduced-motion: no-preference)" src={first.src} type="video/mp4" />
+		</video>
+	</div>
+	<div class="watch-switch" role="group" aria-label="Feature clips">
+		{
+			homeWatchClips.map((clip, index) => (
+				<button
+					type="button"
+					aria-pressed={index === 0 ? 'true' : 'false'}
+					data-src={clip.src}
+					data-poster={clip.poster}
+					data-label={clip.label}
+					data-title={clip.title}
+					data-summary={clip.summary}
+					data-href={`/features/#${clip.id}`}
+				>
+					{clip.title}
+				</button>
+			))
+		}
+	</div>
+	<figcaption>
+		<strong data-watch-title>{first.title}</strong>
+		<span data-watch-summary>{first.summary}</span>
+		<a data-watch-more href={`/features/#${first.id}`}>See it on Features</a>
+	</figcaption>
+</figure>
+
+<script>
+	const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	const bindStage = (stage: HTMLElement) => {
+		const video = stage.querySelector('.watch-stage-video');
+		const source = video?.querySelector('source');
+		const title = stage.querySelector('[data-watch-title]');
+		const summary = stage.querySelector('[data-watch-summary]');
+		const more = stage.querySelector('[data-watch-more]');
+		const switcher = stage.querySelector('.watch-switch');
+		const buttons = [...stage.querySelectorAll<HTMLButtonElement>('.watch-switch button')];
+		if (
+			!(video instanceof HTMLVideoElement) ||
+			!(source instanceof HTMLSourceElement) ||
+			!(title instanceof HTMLElement) ||
+			!(summary instanceof HTMLElement) ||
+			!(more instanceof HTMLAnchorElement) ||
+			!(switcher instanceof HTMLElement) ||
+			buttons.length === 0
+		) {
+			return;
+		}
+
+		const select = (button: HTMLButtonElement) => {
+			for (const item of buttons) item.setAttribute('aria-pressed', item === button ? 'true' : 'false');
+			video.poster = button.getAttribute('data-poster') ?? '';
+			video.setAttribute('aria-label', button.getAttribute('data-label') ?? '');
+			title.textContent = button.getAttribute('data-title') ?? button.textContent;
+			summary.textContent = button.getAttribute('data-summary') ?? '';
+			more.href = button.getAttribute('data-href') ?? more.href;
+			if (reduceMotion()) source.removeAttribute('src');
+			else source.src = button.getAttribute('data-src') ?? '';
+			video.load();
+			if (!reduceMotion()) void video.play();
+		};
+
+		switcher.addEventListener('click', (event) => {
+			const button = event.target instanceof Element ? event.target.closest('button') : null;
+			if (!(button instanceof HTMLButtonElement) || !buttons.includes(button)) return;
+			select(button);
+		});
+
+		switcher.addEventListener('keydown', (event) => {
+			if (!(event instanceof KeyboardEvent)) return;
+			const current = event.target instanceof HTMLButtonElement ? event.target : null;
+			if (!current || !buttons.includes(current)) return;
+			const index = buttons.indexOf(current);
+			const last = buttons.length - 1;
+			let next = -1;
+			if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = index === last ? 0 : index + 1;
+			if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = index === 0 ? last : index - 1;
+			if (event.key === 'Home') next = 0;
+			if (event.key === 'End') next = last;
+			if (next < 0) return;
+			event.preventDefault();
+			const target = buttons[next];
+			if (!target) return;
+			select(target);
+			target.focus();
+		});
+	};
+
+	for (const stage of document.querySelectorAll('.watch-stage')) {
+		if (stage instanceof HTMLElement) bindStage(stage);
+	}
+</script>

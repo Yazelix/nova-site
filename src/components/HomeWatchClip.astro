@@ -1,0 +1,27 @@
+---
+import type { HomeWatchClip } from '../data/home_watch';
+
+const { clip } = Astro.props as { clip: HomeWatchClip };
+---
+
+<figure class="feature-media" id={clip.id}>
+	<div class="feature-media-frame">
+		<video
+			autoplay
+			muted
+			loop
+			playsinline
+			preload="metadata"
+			poster={clip.poster}
+			width="960"
+			height="536"
+			aria-label={clip.label}
+		>
+			<source media="(prefers-reduced-motion: no-preference)" src={clip.src} type="video/mp4" />
+		</video>
+	</div>
+	<figcaption>
+		<strong>{clip.title}</strong>
+		<span>{clip.summary}</span>
+	</figcaption>
+</figure>
