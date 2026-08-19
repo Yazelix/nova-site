@@ -51,9 +51,10 @@ Xdotool, Xwallpaper, and every remaining capture command.
   "Nova in under 60 seconds" take. Take A's pacing with a MoveTab sweep (3 → 2 → 1 → 2 → 3), four stacked panes running
   commands, pane traversal, one pane moved through the stack, and a fast Codex
   session on the Nova repository asked about ownership.
-- Homepage loops in `watch/`: three muted cuts from `nova-in-60-seconds.mp4`,
-  scaled to 960px wide. Rebuild with `bash drafts/recordings/cut-home-loops.sh`
-  after recapturing the sixty-second take.
+- Homepage loops in `watch/`: three muted cuts from `nova-in-60-seconds.mp4`
+  at the capture's native 1784 by 996. Rebuild with
+  `bash drafts/recordings/cut-home-loops.sh` after recapturing the
+  sixty-second take.
 - `nova-day-to-day-session.mp4` and `nova-day-to-day-session-poster.png`: the
   same pinned inputs and feature inventory, replayed with longer dwell after
   each mode change so agent, tabs, Yazi, sidebar, Ratconfig, and Anima can be
@@ -70,12 +71,12 @@ a44fa6893458b70a46eadf254631a6a63ea7c52a443dcbeb4c971874ab5b09ba  nova-day-to-da
 8978af55d5b4fad8e511c2ffbd7a4da607c879ec5dbb67ba68d25da8e170186e  nova-day-to-day-session-poster.png
 ef63dabb6979e5f7c9faaff74b04bbe2b7a4a578961753007de716d076157d9a  nova-in-60-seconds.mp4
 b3ae13d0a8b98037a7dc65bcfbcab2cd75afe9f7f970efa3e0838f82f5f47ce1  nova-in-60-seconds-poster.png
-45228a2fbd585717442f447c8a45c8c0c0288f82e4a48ac61880bd89e6ec1983  watch/project-tabs.mp4
-460b32275bdea55422d9e42e37ec49d1a0c05e5f936a34a196ea2f8ade80eaf0  watch/project-tabs-poster.png
-e6431c3e0e88a6c2be43fe4a572ea12fedebedd44732538dba56afb8cf17c524  watch/stacked-panes.mp4
-eadc431257f82613684ca0fadb8c9f66239e370309a1415dc9c302387e8ee021  watch/stacked-panes-poster.png
-af8f999c9722bf508458b7fb0ff24967d90c4ef990a489315f93457a34a348a6  watch/ratconfig-popup.mp4
-3908545905104f71d8369be6679e64fc948dd8bf451a07241eb17cf28677985a  watch/ratconfig-popup-poster.png
+2f5faf216c5eb7850a0a5fed9a9e950632aaf8926cec6cb5d5a7f47c605ab18a  watch/project-tabs.mp4
+ce1346f7f821540ab5dd84bfcc1a874fdbebb52dc83ee707c31c8d63944bf2f4  watch/project-tabs-poster.png
+9672980f74bd1ca3b25488d08e1f92d7f43bc41ffda4bf538f3196f1464cbea9  watch/stacked-panes.mp4
+ccbd41866d572225d711162b99cff873cceeb29b94ea7e7143de420bafb41c8d  watch/stacked-panes-poster.png
+f882a137be127e2531c7c514ad6981f3f209c34b59100b6cb8bdb14cdbcb2d5d  watch/ratconfig-popup.mp4
+2ac4fab1923a0fd35c5d79a4dc7acc54e645660de2cfa2449a6064a1621591e6  watch/ratconfig-popup-poster.png
 623cc1382ad767970da1ca0324242183b795165d01b256ae8170cc268d56e5bd  partenoxenese-blue-faro.jpg (source)
 dd68bae922ba53a2b47aa96dd84dc70b850ef4fb612693805959da68a7ceb979  ratconfig-nova-v1.png
 ```

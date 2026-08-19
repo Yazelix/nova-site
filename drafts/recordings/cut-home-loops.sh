@@ -27,7 +27,7 @@ cut_loop() {
 
 	ffmpeg -hide_banner -loglevel error -y \
 		-ss "$start" -i "$SRC" -t "$duration" \
-		-an -vf 'scale=960:-2' -c:v libx264 -crf 20 -preset slow -pix_fmt yuv420p \
+		-an -c:v libx264 -crf 18 -preset slow -pix_fmt yuv420p \
 		-movflags +faststart \
 		"$out"
 
