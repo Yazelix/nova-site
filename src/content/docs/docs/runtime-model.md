@@ -62,10 +62,11 @@ Nova targets managed panes by identity:
 
 ## Ownership
 
-Mars owns the terminal. Yazelix Zellij owns multiplexing, Ratconfig owns the
-config UI toolkit, and focused first-party packages own popups, pane
-orchestration, the top bar, screens, cursors, and Yazi themes. Nova pins and
-composes their package outputs.
+Mars owns the terminal. Zellij owns multiplexing. Ratconfig owns the config UI
+toolkit, and focused first-party packages own popups, pane orchestration, the
+top bar, screens, cursors, and Yazi themes. Nova pins and composes their
+package outputs. [Nova and Zellij](/docs/nova-and-zellij/) lists the packaged
+layout, plugins, and the Nova Zellij fork delta.
 
 See the canonical [architecture](https://github.com/Yazelix/nova/blob/stable/ARCHITECTURE.md)
 for component contracts and verification gaps.

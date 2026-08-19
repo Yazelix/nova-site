@@ -9,6 +9,7 @@ const routes = [
 	'/recover/',
 	'/keybindings/',
 	'/docs/',
+	'/docs/nova-and-zellij/',
 	'/features/',
 	'/blog/',
 	'/blog/yazelix-nova-v1/',
@@ -150,7 +151,8 @@ test('features page exposes the lean Nova product tour', async ({ page }) => {
 	await page.goto('/features/');
 	await expect(page.getByRole('heading', { name: 'Yazelix Nova features' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Features' })).toHaveAttribute('aria-current', 'page');
-	await expect(page.getByRole('heading', { name: 'Watch what it does' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'If you already know Zellij' })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Nova and Zellij' })).toHaveAttribute('href', '/docs/nova-and-zellij/');
 	await expect(page.getByRole('heading', { name: 'One workspace, four useful views' })).toBeVisible();
 	await expect(page.locator('.feature-page video')).toHaveCount(3);
 	await expect(page.locator('#project-tabs')).toBeVisible();
@@ -175,7 +177,8 @@ test('docs page exposes the docs index stream', async ({ page }) => {
 	await expect(page.getByRole('heading', { name: 'Start with Yazelix Nova' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Configure Yazelix Nova' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Nova Troubleshooting Checklist' })).toBeVisible();
-	await expect(page.locator('.docs-chapter > .docs-chapter-header > h2')).toHaveCount(8);
+	await expect(page.getByRole('heading', { name: 'Nova and Zellij' })).toBeVisible();
+	await expect(page.locator('.docs-chapter > .docs-chapter-header > h2')).toHaveCount(9);
 	await expect(page.locator('.docs-markdown h2')).toHaveCount(0);
 	await expect(page.locator('#start .docs-markdown h3').first()).toHaveText('Choose a channel');
 	await expect(page.locator('[data-docs-rail-link="start"]')).toHaveAttribute('aria-current', 'location');
@@ -201,11 +204,11 @@ test('combined Docs navigation stays accessible at narrow widths', async ({ page
 	}
 
 	const chapterLinks = page.locator('.docs-rail-section-link');
-	await expect(chapterLinks).toHaveCount(8);
+	await expect(chapterLinks).toHaveCount(9);
 	await chapterLinks.first().focus();
-	for (let index = 0; index < 8; index += 1) {
+	for (let index = 0; index < 9; index += 1) {
 		await expect(chapterLinks.nth(index)).toBeFocused();
-		if (index < 7) await page.keyboard.press('Tab');
+		if (index < 8) await page.keyboard.press('Tab');
 	}
 
 	for (const link of await chapterLinks.all()) {

@@ -41,6 +41,7 @@ export default defineConfig({
 					items: [
 						{ label: 'All docs', link: '/docs/' },
 						{ label: 'Runtime model', slug: 'docs/runtime-model' },
+						{ label: 'Nova and Zellij', slug: 'docs/nova-and-zellij' },
 						{ label: 'Customization surfaces', slug: 'docs/customization-surfaces' },
 						{ label: 'Troubleshooting checklist', slug: 'docs/troubleshooting-checklist' },
 					],

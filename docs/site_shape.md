@@ -31,6 +31,11 @@ keybinding tables, or recovery/update details.
 
 ### `/features/`
 
+The Features page can point at `/docs/nova-and-zellij/` so Zellij users can
+see what the multiplexer owns versus Yazelix packaging and the fork. Clip
+captions stay experiential; they do not badge each demo as native, config, or
+Yazelix-only.
+
 The launch tour uses one current Nova workspace image and four views:
 
 1. The complete workspace composition
@@ -47,7 +52,9 @@ contract.
 
 The docs index remains a continuous task/reference stream. Individual docs
 pages stay available for direct links and search. A docs section can reuse the
-accepted workspace media only when it clarifies the exact task.
+accepted workspace media only when it clarifies the exact task. `Nova and
+Zellij` owns the multiplexer split: Zellij primitives, Yazelix layout and
+plugins, and the Nova Zellij fork delta.
 
 ### `/blog/`
 
