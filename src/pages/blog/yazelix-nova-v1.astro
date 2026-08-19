@@ -17,7 +17,7 @@ const workspaceKeys =
 		<div class="page-shell">
 			<SiteNav active="blog" />
 			<main id="main-content" class="section blog-article-page" tabindex="-1">
-				<article class="section-inner blog-article">
+				<article class="blog-article">
 					<header class="blog-article-header">
 						<p class="eyebrow">{frontmatter.release}</p>
 						<h1>{frontmatter.title}</h1>
@@ -26,8 +26,9 @@ const workspaceKeys =
 							{frontmatter.authors} · {frontmatter.lastReviewed}
 						</p>
 					</header>
-					<figure class="blog-lead-media">
-						<p class="media-take-label">Nova in under 60 seconds</p>
+					<div class="blog-lead-strip strip">
+						<figure class="blog-lead-media">
+							<p class="media-take-label">Nova in under 60 seconds</p>
 						<video
 							autoplay
 							muted
@@ -123,7 +124,8 @@ const workspaceKeys =
 								<p>Codex answers on the Nova tab while the rest of the workspace stays put.</p>
 							</li>
 						</ol>
-					</figure>
+						</figure>
+					</div>
 					<div class="article-content">
 						<Content />
 					</div>

@@ -55,8 +55,3 @@ export const featureMediaGroups: FeatureMediaGroup[] = [
 	},
 ];
 
-export const homepageFeatureIds = ['file-first-navigation', 'runtime-status', 'keyboard-map'];
-
-export function featureItemsById(): Map<string, FeatureMediaItem> {
-	return new Map(featureMediaGroups.flatMap((group) => group.items.map((item) => [item.id, item] as const)));
-}
