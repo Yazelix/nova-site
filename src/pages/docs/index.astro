@@ -38,7 +38,7 @@ const sections = await Promise.all(
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 	<head>
 		<SiteHead
 			title="Yazelix Nova Docs"
@@ -64,7 +64,7 @@ const sections = await Promise.all(
 								sections.map((section, index) => (
 									<div class="docs-rail-section">
 										<a
-											class:list={['docs-rail-section-link', index === 0 && 'is-active']}
+											class="docs-rail-section-link"
 											href={`#${section.anchor}`}
 											data-docs-rail-link={section.anchor}
 											data-docs-rail-section={section.anchor}
@@ -95,7 +95,7 @@ const sections = await Promise.all(
 					<div class="docs-stream">
 						{
 							sections.map((section, index) => (
-								<section class="docs-chapter" id={section.anchor} data-docs-section={section.anchor}>
+								<section class="docs-chapter" id={section.anchor}>
 									<header class="docs-chapter-header">
 										<p>{String(index + 1).padStart(2, '0')}</p>
 										<h2>{section.entry.data.title}</h2>
@@ -117,42 +117,47 @@ const sections = await Promise.all(
 		<script>
 			const rail = document.querySelector<HTMLElement>('.docs-rail');
 			const railLinks = Array.from(document.querySelectorAll<HTMLElement>('[data-docs-rail-link]'));
-			const docSections = Array.from(document.querySelectorAll<HTMLElement>('[data-docs-section]'));
-			const docTargets: Array<{ id: string; element: HTMLElement }> = [];
-
-			for (const section of docSections) {
-				const sectionId = section.getAttribute('data-docs-section');
-				if (!sectionId) continue;
-
-				docTargets.push({ id: sectionId, element: section });
-
-				for (const heading of section.querySelectorAll<HTMLElement>('.docs-markdown h2[id]')) {
-					docTargets.push({ id: heading.id, element: heading });
-				}
-			}
+			const compactRail = window.matchMedia('(max-width: 920px)');
+			const docTargets = railLinks.flatMap((link) => {
+				const id = link.dataset.docsRailLink;
+				const element = id && document.getElementById(id);
+				return id && element ? [{ id, element }] : [];
+			});
 
 			function setActiveDocsSection(activeId: string) {
-				const activeLink = railLinks.find((link) => link.getAttribute('data-docs-rail-link') === activeId);
-				const activeSection = activeLink?.getAttribute('data-docs-rail-section') ?? activeId;
+				const activeLink = railLinks.find((link) => link.dataset.docsRailLink === activeId);
+				const activeSection = activeLink?.dataset.docsRailSection ?? activeId;
 
 				for (const link of railLinks) {
-					const isExactActive = link.getAttribute('data-docs-rail-link') === activeId;
+					const isExactActive = link.dataset.docsRailLink === activeId;
 					const isParentActive =
 						link.classList.contains('docs-rail-section-link') &&
-						link.getAttribute('data-docs-rail-section') === activeSection;
+						link.dataset.docsRailSection === activeSection;
+					const isCurrent = compactRail.matches ? isParentActive : isExactActive;
 
-					link.classList.toggle('is-active', isExactActive);
+					if (isCurrent) link.setAttribute('aria-current', 'location');
+					else link.removeAttribute('aria-current');
 					link.classList.toggle('is-parent-active', !isExactActive && isParentActive);
 				}
 
-				if (!rail || !activeLink) return;
+				const currentLink = compactRail.matches
+					? railLinks.find((link) => link.dataset.docsRailLink === activeSection)
+					: activeLink;
+				if (!rail || !currentLink) return;
 
 				const railRect = rail.getBoundingClientRect();
-				const linkRect = activeLink.getBoundingClientRect();
+				const linkRect = currentLink.getBoundingClientRect();
 
-				if (linkRect.top < railRect.top + 16 || linkRect.bottom > railRect.bottom - 16) {
-					activeLink.scrollIntoView({ block: 'nearest' });
-				}
+				rail.scrollBy({
+					left:
+						linkRect.left < railRect.left + 16
+							? linkRect.left - railRect.left - 16
+							: Math.max(0, linkRect.right - railRect.right + 16),
+					top:
+						linkRect.top < railRect.top + 16
+							? linkRect.top - railRect.top - 16
+							: Math.max(0, linkRect.bottom - railRect.bottom + 16),
+				});
 			}
 
 			function updateActiveDocsSection() {

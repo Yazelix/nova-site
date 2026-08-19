@@ -34,7 +34,7 @@ database, API, authentication, analytics, or CMS.
 | `/` | `src/pages/index.astro`; compact product identity, Stable install path, and three media previews |
 | `/features/` | `src/pages/features.astro`; the complete visual tour assembled from the media registry |
 | `/docs/` | `src/pages/docs/index.astro`; one ordered stream rendered from the shared Docs collection, plus prefixed anchors and the active-section rail |
-| `/blog/` | `src/pages/blog/index.astro`; the approved empty Blog state |
+| `/blog/` | `src/pages/blog/index.astro`; published Nova articles |
 | Task and reference Docs | Markdown under `src/content/docs/`; `src/content.config.ts` loads it for standalone Starlight pages and `/docs/` |
 | Standalone Docs shell and search | `astro.config.mjs` configures Starlight; the production build generates Pagefind |
 | Canonical and social metadata on custom pages | `src/components/SiteHead.astro`, using the permanent origin from `astro.config.mjs` |
@@ -46,8 +46,8 @@ route files own composition, while Markdown owns task and reference prose. The
 combined Docs page consumes the same collection as the standalone pages rather
 than maintaining another copy of the content.
 
-Blog infrastructure follows published content. The current Blog is a static
-empty page, so there is no post collection or dynamic article route.
+Blog infrastructure follows published content. The Nova v1 article is a static
+Astro route with Markdown sourced from `drafts/yazelix-nova-v1.md`.
 
 ## Components and styles
 
@@ -82,7 +82,7 @@ The verification layers prove different contracts:
 | --- | --- |
 | `bun run check` | Astro, content, and TypeScript diagnostics |
 | `bun run build` | Static routes, Pagefind, sitemap, assets, and build-time content composition |
-| `bun run test:e2e` | Representative desktop/mobile routes, metadata, navigation, content invariants, links, Docs rail behavior, overflow, and Blog absence contracts |
+| `bun run test:e2e` | Built static output, Pagefind, assets, 404 behavior, representative routes, metadata, navigation, content invariants, links, Docs rail behavior, overflow, and Blog absence contracts |
 | Production inspection | The deployed revision, DNS, TLS, cache behavior, Pagefind, canonical URLs, routes, assets, and rollback surface delivered to visitors |
 
 Local source-tree checks do not prove Vercel publication, DNS, TLS, or the

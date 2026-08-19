@@ -12,6 +12,10 @@ for (const heading of headings.toSorted((a, b) => b.slug.length - a.slug.length)
 		.replaceAll(`id="${heading.slug}"`, `id="${heading.anchor}"`)
 		.replaceAll(`href="#${heading.slug}"`, `href="#${heading.anchor}"`);
 }
+
+// Combined Docs adds a chapter heading above each standalone document.
+content = content.replaceAll('<h2', '<h3').replaceAll('</h2>', '</h3>');
+content = content.replaceAll('<pre ', '<pre tabindex="0" ').replaceAll('<table>', '<table tabindex="0">');
 ---
 
 <Fragment set:html={content} />

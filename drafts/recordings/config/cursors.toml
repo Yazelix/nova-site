@@ -1,0 +1,17 @@
+schema_version = 1
+enabled_cursors = ["reef"]
+
+[settings]
+trail = "reef"
+trail_effect = "tail"
+mode_effect = "ripple"
+glow = "low"
+duration = 1.0
+
+[[cursor]]
+name = "reef"
+family = "split"
+divider = "vertical"
+transition = "soft"
+colors = ["#00e6ff", "#00ff66"]
+cursor_color = "#00e6ff"

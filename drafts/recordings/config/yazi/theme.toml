@@ -1,0 +1,3 @@
+[icon]
+prepend_dirs = [{ name = "src", text = "", fg = "blue" }]
+prepend_files = [{ name = "README.md", text = "", fg = "gray" }]

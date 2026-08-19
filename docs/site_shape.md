@@ -18,7 +18,7 @@ manual or the docs into a media archive.
 - The homepage previews the product
 - The features page owns the focused visual tour
 - The docs own exact usage, reference, recovery, and settings behavior
-- Visitors see an empty Blog until the project owner approves source-backed writing
+- The Blog lists source-backed Nova articles
 
 ## Routes
 
@@ -51,16 +51,14 @@ accepted workspace media only when it clarifies the exact task.
 
 ### `/blog/`
 
-The Blog stays in primary navigation and states that no articles are published.
-Yazelix Nova v1 is the first approved subject. The project owner will restore
-article routes and content configuration after approving a source-backed draft.
-The Blog does not own runtime behavior.
+The Blog stays in primary navigation and lists source-backed published
+articles. The Blog does not own runtime behavior.
 
 ## Media Contract
 
 The accepted launch source is:
 
-- canonical repository revision: `37f36efcabf16c41d03e182917926e7b8e56139c`
+- canonical repository revision: `e2ddb4d4901ed99c75c615e039428ea9c7e1e46f`
 - source: `assets/screenshots/nova_workspace.png`
 - site asset: `public/images/nova_workspace.png`
 
@@ -69,13 +67,12 @@ captures, planned placeholders, and media kept only to fill a gallery do not
 ship.
 
 Static images are the default. Motion is justified only when a still cannot
-communicate the behavior honestly. Any future motion media must:
+communicate the behavior honestly. Motion media must:
 
-- use a short muted video with a poster rather than an animated GIF
-- lazy-load outside the first viewport
+- use one short muted video with a poster
+- load eagerly only at the top of an article
 - keep a stable aspect ratio
-- remain understandable without motion
-- avoid autoplay when reduced motion is requested
+- replace animation with the still when reduced motion is requested
 - link to the exact docs contract
 
 The small media registry owns titles, captions, focus, and docs links. The
