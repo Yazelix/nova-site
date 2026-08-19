@@ -163,7 +163,7 @@ play_sixty() {
 	key alt+2 0.85
 	key alt+1 1
 	key alt+shift+l 1.2
-	type_readably "what's special about yazelix nova, for someone who never used it before? under 2048 chars, no tools"
+	type_readably "what's special about yazelix nova, for someone who never used it before? under 2048 chars"
 	key Return 0.9
 	key alt+3 0.8
 	key alt+r 1
