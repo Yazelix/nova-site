@@ -11,6 +11,7 @@ const routes = [
 	'/docs/',
 	'/features/',
 	'/blog/',
+	'/blog/yazelix-nova-v1/',
 ];
 
 const customRoutes = [
@@ -18,6 +19,7 @@ const customRoutes = [
 	{ path: '/features/', type: 'website' },
 	{ path: '/docs/', type: 'website' },
 	{ path: '/blog/', type: 'website' },
+	{ path: '/blog/yazelix-nova-v1/', type: 'article' },
 ];
 
 const removedBlogRoutes = [
@@ -76,6 +78,10 @@ test('home page exposes product and docs actions', async ({ page }) => {
 	await expect(page.getByRole('link', { name: 'Start with Yazelix' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'See features' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Read docs' })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Read the article' })).toHaveAttribute(
+		'href',
+		'/blog/yazelix-nova-v1/',
+	);
 	await expect(page.locator('.feature-preview-grid .feature-media').first()).toBeVisible();
 	await expect(page.getByRole('link', { name: 'GitHub (opens in a new tab)' }).first()).toHaveAttribute(
 		'target',
@@ -349,14 +355,67 @@ test('docs sidebar highlights the current section', async ({ page }) => {
 	await expect(page.locator('[data-docs-rail-link="docs-troubleshooting-checklist"]')).toHaveClass(/is-parent-active/);
 });
 
-test('blog index exposes the approved empty state', async ({ page }) => {
+test('blog exposes the Nova v1 article', async ({ page, request }) => {
 	await page.goto('/blog/');
 	await expect(page.getByRole('link', { name: 'Blog' })).toHaveAttribute('aria-current', 'page');
-	await expect(page.getByRole('heading', { name: 'No articles yet' })).toBeVisible();
-	await expect(page.getByText('Yazelix Nova v1 will be the first subject.')).toBeVisible();
-	await expect(page.getByRole('link', { name: 'Read the Nova docs' })).toBeVisible();
-	await expect(page.locator('main article')).toHaveCount(0);
-	await expect(page.locator('main a[href^="/blog/"]')).toHaveCount(0);
+	await expect(page.getByText('nova-v1.1.0')).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Read the article' })).toHaveAttribute(
+		'href',
+		'/blog/yazelix-nova-v1/',
+	);
+
+	await page.goto('/blog/yazelix-nova-v1/');
+	await expect(page.getByRole('heading', { level: 1, name: 'Yazelix Nova v1: the terminal workspace behind yzx' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Note from Lucca Huguet' })).toBeVisible();
+	await expect(page.getByText('Publication pending')).toHaveCount(0);
+	await expect(page.getByText('Draft preview')).toHaveCount(0);
+	await expect(page.getByRole('heading', { name: 'Fund Nova' })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'sponsor my work on GitHub' })).toHaveAttribute(
+		'href',
+		'https://github.com/sponsors/luccahuguet',
+	);
+	await expect(page.getByText('Replace stable with main for accepted updates or edge for experimental dogfood.')).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Start with Nova' })).toHaveAttribute('href', '/start/');
+	const demo = page.locator('.blog-lead-media video');
+	await expect(demo).toHaveCount(1);
+	await expect(demo).toHaveAttribute('poster', '/blog/yazelix-nova-v1/media/nova-in-60-seconds-poster.png');
+	await expect(demo).toHaveAttribute('width', '1784');
+	await expect(demo).toHaveAttribute('height', '996');
+	await expect(demo).toHaveAttribute('autoplay', '');
+	await expect(demo).toHaveAttribute('muted', '');
+	await expect(demo).toHaveAttribute('loop', '');
+	await expect(demo).toHaveAttribute('playsinline', '');
+	await expect(demo).toHaveAttribute('controls', '');
+	await expect(page.locator('.blog-lead-media source')).toHaveAttribute(
+		'src',
+		'/blog/yazelix-nova-v1/media/nova-in-60-seconds.mp4',
+	);
+	await expect(page.locator('.blog-lead-media source')).toHaveAttribute(
+		'media',
+		'(prefers-reduced-motion: no-preference)',
+	);
+	expect(await demo.evaluate((video) => (video as HTMLVideoElement).currentSrc)).toContain(
+		'/blog/yazelix-nova-v1/media/nova-in-60-seconds.mp4',
+	);
+	await expect(page.locator('.media-take-label')).toHaveText('Nova in under 60 seconds');
+	await expect(page.locator('.video-timeline li')).toHaveCount(10);
+	await expect(page.getByRole('button', { name: 'Jump to 0:03' })).toBeVisible();
+	await expect(page.getByRole('button', { name: 'Jump to 0:49' })).toBeVisible();
+	await expect(page.locator('.article-content video')).toHaveCount(0);
+	await expect(page.locator('.article-content img')).toHaveCount(2);
+	await expect(page.locator('.article-content table')).toHaveCount(2);
+
+	for (const asset of [
+		'/blog/yazelix-nova-v1/media/nova-in-60-seconds.mp4',
+		'/blog/yazelix-nova-v1/media/nova-in-60-seconds-poster.png',
+		'/blog/yazelix-nova-v1/media/ratconfig-nova-v1.png',
+	]) {
+		expect((await request.get(asset)).ok(), `missing article media: ${asset}`).toBe(true);
+	}
+
+	await page.emulateMedia({ reducedMotion: 'reduce' });
+	await page.reload();
+	expect(await demo.evaluate((video) => (video as HTMLVideoElement).currentSrc)).toBe('');
 
 	for (const route of removedBlogRoutes) {
 		const response = await page.goto(route);

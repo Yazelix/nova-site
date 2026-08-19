@@ -28,6 +28,11 @@ bun run build
 bun run test:e2e
 ```
 
+The reproducible Nova demo workflow lives in
+[`drafts/recordings/`](drafts/recordings/). Run
+`nix run .#record-demo` to rebuild its MP4 and poster from pinned
+product, demo-repository, capture-tool, and rendering inputs.
+
 ## Product Source
 
 The canonical [Yazelix repository](https://github.com/Yazelix/nova)
@@ -50,4 +55,4 @@ The information architecture is documented in
 - `/` stays a compact homepage with product identity, install path, and a few strongest demos
 - `/features/` owns the focused Nova product tour
 - `/docs/` is a single-page scroll version of the task and reference docs
-- `/blog/` stays visible with no articles until the source-backed Nova v1 article is approved
+- `/blog/` lists published Nova articles

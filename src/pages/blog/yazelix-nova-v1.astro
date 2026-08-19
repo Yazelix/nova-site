@@ -1,0 +1,161 @@
+---
+import { Content, frontmatter } from '../../../drafts/yazelix-nova-v1.md';
+import SiteHead from '../../components/SiteHead.astro';
+import SiteNav from '../../components/SiteNav.astro';
+import '../../styles/home.css';
+
+const workspaceKeys =
+	'https://github.com/Yazelix/nova/blob/da60dc7a855048edabe9706207d4f0721ed3c0a8/README.md#workspace-keys';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<SiteHead title={frontmatter.title} description={frontmatter.description} type="article" />
+	</head>
+	<body>
+		<div class="page-shell">
+			<SiteNav active="blog" />
+			<main id="main-content" class="section blog-article-page" tabindex="-1">
+				<article class="section-inner blog-article">
+					<header class="blog-article-header">
+						<p class="eyebrow">{frontmatter.release}</p>
+						<h1>{frontmatter.title}</h1>
+						<p class="section-lede">{frontmatter.description}</p>
+						<p class="article-meta">
+							{frontmatter.authors} · {frontmatter.lastReviewed}
+						</p>
+					</header>
+					<figure class="blog-lead-media">
+						<p class="media-take-label">Nova in under 60 seconds</p>
+						<video
+							autoplay
+							muted
+							loop
+							playsinline
+							controls
+							preload="metadata"
+							poster="/blog/yazelix-nova-v1/media/nova-in-60-seconds-poster.png"
+							width="1784"
+							height="996"
+							aria-label="Nova in under 60 seconds: walk from Anima to the Nova tab, type a Codex ask, then files, a sliding tab, stacked panes, Carapace, Atuin, Ratconfig, Mandelbrot, and the agent's answer"
+						>
+							<source
+								media="(prefers-reduced-motion: no-preference)"
+								src="/blog/yazelix-nova-v1/media/nova-in-60-seconds.mp4"
+								type="video/mp4"
+							/>
+							<a href="/blog/yazelix-nova-v1/media/nova-in-60-seconds.mp4"
+								>Watch Nova in under 60 seconds</a
+							>
+						</video>
+						<figcaption>
+							A 54-second pass through Nova. Press a time to jump. See the <a
+								href={workspaceKeys}>workspace keys</a
+							>.
+						</figcaption>
+						<ol class="video-timeline" aria-label="What happens in the video">
+							<li>
+								<button type="button" class="video-timeline-time" data-at="0" aria-label="Jump to 0:00"
+									>0:00</button
+								>
+								<p>Anima is already a project tab: Yazi on the left, Helix on <code>boids.rs</code>.</p>
+							</li>
+							<li>
+								<button type="button" class="video-timeline-time" data-at="1" aria-label="Jump to 0:01"
+									>0:01</button
+								>
+								<p>Walk Starcompass, then Nova. Three projects, one keyboard.</p>
+							</li>
+							<li>
+								<button type="button" class="video-timeline-time" data-at="3" aria-label="Jump to 0:03"
+									>0:03</button
+								>
+								<p>
+									On the Nova tab, Codex is asked what is special about Yazelix Nova for someone new.
+								</p>
+							</li>
+							<li>
+								<button type="button" class="video-timeline-time" data-at="12" aria-label="Jump to 0:12"
+									>0:12</button
+								>
+								<p>
+									Back in Anima, Alt r reveals the Helix file in Yazi and another file opens in the
+									editor.
+								</p>
+							</li>
+							<li>
+								<button type="button" class="video-timeline-time" data-at="16" aria-label="Jump to 0:16"
+									>0:16</button
+								>
+								<p>The Anima tab slides along the bar (3 → 2 → 1 → 2 → 3).</p>
+							</li>
+							<li>
+								<button type="button" class="video-timeline-time" data-at="19" aria-label="Jump to 0:19"
+									>0:19</button
+								>
+								<p>Stacked Nushell panes run commands, then a pane is moved in the stack.</p>
+							</li>
+							<li>
+								<button type="button" class="video-timeline-time" data-at="28" aria-label="Jump to 0:28"
+									>0:28</button
+								>
+								<p>
+									Carapace completes <code>git switch</code>; Atuin searches this session's history.
+								</p>
+							</li>
+							<li>
+								<button type="button" class="video-timeline-time" data-at="35" aria-label="Jump to 0:35"
+									>0:35</button
+								>
+								<p>Ratconfig jumps to Zellij and turns on rounded pane corners live.</p>
+							</li>
+							<li>
+								<button type="button" class="video-timeline-time" data-at="45" aria-label="Jump to 0:45"
+									>0:45</button
+								>
+								<p>Anima's Mandelbrot popup fills the workspace.</p>
+							</li>
+							<li>
+								<button type="button" class="video-timeline-time" data-at="49" aria-label="Jump to 0:49"
+									>0:49</button
+								>
+								<p>Codex answers on the Nova tab while the rest of the workspace stays put.</p>
+							</li>
+						</ol>
+					</figure>
+					<div class="article-content">
+						<Content />
+					</div>
+				</article>
+			</main>
+		</div>
+		<script>
+			const video = document.querySelector('.blog-lead-media video');
+			const timeline = document.querySelector('.video-timeline');
+			if (video instanceof HTMLVideoElement && timeline) {
+				const buttons = [...timeline.querySelectorAll('[data-at]')];
+				const markActive = () => {
+					let active = buttons[0];
+					for (const button of buttons) {
+						if (Number(button.getAttribute('data-at')) <= video.currentTime + 0.05) active = button;
+					}
+					for (const button of buttons) {
+						const on = button === active;
+						button.toggleAttribute('aria-current', on);
+						button.closest('li')?.classList.toggle('is-active', on);
+					}
+				};
+				timeline.addEventListener('click', (event) => {
+					const button = event.target instanceof Element ? event.target.closest('[data-at]') : null;
+					if (!button) return;
+					video.currentTime = Number(button.getAttribute('data-at'));
+					void video.play();
+					markActive();
+				});
+				video.addEventListener('timeupdate', markActive);
+				markActive();
+			}
+		</script>
+	</body>
+</html>

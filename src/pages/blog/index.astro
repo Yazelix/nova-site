@@ -1,4 +1,5 @@
 ---
+import { frontmatter as novaV1 } from '../../../drafts/yazelix-nova-v1.md';
 import SiteHead from '../../components/SiteHead.astro';
 import SiteNav from '../../components/SiteNav.astro';
 import '../../styles/home.css';
@@ -9,7 +10,7 @@ import '../../styles/home.css';
 	<head>
 		<SiteHead
 			title="Yazelix Blog"
-			description="Yazelix has not published Blog articles yet. The first article will cover Yazelix Nova v1."
+			description="Read Yazelix Nova v1: the terminal workspace behind yzx."
 		/>
 	</head>
 	<body>
@@ -19,14 +20,16 @@ import '../../styles/home.css';
 				<div class="section-inner">
 					<h1 style="font-size: clamp(2.7rem, 7vw, 5rem);">Yazelix Blog</h1>
 					<p class="section-lede">
-						We will publish Yazelix Nova release notes and design writing here after we review each draft.
+						Source-backed writing about Yazelix Nova.
 					</p>
-					<section class="panel" style="max-width: 44rem; margin-top: 2rem;" aria-labelledby="empty-blog-title">
-						<h2 id="empty-blog-title">No articles yet</h2>
-						<p>Yazelix Nova v1 will be the first subject.</p>
-						<p>Until then, use the Nova docs for supported commands and runtime behavior.</p>
-						<a href="/docs/">Read the Nova docs</a>
-					</section>
+					<div class="blog-grid blog-preview-grid">
+						<article class="panel blog-post-card">
+							<p class="eyebrow">{novaV1.release}</p>
+							<h2><a href={`/blog/${novaV1.proposedSlug}/`}>{novaV1.title}</a></h2>
+							<p>{novaV1.description}</p>
+							<a class="blog-read-link" href={`/blog/${novaV1.proposedSlug}/`}>Read the article</a>
+						</article>
+					</div>
 				</div>
 			</main>
 		</div>
