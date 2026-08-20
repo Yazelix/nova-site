@@ -1,6 +1,6 @@
 ---
 import HomeWatchStage from '../components/HomeWatchStage.astro';
-import GitHubLink from '../components/GitHubLink.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 import SiteHead from '../components/SiteHead.astro';
 import SiteNav from '../components/SiteNav.astro';
 import '../styles/home.css';
@@ -22,8 +22,9 @@ import '../styles/home.css';
 					<p class="eyebrow">Mars, Yazelix Zellij, Yazi, managed Helix, and Nushell in one Nix package</p>
 					<h1>Yazelix Nova</h1>
 					<p class="hero-copy">
-						A keyboard-driven workspace with a managed Yazi sidebar, editor and shell panes, popup tools,
-						and the <code>yzx</code> command. Launch through Mars or enter from a capable terminal or SSH session.
+						A Nix-packaged keyboard workspace for people who want files, editor, shells, and popup tools
+						without assembling a multiplexer. Launch through Mars or enter from a capable terminal or SSH
+						session.
 					</p>
 					<div class="hero-actions">
 						<a class="button primary" href="/start/">Start with Yazelix</a>
@@ -61,47 +62,16 @@ import '../styles/home.css';
 						<h2>Watch what it does</h2>
 						<p class="section-lede">
 							Three moments from the v1 walkthrough.
-							<a href="/features/">See them on Features</a>, or
-							<a href="/blog/yazelix-nova-v1/">watch the full 54 seconds</a>.
+							<a href="/features/">See them on Features</a>,
+							<a href="/blog/yazelix-nova-v1/">watch the full 54 seconds</a>, or
+							<a href="/blog/yazelix-nova-v1/">Read the article</a>.
 						</p>
 						<HomeWatchStage />
 					</div>
 				</section>
-
-				<section class="section strip">
-					<div class="section-inner">
-						<h2>Use docs for exact steps</h2>
-						<p class="section-lede">
-							Docs are for install commands, settings, update paths, recovery, keybindings, and reference
-							details. The feature tour is for seeing the workspace.
-						</p>
-						<div class="blog-grid">
-							<article class="panel">
-								<h3>Features</h3>
-								<p>Short loops of tabs, panes, and config, plus one workspace in four views.</p>
-								<a href="/features/">View tour</a>
-							</article>
-							<article class="panel">
-								<h3>Docs</h3>
-								<p>Install, configure, update, recover, keybindings, and reference material.</p>
-								<a href="/docs/">Docs index</a>
-							</article>
-							<article class="panel">
-								<h3>Blog</h3>
-								<p>The terminal workspace behind yzx, and how Nova v1 is put together.</p>
-								<a href="/blog/yazelix-nova-v1/">Read the article</a>
-							</article>
-						</div>
-					</div>
-				</section>
 			</main>
 
-			<footer class="footer">
-				<div class="footer-inner">
-					<span>Yazelix is built by Lucca Huguet</span>
-					<GitHubLink label="github.com/Yazelix/nova" class="footer-github-link" showLabel />
-				</div>
-			</footer>
+			<SiteFooter />
 		</div>
 	</body>
 </html>

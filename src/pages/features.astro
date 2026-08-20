@@ -1,13 +1,14 @@
 ---
 import FeatureMediaFrame from '../components/FeatureMediaFrame.astro';
 import HomeWatchClip from '../components/HomeWatchClip.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 import SiteHead from '../components/SiteHead.astro';
 import SiteNav from '../components/SiteNav.astro';
-import { featureMediaGroups } from '../data/feature_media';
-import { homeWatchClips } from '../data/home_watch';
+import { workspaceStill } from '../data/feature_media';
+import { paneClips, popupClips } from '../data/home_watch';
 import '../styles/home.css';
 
-const stillCount = featureMediaGroups.reduce((count, group) => count + group.items.length, 0);
+const clipCount = paneClips.length + popupClips.length;
 ---
 
 <!doctype html>
@@ -25,12 +26,10 @@ const stillCount = featureMediaGroups.reduce((count, group) => count + group.ite
 			<main id="main-content" class="feature-page" tabindex="-1">
 				<section class="feature-intro">
 					<div class="section-inner">
-						<p class="eyebrow">{homeWatchClips.length} clips, {stillCount} still views</p>
+						<p class="eyebrow">{clipCount} clips, one workspace still</p>
 						<h1>Yazelix Nova features</h1>
 						<p class="hero-copy">
-							Short loops of tabs, stacked panes, and live config, then one current workspace in four
-							still views: the full composition, file-first navigation, runtime identity, and keyboard
-							controls.
+							The tiled workspace, then the Yazelix popup layer: files, git, the agent, and live config.
 						</p>
 						<div class="hero-actions">
 							<a class="button primary" href="/start/">Start with Yazelix</a>
@@ -43,16 +42,50 @@ const stillCount = featureMediaGroups.reduce((count, group) => count + group.ite
 					<div class="section-inner">
 						<div class="section-heading-row">
 							<div>
-								<p class="eyebrow">{homeWatchClips.length} clips</p>
-								<h2>Watch what it does</h2>
+								<p class="eyebrow">Workspace</p>
+								<h2>One composition</h2>
 								<p class="section-lede">
-									Three moments from the v1 walkthrough. See the
+									Yazi, the editor, shells, and the Nova bar in one keyboard-driven session.
+								</p>
+							</div>
+						</div>
+						<div class="feature-gallery">
+							<FeatureMediaFrame item={workspaceStill} />
+						</div>
+					</div>
+				</section>
+
+				<section class="section">
+					<div class="section-inner">
+						<div class="section-heading-row">
+							<div>
+								<p class="eyebrow">{paneClips.length} clips</p>
+								<h2>Projects and panes</h2>
+								<p class="section-lede">
+									Tabs hold projects. The default stack keeps files beside shells. See the
 									<a href="/blog/yazelix-nova-v1/">full 54 seconds</a>.
 								</p>
 							</div>
 						</div>
 						<div class="feature-gallery">
-							{homeWatchClips.map((clip) => <HomeWatchClip clip={clip} />)}
+							{paneClips.map((clip) => <HomeWatchClip clip={clip} />)}
+						</div>
+					</div>
+				</section>
+
+				<section class="section strip">
+					<div class="section-inner">
+						<div class="section-heading-row">
+							<div>
+								<p class="eyebrow">{popupClips.length} clips</p>
+								<h2>Popup tools</h2>
+								<p class="section-lede">
+									Summon a tool over the workspace, then hide it. The tiled session stays put.
+								</p>
+							</div>
+						</div>
+						<div class="feature-gallery">
+							{popupClips.map((clip) => <HomeWatchClip clip={clip} />)}
 						</div>
 					</div>
 				</section>
@@ -69,27 +102,19 @@ const stillCount = featureMediaGroups.reduce((count, group) => count + group.ite
 					</div>
 				</section>
 
-				{
-					featureMediaGroups.map((group) => (
-						<section class="section">
-							<div class="section-inner">
-								<div class="section-heading-row">
-									<div>
-										<p class="eyebrow">{group.items.length} stills</p>
-										<h2>{group.title}</h2>
-										<p class="section-lede">{group.summary}</p>
-									</div>
-								</div>
-								<div class="feature-gallery">
-									{group.items.map((item) => (
-										<FeatureMediaFrame item={item} />
-									))}
-								</div>
-							</div>
-						</section>
-					))
-				}
+				<section class="section strip">
+					<div class="section-inner">
+						<h2>Named sessions</h2>
+						<p class="section-lede">
+							<code>yzx launch</code> opens Mars, then the workspace.
+							<code>yzx enter</code> uses the current terminal or SSH. Add
+							<code>--session NAME</code> to create a workspace you can attach to later. Steps are in
+							<a href="/start/#named-sessions">Start</a>.
+						</p>
+					</div>
+				</section>
 			</main>
+			<SiteFooter />
 		</div>
 	</body>
 </html>

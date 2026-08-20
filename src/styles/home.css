@@ -443,25 +443,6 @@ h1 {
 	object-fit: contain;
 }
 
-.feature-media-frame:not(.focus-full) img {
-	object-fit: cover;
-}
-
-.focus-files img {
-	transform: scale(1.8);
-	transform-origin: left center;
-}
-
-.focus-status img {
-	transform: scale(2.5);
-	transform-origin: right top;
-}
-
-.focus-keys img {
-	transform: scale(2.7);
-	transform-origin: center bottom;
-}
-
 .feature-media figcaption {
 	display: grid;
 	align-content: center;
@@ -908,6 +889,14 @@ h1 {
 	justify-content: space-between;
 	gap: 1rem;
 	flex-wrap: wrap;
+	align-items: center;
+}
+
+.footer-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.85rem 1.1rem;
+	align-items: center;
 }
 
 .footer a {

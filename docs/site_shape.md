@@ -25,28 +25,29 @@ manual or the docs into a media archive.
 ### `/`
 
 The homepage stays compact: product identity, the maintained workspace image,
-the install path, primary links, and three focused previews from the same
-accepted image. It does not carry terminal variants, exhaustive settings,
-keybinding tables, or recovery/update details.
+the Stable install path, and one three-chapter motion stage. It does not
+repeat the primary nav as recap cards, and it does not carry terminal variants,
+exhaustive settings, keybinding tables, or recovery/update details.
 
 ### `/features/`
 
-The Features page can point at `/docs/nova-and-zellij/` so Zellij users can
-see what the multiplexer owns versus Yazelix packaging and the fork. Clip
-captions stay experiential; they do not badge each demo as native, config, or
-Yazelix-only.
+Features is a job-grouped visual tour, not a media-type gallery. Clip captions
+stay experiential; they do not badge each demo as native, config, or
+Yazelix-only. The page can point at `/docs/nova-and-zellij/` so Zellij users
+can see what the multiplexer owns versus Yazelix packaging and the fork.
 
-The launch tour uses one current Nova workspace image and four views:
+The tour uses:
 
-1. The complete workspace composition
-2. Yazi beside the managed editor
-3. Runtime and Nova identity in the top bar
-4. The visible keyboard map in the bottom bar
+1. One full workspace still
+2. Project tabs and stacked panes as looping clips
+3. Popup tools as looping clips: Yazi, git, agent, and Ratconfig
+4. A short Zellij ownership note
+5. A named-sessions pointer into Start
 
-The focused views are CSS crops of the same source image. They add no duplicate
-download and make no behavior claim beyond what the image shows. Add a separate
-capture only when motion or a second state materially explains a stable public
-contract.
+Do not CSS-zoom the workspace still. Add a clip when motion explains a stable
+public contract better than a still. Home keeps the three-chapter sampler;
+Features is allowed to show those clips again inside their groups plus popup
+loops that Home does not stage.
 
 ### `/docs/`
 
@@ -87,9 +88,10 @@ component owns rendering. Neither layer reconstructs product behavior.
 
 ## Layout Rules
 
-The homepage uses three compact preview cards. The features page uses one large
-row per view so the terminal content stays readable. Both surfaces collapse to
-one column on narrow screens.
+The homepage uses one motion stage with chapter buttons. The features page uses
+one large row per clip or still so the terminal content stays readable. Both
+surfaces collapse to one column on narrow screens. Custom pages share the same
+footer.
 
 ## Future Capture Gate
 

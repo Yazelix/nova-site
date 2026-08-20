@@ -55,9 +55,11 @@ Astro route with Markdown sourced from `drafts/yazelix-nova-v1.md`.
 | --- | --- |
 | `src/components/SiteHead.astro` | Shared document head, canonical URL, Open Graph, Twitter card, favicon, and social image for custom pages |
 | `src/components/SiteNav.astro` | Shared custom-page navigation, active state, brand link, and skip link |
+| `src/components/SiteFooter.astro` | Shared custom-page footer with Start, sponsor, and GitHub |
 | `src/components/GitHubLink.astro` | The external canonical repository action and its separate-tab affordance |
 | `src/components/PrefixedDocsContent.astro` | Build-time heading and fragment identity for the combined Docs stream |
-| `src/data/feature_media.ts` | Media asset identity, titles, captions, crop focus, Docs destinations, and homepage selection |
+| `src/data/home_watch.ts` | Home stage clips and Features pane/popup loop registry |
+| `src/data/feature_media.ts` | Workspace still identity, caption, and Docs destination |
 | `src/components/FeatureMediaFrame.astro` | Static media rendering, intrinsic dimensions, lazy loading, captions, and Docs link |
 | `src/components/starlight/ThemeProvider.astro` | First-load Starlight theme selection and picker synchronization |
 | `src/styles/home.css` | Custom-page visual system, shared shell, product tour, Blog panels, and responsive navigation |

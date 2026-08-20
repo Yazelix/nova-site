@@ -28,8 +28,13 @@ sixty)
 	readonly POSTER_OFFSET=18
 	readonly CAPTURE_RATCONFIG=0
 	;;
+popups)
+	readonly CLIP_STEM="nova-popups"
+	readonly POSTER_OFFSET=2
+	readonly CAPTURE_RATCONFIG=0
+	;;
 *)
-	printf 'usage: record.sh [original|session|sixty]\n' >&2
+	printf 'usage: record.sh [original|session|sixty|popups]\n' >&2
 	exit 2
 	;;
 esac
@@ -214,6 +219,18 @@ play_sixty() {
 	key alt+1 4.5
 }
 
+play_popups() {
+	sleep 0.9
+	key alt+shift+y 1.1
+	key j 0.3
+	key j 0.3
+	key k 0.3
+	sleep 2
+	key alt+shift+y 0.7
+	key alt+shift+j 4.4
+	key alt+shift+j 0.8
+}
+
 [[ -f "$WALLPAPER" ]] || {
 	printf 'Missing recording input: %s\n' "$WALLPAPER" >&2
 	exit 1
@@ -385,8 +402,10 @@ fi
 	-frames:v 1 -y "$RUN_DIR/${CLIP_STEM}-poster.png"
 cp "$RUN_DIR/${CLIP_STEM}.mp4" "$OUTPUT_DIR/${CLIP_STEM}.mp4"
 cp "$RUN_DIR/${CLIP_STEM}-poster.png" "$OUTPUT_DIR/${CLIP_STEM}-poster.png"
-cp "$RUN_DIR/${CLIP_STEM}.mp4" "$PUBLIC_DIR/${CLIP_STEM}.mp4"
-cp "$RUN_DIR/${CLIP_STEM}-poster.png" "$PUBLIC_DIR/${CLIP_STEM}-poster.png"
+if [[ "$VARIANT" != popups ]]; then
+	cp "$RUN_DIR/${CLIP_STEM}.mp4" "$PUBLIC_DIR/${CLIP_STEM}.mp4"
+	cp "$RUN_DIR/${CLIP_STEM}-poster.png" "$PUBLIC_DIR/${CLIP_STEM}-poster.png"
+fi
 
 readonly MP4_SHA256="$(sha256sum "$OUTPUT_DIR/${CLIP_STEM}.mp4" | cut -d ' ' -f 1)"
 readonly POSTER_SHA256="$(sha256sum "$OUTPUT_DIR/${CLIP_STEM}-poster.png" | cut -d ' ' -f 1)"

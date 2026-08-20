@@ -151,18 +151,21 @@ test('features page exposes the lean Nova product tour', async ({ page }) => {
 	await page.goto('/features/');
 	await expect(page.getByRole('heading', { name: 'Yazelix Nova features' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Features' })).toHaveAttribute('aria-current', 'page');
+	await expect(page.getByRole('heading', { name: 'Popup tools' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Named sessions' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'If you already know Zellij' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Nova and Zellij' })).toHaveAttribute('href', '/docs/nova-and-zellij/');
-	await expect(page.getByRole('heading', { name: 'One workspace, four useful views' })).toBeVisible();
-	await expect(page.locator('.feature-page video')).toHaveCount(3);
+	await expect(page.locator('a[href="/start/#named-sessions"]')).toBeVisible();
+	await expect(page.locator('.feature-page video')).toHaveCount(6);
 	await expect(page.locator('#project-tabs')).toBeVisible();
 	await expect(page.locator('#stacked-panes')).toBeVisible();
+	await expect(page.locator('#yazi-popup')).toBeVisible();
+	await expect(page.locator('#git-popup')).toBeVisible();
+	await expect(page.locator('#agent-popup')).toBeVisible();
 	await expect(page.locator('#ratconfig-popup')).toBeVisible();
 	await expect(page.locator('.feature-page img[src$=".gif"]')).toHaveCount(0);
 	await expect(page.getByText('Yazelix Nova workspace', { exact: true })).toBeVisible();
-	await expect(page.getByText('Files beside the editor')).toBeVisible();
-	await expect(page.getByText('Runtime status at a glance')).toBeVisible();
-	await expect(page.getByText('Keyboard map in view')).toBeVisible();
+	await expect(page.getByText('Files beside the editor')).toHaveCount(0);
 	const mediaSources = await page.locator('.feature-page .feature-media img').evaluateAll((images) =>
 		images.map((image) => image.getAttribute('src')),
 	);

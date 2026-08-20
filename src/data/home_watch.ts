@@ -33,3 +33,36 @@ export const homeWatchClips: HomeWatchClip[] = [
 		label: 'Ratconfig popup changing Zellij pane corners live',
 	},
 ];
+
+export const paneClips = homeWatchClips.filter((clip) => clip.id !== 'ratconfig-popup');
+
+const ratconfig = homeWatchClips.find((clip) => clip.id === 'ratconfig-popup');
+if (!ratconfig) throw new Error('ratconfig-popup is missing from homeWatchClips');
+
+export const popupClips: HomeWatchClip[] = [
+	{
+		id: 'yazi-popup',
+		title: 'Yazi popup',
+		summary: 'The full file manager opens over the workspace, then hides.',
+		src: '/media/watch/yazi-popup.mp4',
+		poster: '/media/watch/yazi-popup-poster.png',
+		label: 'Nova Yazi popup opening over the workspace',
+	},
+	{
+		id: 'git-popup',
+		title: 'Git popup',
+		summary: 'lazygit opens over the workspace, then hides.',
+		src: '/media/watch/git-popup.mp4',
+		poster: '/media/watch/git-popup-poster.png',
+		label: 'Nova git popup opening lazygit over the workspace',
+	},
+	{
+		id: 'agent-popup',
+		title: 'Agent popup',
+		summary: 'Codex opens on the Nova tab and the question is typed in place.',
+		src: '/media/watch/agent-popup.mp4',
+		poster: '/media/watch/agent-popup-poster.png',
+		label: 'Nova agent popup asking Codex about Yazelix Nova',
+	},
+	ratconfig,
+];
