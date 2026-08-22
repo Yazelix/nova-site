@@ -66,14 +66,13 @@ fixed. You can carry that revision to another supported machine without
 assembling each integration by hand. The Mars-free package brings the managed
 TUI to another capable terminal or an SSH session.
 
-> **Before you start:** Nova requires Nix with flakes enabled. Linux is the
-> dogfooded platform. Use `yzx enter` over SSH or when you want the host terminal
-> to retain control of graphics, clipboard behavior, and notifications.
+> **Before you start:** Nova requires Nix with flakes enabled. Use `yzx enter`
+> over SSH or when you want the host terminal to retain control of graphics,
+> clipboard behavior, and notifications.
 
 ![Nova 1.0 Edge workspace with Yazi, Helix, shell panes, and public project tabs](/images/nova_workspace.png)
 
-*The accepted Nova v1 workspace capture shows the Edge channel with Ratconfig,
-Mars, and Starcompass project tabs.*
+*Nova v1 on Edge with Ratconfig, Mars, and Starcompass open as project tabs*
 
 ## One front door
 
