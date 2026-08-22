@@ -96,12 +96,16 @@ const sections = await Promise.all(
 					<div class="docs-stream">
 						{
 							sections.map((section, index) => (
-								<section class="docs-chapter" id={section.anchor}>
+								<section
+									class="docs-chapter"
+									id={section.anchor}
+									data-pagefind-body={section.entry.data.draft ? '' : undefined}
+								>
 									<header class="docs-chapter-header">
 										<p>{String(index + 1).padStart(2, '0')}</p>
 										<h2>{section.entry.data.title}</h2>
 										<span>{section.entry.data.description}</span>
-										<a href={`/${section.entry.id}/`}>Standalone page</a>
+										{!section.entry.data.draft && <a href={`/${section.entry.id}/`}>Standalone page</a>}
 									</header>
 									<div class="docs-markdown">
 										<PrefixedDocsContent headings={section.headings}>

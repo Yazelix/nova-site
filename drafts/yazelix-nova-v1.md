@@ -48,7 +48,7 @@ the project, and tell me what you love about it.
 </aside>
 
 With that, I hand it to my coworker, Sol, to explain the details. If you'd like
-to try Nova first, [start with the guide](/start/).
+to try Nova first, [start with the guide](/docs/#start).
 
 ## How Nova fits together
 
@@ -249,7 +249,7 @@ nix run github:Yazelix/nova/stable -- launch
 nix run github:Yazelix/nova/stable#yazelix-no-mars -- enter
 ```
 
-Run `yzx tutor begin` after launch. The [Nova Start guide](/start/) covers
+Run `yzx tutor begin` after launch. The [Nova Start guide](/docs/#start) covers
 channels, package choices, sessions, and first steps. The
 [runtime model](/docs/runtime-model/) maps the owners behind the workspace, and
 the [customization guide](/docs/customization-surfaces/) lists the supported
@@ -269,7 +269,7 @@ and the public 1.0.0 and 1.1.0 release records linked above.
 <h2 id="try-nova-today">Try Nova</h2>
 <p>Start with Stable, then tell us what helps and what gets in your way.</p>
 <div class="hero-actions">
-<a class="button primary" href="/start/">Start with Nova</a>
+<a class="button primary" href="/docs/#start">Start with Nova</a>
 <a class="button secondary" href="https://github.com/sponsors/luccahuguet">Fund Nova</a>
 </div>
 </aside>

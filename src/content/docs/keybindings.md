@@ -25,7 +25,7 @@ Nova extends the Helix and Vim `h/j/k/l` model across the workspace.
 | `Alt 1-9` | Go to tab 1-9 |
 | `Alt m` | Open a new pane |
 | `Ctrl q` | Quit the Nova session |
-| `Ctrl Alt o` | Open Zellij session mode; press `w` for the [session manager](/start/#named-sessions) |
+| `Ctrl Alt o` | Open Zellij session mode; press `w` for the [session manager](/docs/#start-named-sessions) |
 | `Alt r` | Reveal from the editor or return from Yazi |
 | `Alt z` | Retarget the tab workspace from Yazi with zoxide |
 

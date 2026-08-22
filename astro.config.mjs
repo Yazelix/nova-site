@@ -5,6 +5,9 @@ import starlight from '@astrojs/starlight';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://nova.yazelix.com',
+	redirects: {
+		'/start': '/docs/#start',
+	},
 	devToolbar: {
 		enabled: false,
 	},
@@ -29,7 +32,7 @@ export default defineConfig({
 				{
 					label: 'Start',
 					items: [
-						{ label: 'Start with Yazelix', slug: 'start' },
+						{ label: 'Start with Yazelix', link: '/docs/#start' },
 						{ label: 'Configure the workspace', slug: 'configure' },
 						{ label: 'Update safely', slug: 'update' },
 						{ label: 'Recover a broken launch', slug: 'recover' },

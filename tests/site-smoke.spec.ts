@@ -3,7 +3,6 @@ import AxeBuilder from '@axe-core/playwright';
 
 const routes = [
 	'/',
-	'/start/',
 	'/configure/',
 	'/update/',
 	'/recover/',
@@ -76,7 +75,7 @@ test('home page exposes product and docs actions', async ({ page, request }) => 
 	await page.goto('/');
 	await expect(page.getByRole('heading', { name: 'Yazelix Nova' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Home' })).toHaveAttribute('aria-current', 'page');
-	await expect(page.getByRole('link', { name: 'Start with Yazelix' })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Start with Yazelix' })).toHaveAttribute('href', '/docs/#start');
 	await expect(page.getByRole('link', { name: 'See features' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Read docs' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'See them on Features' })).toHaveCount(2);
@@ -192,7 +191,7 @@ test('features page exposes the lean Nova product tour', async ({ page }) => {
 	await expect(page.getByRole('heading', { name: 'If you already know Zellij' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'full 63 seconds' })).toHaveAttribute('href', '/blog/yazelix-nova-v1/');
 	await expect(page.getByRole('link', { name: 'Nova and Zellij' })).toHaveAttribute('href', '/docs/nova-and-zellij/');
-	await expect(page.locator('a[href="/start/#named-sessions"]')).toBeVisible();
+	await expect(page.locator('a[href="/docs/#start-named-sessions"]')).toBeVisible();
 	await expect(page.locator('.feature-page video')).toHaveCount(7);
 	await expect(page.locator('#project-tabs')).toBeVisible();
 	await expect(page.locator('#stacked-panes')).toBeVisible();
@@ -251,6 +250,13 @@ test('docs page exposes the docs index stream', async ({ page }) => {
 	await expect(page.locator('[data-docs-rail-link="start"]')).toHaveAttribute('aria-current', 'location');
 	await expect(page.locator('[data-docs-rail-link="start-install"]')).toHaveCount(1);
 	await expect(page.locator('[data-docs-rail-link="configure-home-manager"]')).toHaveCount(1);
+	await expect(page.locator('#start a', { hasText: 'Standalone page' })).toHaveCount(0);
+});
+
+test('legacy Start route opens the first Docs chapter', async ({ page }) => {
+	await page.goto('/start/');
+	await expect(page).toHaveURL(/\/docs\/#start$/);
+	await expect(page.locator('#start')).toBeInViewport();
 });
 
 test('combined Docs navigation stays accessible at narrow widths', async ({ page }) => {
@@ -314,12 +320,17 @@ test('built output serves search and static assets', async ({ page, request }) =
 	expect(image.headers()['content-type']).toBe('image/png');
 	expect((await image.body()).byteLength).toBeGreaterThan(0);
 
-	await page.goto('/start/');
+	await page.goto('/configure/');
 	await page.getByRole('button', { name: /Search/ }).click();
 	await page.getByPlaceholder('Search').fill('Home Manager');
 	await expect(page.getByRole('dialog').getByRole('link', { name: 'Configure Yazelix Nova' }).first()).toHaveAttribute(
 		'href',
 		'/configure/',
+	);
+	await page.getByPlaceholder('Search').fill('Choose a channel');
+	await expect(page.getByRole('dialog').getByRole('link', { name: 'Yazelix Nova docs' }).first()).toHaveAttribute(
+		'href',
+		'/docs/',
 	);
 });
 
@@ -330,7 +341,7 @@ test('custom and Starlight pages stay dark without a preference control', async 
 
 	await page.evaluate(() => localStorage.setItem('starlight-theme', 'light'));
 	await page.setViewportSize({ width: 320, height: 568 });
-	for (const route of ['/start/', '/docs/']) {
+	for (const route of ['/configure/', '/docs/']) {
 		await page.goto(route);
 		expect(await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme)).toBe('dark');
 		await expect(page.locator('starlight-theme-select')).toHaveCount(0);
@@ -351,7 +362,7 @@ test.describe('without JavaScript', () => {
 	});
 
 	test('combined Docs ships complete, unique fragment targets', async ({ page }) => {
-		await page.goto('/start/');
+		await page.goto('/configure/');
 		expect(await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme)).toBe('dark');
 		await expect(page.locator('starlight-theme-select')).toHaveCount(0);
 
@@ -506,8 +517,8 @@ test('blog exposes the Nova v1 article', async ({ page, request }) => {
 		'href',
 		'https://github.com/sponsors/luccahuguet',
 	);
-	await expect(page.getByRole('link', { name: 'start with the guide' })).toHaveAttribute('href', '/start/');
-	await expect(page.getByRole('link', { name: 'Start with Nova' })).toHaveAttribute('href', '/start/');
+	await expect(page.getByRole('link', { name: 'start with the guide' })).toHaveAttribute('href', '/docs/#start');
+	await expect(page.getByRole('link', { name: 'Start with Nova' })).toHaveAttribute('href', '/docs/#start');
 	const demo = page.locator('.blog-lead-media video');
 	await expect(demo).toHaveCount(1);
 	await expect(demo).toHaveAttribute('poster', '/blog/yazelix-nova-v1/media/nova-in-60-seconds-poster.png');

@@ -51,11 +51,12 @@ groups plus project tabs. The HJKL grid on Home is copy, not a recording.
 
 ### `/docs/`
 
-The docs index remains a continuous task/reference stream. Individual docs
-pages stay available for direct links and search. A docs section can reuse the
-accepted workspace media only when it clarifies the exact task. `Nova and
-Zellij` owns the multiplexer split: Zellij primitives, Yazelix layout and
-plugins, and the Nova Zellij fork delta.
+The docs index begins with Start and continues as a task/reference stream.
+`/docs/#start` is the canonical installation path; `/start/` redirects there
+for compatibility. The other docs pages stay available for direct links and
+search. A docs section can reuse the accepted workspace media only when it
+clarifies the exact task. `Nova and Zellij` owns the multiplexer split: Zellij
+primitives, Yazelix layout and plugins, and the Nova Zellij fork delta.
 
 ### `/blog/`
 

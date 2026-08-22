@@ -33,9 +33,10 @@ database, API, authentication, analytics, or CMS.
 | --- | --- |
 | `/` | `src/pages/index.astro`; compact product identity, Stable install path, and three media previews |
 | `/features/` | `src/pages/features.astro`; the complete visual tour assembled from the media registry |
-| `/docs/` | `src/pages/docs/index.astro`; one ordered stream rendered from the shared Docs collection, plus prefixed anchors and the active-section rail |
+| `/docs/` | `src/pages/docs/index.astro`; the canonical Start chapter and one ordered stream rendered from the shared Docs collection, plus prefixed anchors and the active-section rail |
+| `/start/` | Compatibility redirect to `/docs/#start`, owned by `astro.config.mjs` |
 | `/blog/` | `src/pages/blog/index.astro`; published Nova articles |
-| Task and reference Docs | Markdown under `src/content/docs/`; `src/content.config.ts` loads it for standalone Starlight pages and `/docs/` |
+| Task and reference Docs | Markdown under `src/content/docs/`; `src/content.config.ts` loads it for `/docs/` and, except for Start, standalone Starlight pages |
 | Standalone Docs shell and search | `astro.config.mjs` configures Starlight; the production build generates Pagefind |
 | Canonical and social metadata on custom pages | `src/components/SiteHead.astro`, using the permanent origin from `astro.config.mjs` |
 | Sitemap and 404 | The Astro/Starlight build generates both surfaces |
@@ -44,7 +45,9 @@ database, API, authentication, analytics, or CMS.
 `docs/site_shape.md` owns the information-architecture and media policy. The
 route files own composition, while Markdown owns task and reference prose. The
 combined Docs page consumes the same collection as the standalone pages rather
-than maintaining another copy of the content.
+than maintaining another copy of the content. Start is the first combined Docs
+chapter; its draft flag suppresses a duplicate Starlight route while Astro keeps
+`/start/` as a compatibility redirect.
 
 Blog infrastructure follows published content. The Nova v1 article is a static
 Astro route with Markdown sourced from `drafts/yazelix-nova-v1.md`.

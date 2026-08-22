@@ -1,6 +1,7 @@
 ---
 title: Start with Yazelix Nova
 description: Try or install Stable, then choose the Mars or current-terminal entrypoint.
+draft: true
 ---
 
 Yazelix Nova is a Nix-packaged terminal workspace. You need Nix with flakes
