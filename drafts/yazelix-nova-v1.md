@@ -55,9 +55,11 @@ to try Nova first, [start with the guide](/start/).
 *Written by GPT-5.6-Sol with xhigh reasoning.*
 
 Yazelix Nova v1 gives Nix users a packaged terminal workspace built around
-Mars, Nova Zellij, Yazi, and Nova Helix. The `yzx` command prepares the runtime,
-opens the workspace, and keeps product policy in one place. The selected
-package provides the file sidebar, work panes, popup tools, and guided tutor.
+Mars, Yazi, and Yazelix's Zellij and Helix forks. We call the forks Nova Zellij
+and Nova Helix to distinguish them from the original Zellij and Helix projects.
+The `yzx` command prepares the runtime, opens the workspace, and keeps product
+policy in one place. The selected package provides the file sidebar, work panes,
+popup tools, and guided tutor.
 
 A Nix lock file or immutable `nova-v*` tag keeps the selected source revision
 fixed. You can carry that revision to another supported machine without
