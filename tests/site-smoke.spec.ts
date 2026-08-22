@@ -79,31 +79,52 @@ test('home page exposes product and docs actions', async ({ page, request }) => 
 	await expect(page.getByRole('link', { name: 'Start with Yazelix' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'See features' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Read docs' })).toBeVisible();
-	await expect(page.getByRole('link', { name: 'See them on Features' })).toHaveAttribute('href', '/features/');
+	await expect(page.getByRole('link', { name: 'See them on Features' })).toHaveCount(2);
 	await expect(page.getByRole('link', { name: 'watch the full 54 seconds' })).toHaveCount(0);
 	await expect(page.getByRole('link', { name: 'Read the article' })).toHaveCount(0);
 	await expect(page.getByRole('heading', { name: 'Popup tools' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Panes, appearance, Anima' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Move with h j k l' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Keybindings' })).toHaveAttribute('href', '/keybindings/');
 	await expect(page.locator('.hjkl-grid')).toBeVisible();
-	const stage = page.locator('.watch-stage video');
-	await expect(stage).toHaveCount(1);
+	const stages = page.locator('.watch-stage video');
+	await expect(stages).toHaveCount(2);
 	await expect(page.locator('.hero-visual video')).toHaveCount(0);
-	await expect(page.locator('.watch-stage source')).toHaveAttribute('src', '/media/watch/yazi-popup.mp4');
-	await expect(page.locator('.watch-stage source')).toHaveAttribute(
+	await expect(page.locator('.watch-stage').first().locator('source')).toHaveAttribute(
+		'src',
+		'/media/watch/yazi-popup.mp4',
+	);
+	await expect(page.locator('.watch-stage').first().locator('source')).toHaveAttribute(
 		'media',
 		'(prefers-reduced-motion: no-preference)',
 	);
 	await expect(page.getByRole('button', { name: 'Yazi popup' })).toHaveAttribute('aria-pressed', 'true');
 	await page.getByRole('button', { name: 'Git popup' }).click();
 	await expect(page.getByRole('button', { name: 'Git popup' })).toHaveAttribute('aria-pressed', 'true');
-	await expect(page.locator('.watch-stage source')).toHaveAttribute('src', '/media/watch/git-popup.mp4');
-	await expect(page.getByRole('link', { name: 'See it on Features' })).toHaveAttribute(
+	await expect(page.locator('.watch-stage').first().locator('source')).toHaveAttribute(
+		'src',
+		'/media/watch/git-popup.mp4',
+	);
+	await expect(page.getByRole('link', { name: 'See it on Features' }).first()).toHaveAttribute(
 		'href',
 		'/features/#git-popup',
 	);
 	await page.getByRole('button', { name: 'Agent popup' }).click();
-	await expect(page.locator('.watch-stage source')).toHaveAttribute('src', '/media/watch/agent-popup.mp4');
+	await expect(page.locator('.watch-stage').first().locator('source')).toHaveAttribute(
+		'src',
+		'/media/watch/agent-popup.mp4',
+	);
+	await expect(page.getByRole('button', { name: 'Panes and sidebar' })).toHaveAttribute('aria-pressed', 'true');
+	await page.getByRole('button', { name: 'Live config' }).click();
+	await expect(page.locator('.watch-stage').nth(1).locator('source')).toHaveAttribute(
+		'src',
+		'/media/watch/ratconfig-popup.mp4',
+	);
+	await page.getByRole('button', { name: 'Anima' }).click();
+	await expect(page.locator('.watch-stage').nth(1).locator('source')).toHaveAttribute(
+		'src',
+		'/media/watch/anima-popup.mp4',
+	);
 	await expect(page.getByRole('link', { name: 'GitHub (opens in a new tab)' }).first()).toHaveAttribute(
 		'target',
 		'_blank',
@@ -116,13 +137,20 @@ test('home page exposes product and docs actions', async ({ page, request }) => 
 		'/media/watch/git-popup-poster.png',
 		'/media/watch/agent-popup.mp4',
 		'/media/watch/agent-popup-poster.png',
+		'/media/watch/stacked-panes.mp4',
+		'/media/watch/stacked-panes-poster.png',
+		'/media/watch/ratconfig-popup.mp4',
+		'/media/watch/ratconfig-popup-poster.png',
+		'/media/watch/anima-popup.mp4',
+		'/media/watch/anima-popup-poster.png',
 	]) {
 		expect((await request.get(asset)).ok(), `missing homepage loop: ${asset}`).toBe(true);
 	}
 
 	await page.emulateMedia({ reducedMotion: 'reduce' });
 	await page.reload();
-	expect(await stage.evaluate((video) => (video as HTMLVideoElement).currentSrc)).toBe('');
+	expect(await stages.first().evaluate((video) => (video as HTMLVideoElement).currentSrc)).toBe('');
+	expect(await stages.nth(1).evaluate((video) => (video as HTMLVideoElement).currentSrc)).toBe('');
 });
 
 test('home page keeps its identity and primary action in the first viewport', async ({ page }) => {
@@ -151,13 +179,14 @@ test('features page exposes the lean Nova product tour', async ({ page }) => {
 	await expect(page.getByRole('heading', { name: 'If you already know Zellij' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Nova and Zellij' })).toHaveAttribute('href', '/docs/nova-and-zellij/');
 	await expect(page.locator('a[href="/start/#named-sessions"]')).toBeVisible();
-	await expect(page.locator('.feature-page video')).toHaveCount(6);
+	await expect(page.locator('.feature-page video')).toHaveCount(7);
 	await expect(page.locator('#project-tabs')).toBeVisible();
 	await expect(page.locator('#stacked-panes')).toBeVisible();
 	await expect(page.locator('#yazi-popup')).toBeVisible();
 	await expect(page.locator('#git-popup')).toBeVisible();
 	await expect(page.locator('#agent-popup')).toBeVisible();
 	await expect(page.locator('#ratconfig-popup')).toBeVisible();
+	await expect(page.locator('#anima-popup')).toBeVisible();
 	await expect(page.locator('.feature-page img[src$=".gif"]')).toHaveCount(0);
 	await expect(page.getByText('Yazelix Nova workspace', { exact: true })).toBeVisible();
 	await expect(page.getByText('Files beside the editor')).toHaveCount(0);

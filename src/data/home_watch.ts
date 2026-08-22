@@ -18,11 +18,11 @@ export const paneClips: HomeWatchClip[] = [
 	},
 	{
 		id: 'stacked-panes',
-		title: 'Stacked panes',
-		summary: 'Yazi stays on the side. Shells stack, run, then one pane moves through the stack.',
+		title: 'Panes and sidebar',
+		summary: 'The sidebar hides and comes back. Shells stack, then one pane moves through the stack.',
 		src: '/media/watch/stacked-panes.mp4',
 		poster: '/media/watch/stacked-panes-poster.png',
-		label: 'Nova stacked Nushell panes running commands',
+		label: 'Nova sidebar toggling and stacked shell panes',
 	},
 ];
 
@@ -59,6 +59,25 @@ export const popupClips: HomeWatchClip[] = [
 		poster: '/media/watch/ratconfig-popup-poster.png',
 		label: 'Ratconfig popup switching Nova appearance from dark to light',
 	},
+	{
+		id: 'anima-popup',
+		title: 'Anima',
+		summary: 'yzx anima opens a Mandelbrot over the workspace.',
+		src: '/media/watch/anima-popup.mp4',
+		poster: '/media/watch/anima-popup-poster.png',
+		label: 'Nova Anima Mandelbrot popup over the workspace',
+	},
 ];
 
-export const homeWatchClips = popupClips.filter((clip) => clip.id !== 'ratconfig-popup');
+export const homeWatchClips = popupClips.filter(
+	(clip) => clip.id === 'yazi-popup' || clip.id === 'git-popup' || clip.id === 'agent-popup',
+);
+
+const stackedPanes = paneClips.find((clip) => clip.id === 'stacked-panes');
+const liveConfig = popupClips.find((clip) => clip.id === 'ratconfig-popup');
+const animaPopup = popupClips.find((clip) => clip.id === 'anima-popup');
+if (!stackedPanes || !liveConfig || !animaPopup) {
+	throw new Error('home live clips are missing');
+}
+
+export const homeLiveClips = [stackedPanes, liveConfig, animaPopup];

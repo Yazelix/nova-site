@@ -3,6 +3,7 @@ import HomeWatchStage from '../components/HomeWatchStage.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHead from '../components/SiteHead.astro';
 import SiteNav from '../components/SiteNav.astro';
+import { homeLiveClips, homeWatchClips } from '../data/home_watch';
 import '../styles/home.css';
 ---
 
@@ -64,11 +65,22 @@ import '../styles/home.css';
 							Files, git, and the agent open over the workspace, then hide.
 							<a href="/features/">See them on Features</a>.
 						</p>
-						<HomeWatchStage />
+						<HomeWatchStage clips={homeWatchClips} groupLabel="Popup clips" />
 					</div>
 				</section>
 
 				<section class="section strip">
+					<div class="section-inner">
+						<h2>Panes, appearance, Anima</h2>
+						<p class="section-lede">
+							The tiled session rearranges. Ratconfig flips dark and light. Anima fills the workspace.
+							<a href="/features/">See them on Features</a>.
+						</p>
+						<HomeWatchStage clips={homeLiveClips} groupLabel="Workspace clips" />
+					</div>
+				</section>
+
+				<section class="section">
 					<div class="section-inner">
 						<h2>Move with h j k l</h2>
 						<p class="section-lede">

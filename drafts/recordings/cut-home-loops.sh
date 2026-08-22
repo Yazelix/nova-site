@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Cut Home and Features loops from the published sixty-second take, the
-# drafts-only popup, appearance, and Yazi reveal takes. Re-run after
+# drafts-only popup, appearance, Yazi reveal, and live takes. Re-run after
 # recapturing a source.
 
 readonly REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
@@ -10,6 +10,7 @@ readonly SIXTY="$REPO_ROOT/public/blog/yazelix-nova-v1/media/nova-in-60-seconds.
 readonly POPUPS="$REPO_ROOT/drafts/media/nova-popups.mp4"
 readonly APPEARANCE="$REPO_ROOT/drafts/media/nova-appearance.mp4"
 readonly YAZI="$REPO_ROOT/drafts/media/nova-yazi.mp4"
+readonly LIVE="$REPO_ROOT/drafts/media/nova-live.mp4"
 readonly DRAFT_DIR="$REPO_ROOT/drafts/media/watch"
 readonly PUBLIC_DIR="$REPO_ROOT/public/media/watch"
 
@@ -31,6 +32,10 @@ fi
 }
 [[ -f "$YAZI" ]] || {
 	printf 'Missing source clip: %s\n' "$YAZI" >&2
+	exit 1
+}
+[[ -f "$LIVE" ]] || {
+	printf 'Missing source clip: %s\n' "$LIVE" >&2
 	exit 1
 }
 
@@ -78,13 +83,16 @@ cut_popup_loop() {
 
 # Timestamps match the article timeline on nova-in-60-seconds.mp4.
 cut_loop "$SIXTY" project-tabs 13.2 3.8 1.6
-cut_loop "$SIXTY" stacked-panes 20.2 4.0 1.6
+
+# Sidebar toggle plus stacked shells from drafts/media/nova-live.mp4.
+cut_loop "$LIVE" stacked-panes 0.0 18.4 12.0
 
 # Popup loops hold the workspace ~2s, then open. Hold is cloned first frame.
 # Yazi is a reveal-from-Helix take; it already includes the workspace lead-in.
 cut_popup_loop "$SIXTY" agent-popup 1.4 6.0 1.2 2.8
 cut_loop "$YAZI" yazi-popup 0.0 8.0 3.2
 cut_popup_loop "$POPUPS" git-popup 5.2 5.4 1.2 2.4
+cut_popup_loop "$LIVE" anima-popup 18.6 5.4 1.2 2.4
 
 # Timestamps match drafts/media/nova-appearance.mp4.
 cut_loop "$APPEARANCE" ratconfig-popup 4.6 6.4 1.6
@@ -101,4 +109,6 @@ sha256sum \
 	"$DRAFT_DIR"/yazi-popup.mp4 \
 	"$DRAFT_DIR"/yazi-popup-poster.png \
 	"$DRAFT_DIR"/git-popup.mp4 \
-	"$DRAFT_DIR"/git-popup-poster.png
+	"$DRAFT_DIR"/git-popup-poster.png \
+	"$DRAFT_DIR"/anima-popup.mp4 \
+	"$DRAFT_DIR"/anima-popup-poster.png

@@ -43,8 +43,13 @@ yazi)
 	readonly POSTER_OFFSET=3
 	readonly CAPTURE_RATCONFIG=0
 	;;
+live)
+	readonly CLIP_STEM="nova-live"
+	readonly POSTER_OFFSET=6
+	readonly CAPTURE_RATCONFIG=0
+	;;
 *)
-	printf 'usage: record.sh [original|session|sixty|popups|appearance|yazi]\n' >&2
+	printf 'usage: record.sh [original|session|sixty|popups|appearance|yazi|live]\n' >&2
 	exit 2
 	;;
 esac
@@ -249,6 +254,30 @@ play_yazi() {
 	key Return 2.2
 }
 
+play_live() {
+	sleep 1.8
+	key alt+shift+h 1.4
+	sleep 1.0
+	key alt+shift+h 1.4
+	sleep 0.8
+	key alt+m 1.0
+	type_text 'yzx --version'
+	key Return 1.1
+	key alt+m 1.0
+	type_text 'ls src'
+	key Return 1.1
+	key alt+m 1.0
+	type_text 'git log -1 --oneline'
+	key Return 1.1
+	key alt+k 0.5
+	key alt+k 0.5
+	key alt+j 0.5
+	key alt+j 0.5
+	key ctrl+alt+j 1.5
+	sleep 1.4
+	key alt+shift+b 5.0
+}
+
 play_appearance() {
 	sleep 0.9
 	key alt+shift+k 1.8
@@ -438,7 +467,7 @@ fi
 	-frames:v 1 -y "$RUN_DIR/${CLIP_STEM}-poster.png"
 cp "$RUN_DIR/${CLIP_STEM}.mp4" "$OUTPUT_DIR/${CLIP_STEM}.mp4"
 cp "$RUN_DIR/${CLIP_STEM}-poster.png" "$OUTPUT_DIR/${CLIP_STEM}-poster.png"
-if [[ "$VARIANT" != popups && "$VARIANT" != appearance && "$VARIANT" != yazi ]]; then
+if [[ "$VARIANT" != popups && "$VARIANT" != appearance && "$VARIANT" != yazi && "$VARIANT" != live ]]; then
 	cp "$RUN_DIR/${CLIP_STEM}.mp4" "$PUBLIC_DIR/${CLIP_STEM}.mp4"
 	cp "$RUN_DIR/${CLIP_STEM}-poster.png" "$PUBLIC_DIR/${CLIP_STEM}-poster.png"
 fi

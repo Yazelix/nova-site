@@ -1,8 +1,12 @@
 ---
-import { homeWatchClips } from '../data/home_watch';
+import type { HomeWatchClip } from '../data/home_watch';
 
-const first = homeWatchClips[0];
-if (!first) throw new Error('homeWatchClips is empty');
+const { clips, groupLabel = 'Clips' } = Astro.props as {
+	clips: HomeWatchClip[];
+	groupLabel?: string;
+};
+const first = clips[0];
+if (!first) throw new Error('watch stage clips is empty');
 ---
 
 <figure class="watch-stage">
@@ -22,9 +26,9 @@ if (!first) throw new Error('homeWatchClips is empty');
 			<source media="(prefers-reduced-motion: no-preference)" src={first.src} type="video/mp4" />
 		</video>
 	</div>
-	<div class="watch-switch" role="group" aria-label="Popup clips">
+	<div class="watch-switch" role="group" aria-label={groupLabel}>
 		{
-			homeWatchClips.map((clip, index) => (
+			clips.map((clip, index) => (
 				<button
 					type="button"
 					aria-pressed={index === 0 ? 'true' : 'false'}

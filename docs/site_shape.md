@@ -25,7 +25,7 @@ manual or the docs into a media archive.
 ### `/`
 
 The homepage stays compact: product identity, the maintained workspace image,
-the Stable install path, a three-chapter popup-tool stage, and the HJKL
+the Stable install path, two three-chapter motion stages, and the HJKL
 movement grid. It does not repeat the primary nav as recap cards, and it does
 not carry terminal variants, exhaustive settings, or recovery/update details.
 
@@ -40,14 +40,14 @@ The tour uses:
 
 1. One full workspace still
 2. Project tabs and stacked panes as looping clips
-3. Popup tools as looping clips: Yazi, git, agent, and Ratconfig
+3. Popup tools as looping clips: Yazi, git, agent, Ratconfig, and Anima
 4. A short Zellij ownership note
 5. A named-sessions pointer into Start
 
 Do not CSS-zoom the workspace still. Add a clip when motion explains a stable
-public contract better than a still. Home stages Yazi, git, and the agent;
-Features repeats those popup loops with project tabs, stacked panes, and live
-config. The HJKL grid on Home is copy, not a recording.
+public contract better than a still. Home stages popup tools, then panes plus
+sidebar, live appearance, and Anima. Features repeats those clips inside their
+groups plus project tabs. The HJKL grid on Home is copy, not a recording.
 
 ### `/docs/`
 
@@ -88,7 +88,7 @@ component owns rendering. Neither layer reconstructs product behavior.
 
 ## Layout Rules
 
-The homepage uses one motion stage with chapter buttons, then the HJKL table.
+The homepage uses two motion stages with chapter buttons, then the HJKL table.
 The features page uses one large row per clip or still so the terminal content
 stays readable. Both surfaces collapse to one column on narrow screens. Custom
 pages share the same footer.
