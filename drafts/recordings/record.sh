@@ -25,7 +25,7 @@ session)
 	;;
 sixty)
 	readonly CLIP_STEM="nova-in-60-seconds"
-	readonly POSTER_OFFSET=18
+	readonly POSTER_OFFSET=1.6
 	readonly CAPTURE_RATCONFIG=0
 	;;
 popups)
@@ -184,7 +184,8 @@ play_session() {
 }
 
 play_sixty() {
-	sleep 0.9
+	sleep 3.4
+	key alt+shift+b 0.85
 	key alt+2 0.85
 	key alt+1 1
 	key alt+shift+l 1.2
@@ -231,11 +232,9 @@ play_sixty() {
 	key Return 1.4
 	key space 0.4
 	key Return 1.4
-	key Escape 0.2
-	key Escape 1
-	key alt+3 0.6
-	key alt+shift+b 3.2
-	key Return 0.7
+	key alt+shift+k 0.7
+	key alt+shift+b 3.4
+	key alt+shift+b 0.85
 	key alt+1 4.5
 }
 
@@ -398,7 +397,7 @@ done
 "$TOOLCHAIN/bin/xdotool" windowmove "$window" 0 0 windowsize "$window" "$WIDTH" "$HEIGHT" windowfocus --sync "$window"
 sleep 12
 
-# Prepare tabs before recording. Sixty starts on tab 3 and walks to tab 1 on camera.
+# Prepare tabs before recording. Sixty starts on tab 3 with Mandelbrot already open.
 key alt+m 0.8
 if [[ "$VARIANT" == sixty ]]; then
 	type_text 'hx AGENTS.md'
@@ -432,6 +431,7 @@ if [[ "$VARIANT" == sixty ]]; then
 	key Return 4.5
 	type_text src/boids.rs
 	key Return 3.5
+	key alt+shift+b 2.0
 else
 	key alt+1 1.2
 fi

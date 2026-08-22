@@ -80,7 +80,7 @@ test('home page exposes product and docs actions', async ({ page, request }) => 
 	await expect(page.getByRole('link', { name: 'See features' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Read docs' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'See them on Features' })).toHaveCount(2);
-	await expect(page.getByRole('link', { name: 'watch the full 54 seconds' })).toHaveCount(0);
+	await expect(page.getByRole('link', { name: 'watch the full 56 seconds' })).toHaveCount(0);
 	await expect(page.getByRole('link', { name: 'Read the article' })).toHaveCount(0);
 	await expect(page.getByRole('heading', { name: 'Popup tools' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Panes, theme, Anima' })).toBeVisible();
@@ -508,9 +508,9 @@ test('blog exposes the Nova v1 article', async ({ page, request }) => {
 	expect(leadLayout.captionMatchesVideo).toBe(true);
 	expect(leadLayout.timelineMatchesVideo).toBe(true);
 	expect(leadLayout.articleNarrowerThanVideo).toBe(true);
-	await expect(page.locator('.video-timeline li')).toHaveCount(10);
-	await expect(page.getByRole('button', { name: 'Jump to 0:03' })).toBeVisible();
-	await expect(page.getByRole('button', { name: 'Jump to 0:49' })).toBeVisible();
+	await expect(page.locator('.video-timeline li')).toHaveCount(11);
+	await expect(page.getByRole('button', { name: 'Jump to 0:00' })).toBeVisible();
+	await expect(page.getByRole('button', { name: 'Jump to 0:51' })).toBeVisible();
 	await expect(page.locator('.article-content video')).toHaveCount(0);
 	await expect(page.locator('.article-content img')).toHaveCount(2);
 	await expect(page.locator('.article-content table')).toHaveCount(2);

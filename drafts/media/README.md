@@ -48,9 +48,11 @@ Xdotool, Xwallpaper, and every remaining capture command.
   native 30 FPS H.264 stream with no audio. Reduced-motion visitors see the
   matching poster.
 - `nova-in-60-seconds.mp4` and `nova-in-60-seconds-poster.png`: the
-  "Nova in under 60 seconds" take. Take A's pacing with a MoveTab sweep (3 → 2 → 1 → 2 → 3), four stacked panes running
+  "Nova in under 60 seconds" take. It opens on Mandelbrot, then Take A's pacing
+  with a MoveTab sweep (3 → 2 → 1 → 2 → 3), four stacked panes running
   commands, pane traversal, one pane moved through the stack, and a fast Codex
-  session on the Nova repository asked about ownership.
+  session on the Nova repository. Ratconfig and Anima hide by toggle rather than
+  quitting the pane.
 - Homepage loops in `watch/`: muted native 1784 by 996 cuts. Project tabs
   and the agent popup come from `nova-in-60-seconds.mp4`. Git comes from
   `nova-popups.mp4`. Yazi comes from `nova-yazi.mp4` (reveal from Helix, then
@@ -92,16 +94,16 @@ SHA-256:
 9baf062bbe2b184cd025e2f0f95f1b28b7598b41c851802e3a14a92c8f2ca2c4  nova-day-to-day-poster.png
 a44fa6893458b70a46eadf254631a6a63ea7c52a443dcbeb4c971874ab5b09ba  nova-day-to-day-session.mp4
 8978af55d5b4fad8e511c2ffbd7a4da607c879ec5dbb67ba68d25da8e170186e  nova-day-to-day-session-poster.png
-ef63dabb6979e5f7c9faaff74b04bbe2b7a4a578961753007de716d076157d9a  nova-in-60-seconds.mp4
-b3ae13d0a8b98037a7dc65bcfbcab2cd75afe9f7f970efa3e0838f82f5f47ce1  nova-in-60-seconds-poster.png
-2f5faf216c5eb7850a0a5fed9a9e950632aaf8926cec6cb5d5a7f47c605ab18a  watch/project-tabs.mp4
-ce1346f7f821540ab5dd84bfcc1a874fdbebb52dc83ee707c31c8d63944bf2f4  watch/project-tabs-poster.png
+622883c98b1f405a713b7c0e43842cc1ae411f7ee917e935435300721a0c4eeb  nova-in-60-seconds.mp4
+b78603442bfef47475d9ca58fb379806fb2895ed9c721a7c03a3caaf33ab01dd  nova-in-60-seconds-poster.png
+ef7a6446c105599c0b82957bb26acf45dff4dba51370c42780c04f849550f4f5  watch/project-tabs.mp4
+6c0ea5b5316d32d4e1d3a50cb32ac5964b5e2a8ba661bc40ddd24dcf65c17acd  watch/project-tabs-poster.png
 492f4a0ef6e7b3f469213f91b48d1493a2267379c7265633c8cad97d171c7258  watch/stacked-panes.mp4
 91c164e783011d7559269cc57af8d6330caf1673a98775da29cf7fb32308395e  watch/stacked-panes-poster.png
 063626d674165a64cc88fbf3026ad4478daa64b3e654df648269ed03144b9f20  watch/ratconfig-popup.mp4
 4ceffc03a0ded6cce3da238fccd66954286f2539a0264c42b6831d337b2941a8  watch/ratconfig-popup-poster.png
-f1b7a5171bd3e5ea2b9f6fbde8b04a62024ad845148d346bc68bc32e1a707ccd  watch/agent-popup.mp4
-7104ee2e88dfda055601f3afcf4bd8467b45b2da1616d902b529c3849108af69  watch/agent-popup-poster.png
+282e6ec7bff6c82c7f2d7ba95d46fe69245c6019ea362cd16259aaa71f7dfd1a  watch/agent-popup.mp4
+3cbee9c1fa5212048ddcd365b050926bcdaacafa31712819aee6db8a4dd4b5c3  watch/agent-popup-poster.png
 1d6dbc6cfbbe4532e02863bfe368682f356bf6bffadf51211d62f3aa5f2b4419  watch/yazi-popup.mp4
 f3c28816943c2d23656b998110a718e4be2667531ab06e97364fb2b31308e30c  watch/yazi-popup-poster.png
 ece04c3c7cac40a334850caa62ef6436d6ff2ca6d94a5ef4587c838e657f0928  watch/git-popup.mp4
