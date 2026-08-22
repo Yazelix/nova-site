@@ -88,39 +88,40 @@ test('home page exposes product and docs actions', async ({ page, request }) => 
 		'href',
 		'/blog/yazelix-nova-v1/',
 	);
+	await expect(page.getByRole('heading', { name: 'Popup tools' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Move with h j k l' })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Keybindings' })).toHaveAttribute('href', '/keybindings/');
+	await expect(page.locator('.hjkl-grid')).toBeVisible();
 	const stage = page.locator('.watch-stage video');
 	await expect(stage).toHaveCount(1);
 	await expect(page.locator('.hero-visual video')).toHaveCount(0);
-	await expect(page.locator('.watch-stage source')).toHaveAttribute(
-		'src',
-		'/media/watch/project-tabs.mp4',
-	);
+	await expect(page.locator('.watch-stage source')).toHaveAttribute('src', '/media/watch/yazi-popup.mp4');
 	await expect(page.locator('.watch-stage source')).toHaveAttribute(
 		'media',
 		'(prefers-reduced-motion: no-preference)',
 	);
-	await expect(page.getByRole('button', { name: 'Project tabs' })).toHaveAttribute('aria-pressed', 'true');
-	await page.getByRole('button', { name: 'Stacked panes' }).click();
-	await expect(page.getByRole('button', { name: 'Stacked panes' })).toHaveAttribute('aria-pressed', 'true');
-	await expect(page.locator('.watch-stage source')).toHaveAttribute('src', '/media/watch/stacked-panes.mp4');
+	await expect(page.getByRole('button', { name: 'Yazi popup' })).toHaveAttribute('aria-pressed', 'true');
+	await page.getByRole('button', { name: 'Git popup' }).click();
+	await expect(page.getByRole('button', { name: 'Git popup' })).toHaveAttribute('aria-pressed', 'true');
+	await expect(page.locator('.watch-stage source')).toHaveAttribute('src', '/media/watch/git-popup.mp4');
 	await expect(page.getByRole('link', { name: 'See it on Features' })).toHaveAttribute(
 		'href',
-		'/features/#stacked-panes',
+		'/features/#git-popup',
 	);
-	await page.getByRole('button', { name: 'Live config' }).click();
-	await expect(page.locator('.watch-stage source')).toHaveAttribute('src', '/media/watch/ratconfig-popup.mp4');
+	await page.getByRole('button', { name: 'Agent popup' }).click();
+	await expect(page.locator('.watch-stage source')).toHaveAttribute('src', '/media/watch/agent-popup.mp4');
 	await expect(page.getByRole('link', { name: 'GitHub (opens in a new tab)' }).first()).toHaveAttribute(
 		'target',
 		'_blank',
 	);
 
 	for (const asset of [
-		'/media/watch/project-tabs.mp4',
-		'/media/watch/project-tabs-poster.png',
-		'/media/watch/stacked-panes.mp4',
-		'/media/watch/stacked-panes-poster.png',
-		'/media/watch/ratconfig-popup.mp4',
-		'/media/watch/ratconfig-popup-poster.png',
+		'/media/watch/yazi-popup.mp4',
+		'/media/watch/yazi-popup-poster.png',
+		'/media/watch/git-popup.mp4',
+		'/media/watch/git-popup-poster.png',
+		'/media/watch/agent-popup.mp4',
+		'/media/watch/agent-popup-poster.png',
 	]) {
 		expect((await request.get(asset)).ok(), `missing homepage loop: ${asset}`).toBe(true);
 	}

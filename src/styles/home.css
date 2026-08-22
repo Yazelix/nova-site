@@ -379,6 +379,52 @@ h1 {
 	text-underline-offset: 0.18em;
 }
 
+.hjkl-wrap {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	max-width: 100%;
+	margin-top: 2rem;
+	overflow-x: auto;
+}
+
+.hjkl-grid {
+	width: 100%;
+	min-width: 36rem;
+	border-collapse: collapse;
+}
+
+.hjkl-grid :is(th, td) {
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	padding: 0.75rem 0.85rem;
+	text-align: left;
+	vertical-align: top;
+	font-size: 0.95rem;
+	line-height: 1.45;
+}
+
+.hjkl-grid thead th {
+	background: #17221d;
+	color: #f8fbf7;
+	font-weight: 700;
+}
+
+.hjkl-grid tbody th {
+	background: #101a15;
+	color: #d9ffe8;
+	font-weight: 650;
+	white-space: nowrap;
+}
+
+.hjkl-grid td {
+	color: #d7e2da;
+}
+
+.hjkl-grid kbd {
+	font: inherit;
+	font-weight: 720;
+	color: #8ae5b6;
+}
+
 .feature-media-frame video {
 	display: block;
 	width: 100%;

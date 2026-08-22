@@ -25,9 +25,9 @@ manual or the docs into a media archive.
 ### `/`
 
 The homepage stays compact: product identity, the maintained workspace image,
-the Stable install path, and one three-chapter motion stage. It does not
-repeat the primary nav as recap cards, and it does not carry terminal variants,
-exhaustive settings, keybinding tables, or recovery/update details.
+the Stable install path, a three-chapter popup-tool stage, and the HJKL
+movement grid. It does not repeat the primary nav as recap cards, and it does
+not carry terminal variants, exhaustive settings, or recovery/update details.
 
 ### `/features/`
 
@@ -45,9 +45,9 @@ The tour uses:
 5. A named-sessions pointer into Start
 
 Do not CSS-zoom the workspace still. Add a clip when motion explains a stable
-public contract better than a still. Home keeps the three-chapter sampler;
-Features is allowed to show those clips again inside their groups plus popup
-loops that Home does not stage.
+public contract better than a still. Home stages Yazi, git, and the agent;
+Features repeats those popup loops with project tabs, stacked panes, and live
+config. The HJKL grid on Home is copy, not a recording.
 
 ### `/docs/`
 
@@ -88,10 +88,10 @@ component owns rendering. Neither layer reconstructs product behavior.
 
 ## Layout Rules
 
-The homepage uses one motion stage with chapter buttons. The features page uses
-one large row per clip or still so the terminal content stays readable. Both
-surfaces collapse to one column on narrow screens. Custom pages share the same
-footer.
+The homepage uses one motion stage with chapter buttons, then the HJKL table.
+The features page uses one large row per clip or still so the terminal content
+stays readable. Both surfaces collapse to one column on narrow screens. Custom
+pages share the same footer.
 
 ## Future Capture Gate
 

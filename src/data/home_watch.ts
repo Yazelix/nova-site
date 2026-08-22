@@ -7,7 +7,7 @@ export type HomeWatchClip = {
 	label: string;
 };
 
-export const homeWatchClips: HomeWatchClip[] = [
+export const paneClips: HomeWatchClip[] = [
 	{
 		id: 'project-tabs',
 		title: 'Project tabs',
@@ -24,20 +24,7 @@ export const homeWatchClips: HomeWatchClip[] = [
 		poster: '/media/watch/stacked-panes-poster.png',
 		label: 'Nova stacked Nushell panes running commands',
 	},
-	{
-		id: 'ratconfig-popup',
-		title: 'Live config',
-		summary: 'Ratconfig opens over the workspace and rounds the pane corners live.',
-		src: '/media/watch/ratconfig-popup.mp4',
-		poster: '/media/watch/ratconfig-popup-poster.png',
-		label: 'Ratconfig popup changing Zellij pane corners live',
-	},
 ];
-
-export const paneClips = homeWatchClips.filter((clip) => clip.id !== 'ratconfig-popup');
-
-const ratconfig = homeWatchClips.find((clip) => clip.id === 'ratconfig-popup');
-if (!ratconfig) throw new Error('ratconfig-popup is missing from homeWatchClips');
 
 export const popupClips: HomeWatchClip[] = [
 	{
@@ -64,5 +51,14 @@ export const popupClips: HomeWatchClip[] = [
 		poster: '/media/watch/agent-popup-poster.png',
 		label: 'Nova agent popup asking Codex about Yazelix Nova',
 	},
-	ratconfig,
+	{
+		id: 'ratconfig-popup',
+		title: 'Live config',
+		summary: 'Ratconfig flips the whole workspace from dark to light, then back.',
+		src: '/media/watch/ratconfig-popup.mp4',
+		poster: '/media/watch/ratconfig-popup-poster.png',
+		label: 'Ratconfig popup switching Nova appearance from dark to light',
+	},
 ];
+
+export const homeWatchClips = popupClips.filter((clip) => clip.id !== 'ratconfig-popup');

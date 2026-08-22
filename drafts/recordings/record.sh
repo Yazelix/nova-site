@@ -33,8 +33,13 @@ popups)
 	readonly POSTER_OFFSET=2
 	readonly CAPTURE_RATCONFIG=0
 	;;
+appearance)
+	readonly CLIP_STEM="nova-appearance"
+	readonly POSTER_OFFSET=4
+	readonly CAPTURE_RATCONFIG=0
+	;;
 *)
-	printf 'usage: record.sh [original|session|sixty|popups]\n' >&2
+	printf 'usage: record.sh [original|session|sixty|popups|appearance]\n' >&2
 	exit 2
 	;;
 esac
@@ -231,6 +236,24 @@ play_popups() {
 	key alt+shift+j 0.8
 }
 
+play_appearance() {
+	sleep 0.9
+	key alt+shift+k 1.8
+	key slash 0.25
+	type_text 'appearance.mode'
+	key Return 1
+	key space 0.45
+	key j 0.35
+	key space 0.35
+	key Return 2.8
+	key space 0.45
+	key k 0.35
+	key space 0.35
+	key Return 2.8
+	key Escape 0.2
+	key Escape 0.8
+}
+
 [[ -f "$WALLPAPER" ]] || {
 	printf 'Missing recording input: %s\n' "$WALLPAPER" >&2
 	exit 1
@@ -402,7 +425,7 @@ fi
 	-frames:v 1 -y "$RUN_DIR/${CLIP_STEM}-poster.png"
 cp "$RUN_DIR/${CLIP_STEM}.mp4" "$OUTPUT_DIR/${CLIP_STEM}.mp4"
 cp "$RUN_DIR/${CLIP_STEM}-poster.png" "$OUTPUT_DIR/${CLIP_STEM}-poster.png"
-if [[ "$VARIANT" != popups ]]; then
+if [[ "$VARIANT" != popups && "$VARIANT" != appearance ]]; then
 	cp "$RUN_DIR/${CLIP_STEM}.mp4" "$PUBLIC_DIR/${CLIP_STEM}.mp4"
 	cp "$RUN_DIR/${CLIP_STEM}-poster.png" "$PUBLIC_DIR/${CLIP_STEM}-poster.png"
 fi

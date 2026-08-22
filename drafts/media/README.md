@@ -51,13 +51,18 @@ Xdotool, Xwallpaper, and every remaining capture command.
   "Nova in under 60 seconds" take. Take A's pacing with a MoveTab sweep (3 → 2 → 1 → 2 → 3), four stacked panes running
   commands, pane traversal, one pane moved through the stack, and a fast Codex
   session on the Nova repository asked about ownership.
-- Homepage loops in `watch/`: muted cuts from `nova-in-60-seconds.mp4`
-  at the capture's native 1784 by 996 (project tabs, stacked panes, Ratconfig,
-  and the agent popup). Rebuild with `bash drafts/recordings/cut-home-loops.sh`
-  after recapturing the sixty-second take.
+- Homepage loops in `watch/`: muted native 1784 by 996 cuts. Project tabs,
+  stacked panes, and the agent popup come from `nova-in-60-seconds.mp4`. Yazi
+  and git come from `nova-popups.mp4`. Live config comes from
+  `nova-appearance.mp4` (Ratconfig `appearance.mode` dark/light). Rebuild with
+  `bash drafts/recordings/cut-home-loops.sh`.
 - Popup loops in `watch/`: Yazi and git cuts from `nova-popups.mp4`. That take
   stays in `drafts/media/` and is not copied into the blog public path. Recapture
   with `bash drafts/recordings/record.sh popups`, then rebuild the cuts.
+- Appearance take in `drafts/media/`: `nova-appearance.mp4` opens Ratconfig,
+  searches `appearance.mode`, and switches dark to light and back. Recapture
+  with `bash drafts/recordings/record.sh appearance`. Do not copy that take into
+  the blog public path.
 - `nova-day-to-day-session.mp4` and `nova-day-to-day-session-poster.png`: the
   same pinned inputs and feature inventory, replayed with longer dwell after
   each mode change so agent, tabs, Yazi, sidebar, Ratconfig, and Anima can be
@@ -78,8 +83,8 @@ b3ae13d0a8b98037a7dc65bcfbcab2cd75afe9f7f970efa3e0838f82f5f47ce1  nova-in-60-sec
 ce1346f7f821540ab5dd84bfcc1a874fdbebb52dc83ee707c31c8d63944bf2f4  watch/project-tabs-poster.png
 9672980f74bd1ca3b25488d08e1f92d7f43bc41ffda4bf538f3196f1464cbea9  watch/stacked-panes.mp4
 ccbd41866d572225d711162b99cff873cceeb29b94ea7e7143de420bafb41c8d  watch/stacked-panes-poster.png
-f882a137be127e2531c7c514ad6981f3f209c34b59100b6cb8bdb14cdbcb2d5d  watch/ratconfig-popup.mp4
-2ac4fab1923a0fd35c5d79a4dc7acc54e645660de2cfa2449a6064a1621591e6  watch/ratconfig-popup-poster.png
+99baecc1f42c46a1aa639f2196e72c67759c1c0a4e97b2dc5884c2a031885cf1  watch/ratconfig-popup.mp4
+645ee5e388560f8ada69af0387693fdd358e9c45480f690511507bcbd3bdce32  watch/ratconfig-popup-poster.png
 942e7cf32a8b23e0f3aa1ce35c1752bb9b8d5a472bb4d6582e844bd951b993dd  watch/agent-popup.mp4
 664af2655db57a8d311583129b92aa16563cc0b2cc12e049e11207218ad3a32c  watch/agent-popup-poster.png
 8f1e14817068de5e51586e439a5b5c20e65146df6d5f89aed062ae1bc1fce1a3  watch/yazi-popup.mp4
@@ -88,6 +93,8 @@ f882a137be127e2531c7c514ad6981f3f209c34b59100b6cb8bdb14cdbcb2d5d  watch/ratconfi
 2936b5698794b7c1ed112edeadeb819fed08c6e1126331c5c62a2e2f88bf8ec2  watch/git-popup-poster.png
 6f5dcaee244972c2022b802579f650b5c594bcd41260e232a633a63771ef3d40  nova-popups.mp4
 407623ef62bb4916d76a95028be4d56030aa485b1c673a66beadf9a88aa9227a  nova-popups-poster.png
+c737818384c48cf39748672de157e6d0c29d3a4974c62d9a87476d82ea040c3c  nova-appearance.mp4
+faa89f9348e99958b22b58082451286a13ca18d4cb2be732ad3066c87132c54f  nova-appearance-poster.png
 623cc1382ad767970da1ca0324242183b795165d01b256ae8170cc268d56e5bd  partenoxenese-blue-faro.jpg (source)
 dd68bae922ba53a2b47aa96dd84dc70b850ef4fb612693805959da68a7ceb979  ratconfig-nova-v1.png
 ```

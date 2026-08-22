@@ -59,14 +59,61 @@ import '../styles/home.css';
 
 				<section class="section">
 					<div class="section-inner">
-						<h2>Watch what it does</h2>
+						<h2>Popup tools</h2>
 						<p class="section-lede">
-							Three moments from the v1 walkthrough.
+							Files, git, and the agent open over the workspace, then hide.
 							<a href="/features/">See them on Features</a>,
 							<a href="/blog/yazelix-nova-v1/">watch the full 54 seconds</a>, or
 							<a href="/blog/yazelix-nova-v1/">Read the article</a>.
 						</p>
 						<HomeWatchStage />
+					</div>
+				</section>
+
+				<section class="section strip">
+					<div class="section-inner">
+						<h2>Move with h j k l</h2>
+						<p class="section-lede">
+							Nova extends Helix and Vim motion across the workspace. Alt focuses. Ctrl Alt moves. Alt
+							Shift summons. The full map is in
+							<a href="/keybindings/">Keybindings</a>.
+						</p>
+						<div class="hjkl-wrap">
+							<table class="hjkl-grid">
+								<thead>
+									<tr>
+										<th scope="col">Layer</th>
+										<th scope="col"><kbd>h</kbd></th>
+										<th scope="col"><kbd>j</kbd></th>
+										<th scope="col"><kbd>k</kbd></th>
+										<th scope="col"><kbd>l</kbd></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row"><kbd>Alt</kbd></th>
+										<td>Focus left or previous tab</td>
+										<td>Focus down</td>
+										<td>Focus up</td>
+										<td>Focus right or next tab</td>
+									</tr>
+									<tr>
+										<th scope="row"><kbd>Ctrl Alt</kbd></th>
+										<td>Move tab left</td>
+										<td>Move pane down</td>
+										<td>Move pane up</td>
+										<td>Move tab right</td>
+									</tr>
+									<tr>
+										<th scope="row"><kbd>Alt Shift</kbd></th>
+										<td>Yazi sidebar</td>
+										<td>Git popup</td>
+										<td>Config popup</td>
+										<td>Agent popup</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</section>
 			</main>

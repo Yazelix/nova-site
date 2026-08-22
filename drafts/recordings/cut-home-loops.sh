@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Cut Home and Features loops from the published sixty-second take and the
-# drafts-only popup take. Re-run after recapturing either source.
+# Cut Home and Features loops from the published sixty-second take, the
+# drafts-only popup take, and the appearance.mode take. Re-run after
+# recapturing a source.
 
 readonly REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 readonly SIXTY="$REPO_ROOT/public/blog/yazelix-nova-v1/media/nova-in-60-seconds.mp4"
 readonly POPUPS="$REPO_ROOT/drafts/media/nova-popups.mp4"
+readonly APPEARANCE="$REPO_ROOT/drafts/media/nova-appearance.mp4"
 readonly DRAFT_DIR="$REPO_ROOT/drafts/media/watch"
 readonly PUBLIC_DIR="$REPO_ROOT/public/media/watch"
 
@@ -20,6 +22,10 @@ fi
 }
 [[ -f "$POPUPS" ]] || {
 	printf 'Missing source clip: %s\n' "$POPUPS" >&2
+	exit 1
+}
+[[ -f "$APPEARANCE" ]] || {
+	printf 'Missing source clip: %s\n' "$APPEARANCE" >&2
 	exit 1
 }
 
@@ -47,12 +53,14 @@ cut_loop() {
 # Timestamps match the article timeline on nova-in-60-seconds.mp4.
 cut_loop "$SIXTY" project-tabs 13.2 3.8 1.6
 cut_loop "$SIXTY" stacked-panes 20.2 4.0 1.6
-cut_loop "$SIXTY" ratconfig-popup 37.6 4.2 3.6
 cut_loop "$SIXTY" agent-popup 3.2 4.2 1.4
 
 # Timestamps match drafts/media/nova-popups.mp4.
 cut_loop "$POPUPS" yazi-popup 0.7 4.0 1.6
 cut_loop "$POPUPS" git-popup 5.6 4.0 1.4
+
+# Timestamps match drafts/media/nova-appearance.mp4.
+cut_loop "$APPEARANCE" ratconfig-popup 4.6 6.4 1.6
 
 sha256sum \
 	"$DRAFT_DIR"/project-tabs.mp4 \
