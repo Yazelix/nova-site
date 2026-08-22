@@ -62,7 +62,8 @@ export const popupClips: HomeWatchClip[] = [
 	{
 		id: 'anima-popup',
 		title: 'Anima',
-		summary: 'yzx anima opens Mandelbrot, then boids_predator.',
+		summary:
+			'yzx anima opens Mandelbrot, then boids_predator. Leave it running as ambience or a screensaver.',
 		src: '/media/watch/anima-popup.mp4',
 		poster: '/media/watch/anima-popup-poster.png',
 		label: 'Nova Anima switching from Mandelbrot to boids_predator',
