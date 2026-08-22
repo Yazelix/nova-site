@@ -63,15 +63,40 @@ NOVA=""
 MARS=""
 RUN_DIR=""
 DISPLAY=""
+NOVA_SITE_SESSION=""
 xvfb_pid=""
 picom_pid=""
 nova_pid=""
 capture_pid=""
 
+recording_zellij() {
+	if command -v zellij >/dev/null 2>&1; then
+		command -v zellij
+	elif [[ -n "$NOVA" && -x "$NOVA/bin/zellij" ]]; then
+		printf '%s\n' "$NOVA/bin/zellij"
+	fi
+}
+
+# Zellij's server detaches from yzx, so killing nova_pid leaves Helix/Codex resident.
+delete_recording_sessions() {
+	local zellij_bin session
+	zellij_bin="$(recording_zellij)"
+	[[ -n "$zellij_bin" ]] || return 0
+	if [[ -n "${1:-}" ]]; then
+		"$zellij_bin" delete-session --force "$1" >/dev/null 2>&1 || true
+		return 0
+	fi
+	while IFS= read -r session; do
+		[[ "$session" == nova-site-recording-* ]] || continue
+		"$zellij_bin" delete-session --force "$session" >/dev/null 2>&1 || true
+	done < <("$zellij_bin" list-sessions --short --no-formatting 2>/dev/null || true)
+}
+
 cleanup() {
 	for pid in "$capture_pid" "$nova_pid" "$picom_pid" "$xvfb_pid"; do
 		[[ -z "$pid" ]] || kill "$pid" 2>/dev/null || true
 	done
+	[[ -z "$NOVA_SITE_SESSION" ]] || delete_recording_sessions "$NOVA_SITE_SESSION"
 }
 trap cleanup EXIT
 
@@ -330,6 +355,7 @@ play_appearance() {
 readonly TOOLCHAIN="$(nix build --no-link --print-out-paths --impure --expr "(import $SCRIPT_DIR/toolchain.nix {})")"
 readonly NOVA="$(nix build --no-link --print-out-paths "github:Yazelix/nova/$NOVA_REV")"
 readonly MARS="$(nix-store -qR "$NOVA" | sed -n '/-mars$/p' | head -n1)"
+delete_recording_sessions
 mkdir -p "$WORK_DIR"
 readonly RUN_DIR="$(mktemp -d "$WORK_DIR/run.XXXXXX")"
 
