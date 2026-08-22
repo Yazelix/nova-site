@@ -20,9 +20,10 @@ nix run .#record-demo -- sixty
 The command checks out the three demo repositories under the ignored
 `drafts/recordings/.work/` directory, seeds Nova's directory picker, launches
 the pinned Mars build in an isolated X display, replays the workflow, and
-replaces both the draft and public MP4/poster copies. The workflow requires Nix
-with flakes and network access; `nix run` supplies Xvfb, Picom, FFmpeg, Git,
-Xdotool, Xwallpaper, and every remaining capture command.
+replaces the draft MP4/poster copies. The sixty take is also copied under the
+article public path; original and session stay drafts-only. The workflow
+requires Nix with flakes and network access; `nix run` supplies Xvfb, Picom,
+FFmpeg, Git, Xdotool, Xwallpaper, and every remaining capture command.
 
 - `nova-day-to-day.mp4` and `nova-day-to-day-poster.png`: Mars is captured at
   1784 by 996 pixels and 30 frames per second from `yzx launch`. Nova runs
@@ -46,7 +47,8 @@ Xdotool, Xwallpaper, and every remaining capture command.
   the fixed Reef cursor preserves Mars's animated cursor trail reproducibly.
   The complete Nova Bar remains visible beside three tabs. FFmpeg encodes the
   native 30 FPS H.264 stream with no audio. Reduced-motion visitors see the
-  matching poster.
+  matching poster. Recapture with `bash drafts/recordings/record.sh original`.
+  Do not copy that take into the blog public path.
 - `nova-in-60-seconds.mp4` and `nova-in-60-seconds-poster.png`: the
   "Nova in under 60 seconds" take. It opens on Mandelbrot, walks the three
   project tabs, asks Codex on Nova, then in Anima opens a file from the tiled
@@ -83,7 +85,9 @@ Xdotool, Xwallpaper, and every remaining capture command.
 - `nova-day-to-day-session.mp4` and `nova-day-to-day-session-poster.png`: the
   same pinned inputs and feature inventory, replayed with longer dwell after
   each mode change so agent, tabs, Yazi, sidebar, Ratconfig, and Anima can be
-  compared against the current take without replacing it.
+  compared against the current take without replacing it. Recapture with
+  `bash drafts/recordings/record.sh session`. Do not copy that take into the
+  blog public path.
 - `ratconfig-nova-v1.png`: the same pinned Mars run opens `yzx config` against
   an absent user configuration and captures Ratconfig at 1784 by 996 pixels.
 

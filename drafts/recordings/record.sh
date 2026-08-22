@@ -520,7 +520,7 @@ fi
 	-frames:v 1 -y "$RUN_DIR/${CLIP_STEM}-poster.png"
 cp "$RUN_DIR/${CLIP_STEM}.mp4" "$OUTPUT_DIR/${CLIP_STEM}.mp4"
 cp "$RUN_DIR/${CLIP_STEM}-poster.png" "$OUTPUT_DIR/${CLIP_STEM}-poster.png"
-if [[ "$VARIANT" != popups && "$VARIANT" != appearance && "$VARIANT" != yazi && "$VARIANT" != live && "$VARIANT" != anima ]]; then
+if [[ "$VARIANT" == sixty ]]; then
 	cp "$RUN_DIR/${CLIP_STEM}.mp4" "$PUBLIC_DIR/${CLIP_STEM}.mp4"
 	cp "$RUN_DIR/${CLIP_STEM}-poster.png" "$PUBLIC_DIR/${CLIP_STEM}-poster.png"
 fi
