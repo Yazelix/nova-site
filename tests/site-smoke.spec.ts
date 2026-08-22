@@ -403,6 +403,9 @@ test('public Nova contract and internal links stay valid', async ({ page }) => {
 		'nix profile add --refresh github:Yazelix/nova/stable',
 		'nix run github:Yazelix/nova/stable -- launch',
 		'nix run github:Yazelix/nova/stable#yazelix-no-mars -- enter',
+		'Set a terminal profile to run yzx enter, or open the installed Linux desktop entry.',
+		'Most days, you do not type another yzx command after Nova opens.',
+		'Alt Shift K opens Ratconfig',
 		'yzx enter --session project',
 		'yzx launch --session project',
 		'yzx enter attach project',
@@ -510,6 +513,11 @@ test('blog exposes the Nova v1 article', async ({ page, request }) => {
 	await page.goto('/blog/yazelix-nova-v1/');
 	await expect(page.getByRole('heading', { level: 1, name: 'Yazelix Nova v1: the terminal workspace behind yzx' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Note from Lucca Huguet' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Enter once, work with keys' })).toBeVisible();
+	await expect(page.getByText('Most days, you do not type another yzx command after Nova opens.')).toBeVisible();
+	await expect(page.getByText('Press Alt Shift K to open Ratconfig.')).toBeVisible();
+	await expect(page.getByRole('row', { name: 'Alt Shift Yazi sidebar Git popup Config popup Agent popup' })).toBeVisible();
+	await expect(page.getByText('You can also add a custom command popup to config.toml')).toBeVisible();
 	await expect(page.getByText('Publication pending')).toHaveCount(0);
 	await expect(page.getByText('Draft preview')).toHaveCount(0);
 	await expect(page.getByRole('heading', { name: 'Fund Nova' })).toBeVisible();
@@ -574,7 +582,7 @@ test('blog exposes the Nova v1 article', async ({ page, request }) => {
 	await expect(page.getByRole('button', { name: 'Jump to 0:58' })).toBeVisible();
 	await expect(page.locator('.article-content video')).toHaveCount(0);
 	await expect(page.locator('.article-content img')).toHaveCount(2);
-	await expect(page.locator('.article-content table')).toHaveCount(2);
+	await expect(page.locator('.article-content table')).toHaveCount(3);
 
 	for (const asset of [
 		'/blog/yazelix-nova-v1/media/nova-in-60-seconds.mp4',

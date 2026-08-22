@@ -36,6 +36,13 @@ Start the same managed workspace in the current terminal or over SSH:
 yzx enter
 ```
 
+## Day-to-day use
+
+Set a terminal profile to run `yzx enter`, or open the installed Linux desktop
+entry. Most days, you do not type another `yzx` command after Nova opens.
+`Alt Shift K` opens Ratconfig; the [keybinding map](/keybindings/) covers the
+rest of the workspace.
+
 ## Try without installing
 
 ```bash
@@ -103,7 +110,8 @@ yzx tutor begin
 
 - `yzx launch` opens Mars, then the managed workspace
 - `yzx enter` opens the managed workspace in the current terminal
-- `yzx config` opens the Nova configuration UI
+- `Alt Shift K` opens Ratconfig inside Nova
+- `yzx config` opens Ratconfig from another terminal
 - `~/.config/yazelix/config.toml` stores optional sparse semantic overrides
 - `~/.local/share/yazelix` stores generated runtime state by default
 - `yzx doctor` checks the owned runtime setup

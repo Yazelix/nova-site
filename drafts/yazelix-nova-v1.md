@@ -57,9 +57,9 @@ to try Nova first, [start with the guide](/docs/#start).
 Yazelix Nova v1 gives Nix users a packaged terminal workspace built around
 Mars, Yazi, and Yazelix's Zellij and Helix forks. We call the forks Nova Zellij
 and Nova Helix to distinguish them from the original Zellij and Helix projects.
-The `yzx` command prepares the runtime, opens the workspace, and keeps product
-policy in one place. The selected package provides the file sidebar, work panes,
-popup tools, and guided tutor.
+The `yzx` command prepares the runtime and opens the workspace. Once Nova opens,
+keybindings handle day-to-day work. The selected package provides the file
+sidebar, work panes, popup tools, and guided tutor.
 
 A Nix lock file or immutable `nova-v*` tag keeps the selected source revision
 fixed. You can carry that revision to another supported machine without
@@ -74,21 +74,35 @@ TUI to another capable terminal or an SSH session.
 
 *Nova v1 on Edge with Ratconfig, Mars, and Starcompass open as project tabs*
 
-## One front door
+## Enter once, work with keys
 
 | Command | Result |
 | --- | --- |
 | `yzx launch` | Opens Mars, then starts the managed Zellij workspace |
 | `yzx enter` | Starts the same workspace in the current terminal or over SSH |
-| `yzx config` | Opens the Ratconfig configuration UI |
+| `yzx config` | Opens Ratconfig from another terminal |
 | `yzx doctor` | Checks the runtime setup without opening Mars or Zellij |
 | `yzx tutor begin` | Starts the packaged tour |
+
+On Linux, packages with Mars install a desktop entry. If you prefer another
+terminal, set a profile to run `yzx enter`. Most days, you do not type another
+`yzx` command after Nova opens. Press `Alt Shift K` to open Ratconfig.
 
 The default layout keeps Yazi beside stacked work panes. Nova extends the
 familiar `h`, `j`, `k`, and `l` motion grid across panes and tabs. An
 `Alt Shift` layer opens the sidebar, Git client, configuration UI, and coding
 agent. The command palette and full Yazi popup stay available from their own
 keys.
+
+| Layer | `h` | `j` | `k` | `l` |
+| --- | --- | --- | --- | --- |
+| `Alt` | Focus left or previous tab | Focus down | Focus up | Focus right or next tab |
+| `Ctrl Alt` | Move tab left | Move pane down | Move pane up | Move tab right |
+| `Alt Shift` | Yazi sidebar | Git popup | Config popup | Agent popup |
+
+Ratconfig remaps the managed popup keys and edits the agent command and popup
+margins. You can also add a custom command popup to `config.toml` with its own
+arguments, title, keybinding, and keep-alive behavior.
 
 Nova makes efficient use of screen space. Stacked work panes keep each task
 large, and the sidebar can collapse. Tools open in near-fullscreen popups;

@@ -3,7 +3,7 @@ title: Configure Yazelix Nova
 description: Use Ratconfig, sparse semantic overrides, or owner-native files.
 ---
 
-Open Nova's Ratconfig interface:
+Inside Nova, press `Alt Shift K` to open Ratconfig. From another terminal, run:
 
 ```bash
 yzx config
