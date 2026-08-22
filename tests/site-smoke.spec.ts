@@ -506,7 +506,7 @@ test('blog exposes the Nova v1 article', async ({ page, request }) => {
 		'href',
 		'https://github.com/sponsors/luccahuguet',
 	);
-	await expect(page.getByText('Replace stable with main for accepted updates or edge for experimental dogfood.')).toBeVisible();
+	await expect(page.getByRole('link', { name: 'start with the guide' })).toHaveAttribute('href', '/start/');
 	await expect(page.getByRole('link', { name: 'Start with Nova' })).toHaveAttribute('href', '/start/');
 	const demo = page.locator('.blog-lead-media video');
 	await expect(demo).toHaveCount(1);

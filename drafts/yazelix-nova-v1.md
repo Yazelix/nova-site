@@ -47,10 +47,8 @@ the project, and tell me what you love about it.
 <p>Nova takes sustained work. If it saves you time, <a href="https://github.com/sponsors/luccahuguet">sponsor my work on GitHub</a>. Your sponsorship gives me more time to maintain Nova and build v2.</p>
 </aside>
 
-With that, I hand it to my coworker, Sol, to explain the details.
-
-> **Try Nova:** `nix profile add --refresh github:Yazelix/nova/stable`, then run `yzx launch` or `yzx enter`.  
-> Replace `stable` with `main` for accepted updates or `edge` for experimental dogfood.
+With that, I hand it to my coworker, Sol, to explain the details. If you'd like
+to try Nova first, [start with the guide](/start/).
 
 ## How Nova fits together
 
