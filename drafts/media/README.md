@@ -64,10 +64,10 @@ Xdotool, Xwallpaper, and every remaining capture command.
   reveal in the Yazi popup, another file, then that file opening in the editor.
   Recapture with `bash drafts/recordings/record.sh yazi`. Do not copy that take
   into the blog public path.
-- Appearance take in `drafts/media/`: `nova-appearance.mp4` opens Ratconfig,
-  searches `appearance.mode`, and switches dark to light and back. Recapture
-  with `bash drafts/recordings/record.sh appearance`. Do not copy that take into
-  the blog public path.
+- Appearance take in `drafts/media/`: `nova-appearance.mp4` opens Ratconfig on
+  the Zellij tab and switches Dark theme from ansi to Dracula and back.
+  Recapture with `bash drafts/recordings/record.sh appearance`. Do not copy that
+  take into the blog public path.
 - Live take in `drafts/media/`: `nova-live.mp4` toggles the sidebar, stacks
   shells, moves one pane through the stack, then opens `yzx anima`. Recapture
   with `bash drafts/recordings/record.sh live`. Do not copy that take into the
@@ -92,8 +92,8 @@ b3ae13d0a8b98037a7dc65bcfbcab2cd75afe9f7f970efa3e0838f82f5f47ce1  nova-in-60-sec
 ce1346f7f821540ab5dd84bfcc1a874fdbebb52dc83ee707c31c8d63944bf2f4  watch/project-tabs-poster.png
 492f4a0ef6e7b3f469213f91b48d1493a2267379c7265633c8cad97d171c7258  watch/stacked-panes.mp4
 91c164e783011d7559269cc57af8d6330caf1673a98775da29cf7fb32308395e  watch/stacked-panes-poster.png
-99baecc1f42c46a1aa639f2196e72c67759c1c0a4e97b2dc5884c2a031885cf1  watch/ratconfig-popup.mp4
-645ee5e388560f8ada69af0387693fdd358e9c45480f690511507bcbd3bdce32  watch/ratconfig-popup-poster.png
+063626d674165a64cc88fbf3026ad4478daa64b3e654df648269ed03144b9f20  watch/ratconfig-popup.mp4
+4ceffc03a0ded6cce3da238fccd66954286f2539a0264c42b6831d337b2941a8  watch/ratconfig-popup-poster.png
 f1b7a5171bd3e5ea2b9f6fbde8b04a62024ad845148d346bc68bc32e1a707ccd  watch/agent-popup.mp4
 7104ee2e88dfda055601f3afcf4bd8467b45b2da1616d902b529c3849108af69  watch/agent-popup-poster.png
 1d6dbc6cfbbe4532e02863bfe368682f356bf6bffadf51211d62f3aa5f2b4419  watch/yazi-popup.mp4
@@ -104,8 +104,8 @@ ece04c3c7cac40a334850caa62ef6436d6ff2ca6d94a5ef4587c838e657f0928  watch/git-popu
 7bac05078ff3421e788df98d49080a78fa97be917c58e64a368803c45c02ecce  watch/anima-popup-poster.png
 6f5dcaee244972c2022b802579f650b5c594bcd41260e232a633a63771ef3d40  nova-popups.mp4
 407623ef62bb4916d76a95028be4d56030aa485b1c673a66beadf9a88aa9227a  nova-popups-poster.png
-c737818384c48cf39748672de157e6d0c29d3a4974c62d9a87476d82ea040c3c  nova-appearance.mp4
-faa89f9348e99958b22b58082451286a13ca18d4cb2be732ad3066c87132c54f  nova-appearance-poster.png
+edf37a2eed2ca87e6338314f21e458408e682a78127da6d17251cd3fc443a63f  nova-appearance.mp4
+9042a13655eda1e658c368baa07544459e49b241175f8a21f6100042f409395e  nova-appearance-poster.png
 6a4345a4d4f5fc42b66d002e8e0bc8f05e4142b0c1124ad3ee37f3b385ebe424  nova-yazi.mp4
 308c924c5371e960ce69b4445d96ae9c473ce8564e99decd6bf2525fe7aa6ba2  nova-yazi-poster.png
 96398d49ad7cb6cfa9010315cdcf1f26f366ecb52c2ee3870bed49a6f95faf42  nova-live.mp4

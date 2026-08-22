@@ -95,7 +95,7 @@ cut_popup_loop "$POPUPS" git-popup 5.2 5.4 1.2 2.4
 cut_popup_loop "$LIVE" anima-popup 18.6 5.4 1.2 2.4
 
 # Timestamps match drafts/media/nova-appearance.mp4.
-cut_loop "$APPEARANCE" ratconfig-popup 4.6 6.4 1.6
+cut_loop "$APPEARANCE" ratconfig-popup 0.0 15.0 8.6
 
 sha256sum \
 	"$DRAFT_DIR"/project-tabs.mp4 \

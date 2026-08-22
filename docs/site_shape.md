@@ -46,7 +46,7 @@ The tour uses:
 
 Do not CSS-zoom the workspace still. Add a clip when motion explains a stable
 public contract better than a still. Home stages popup tools, then panes plus
-sidebar, live appearance, and Anima. Features repeats those clips inside their
+sidebar, live Zellij theme, and Anima. Features repeats those clips inside their
 groups plus project tabs. The HJKL grid on Home is copy, not a recording.
 
 ### `/docs/`

@@ -54,10 +54,10 @@ export const popupClips: HomeWatchClip[] = [
 	{
 		id: 'ratconfig-popup',
 		title: 'Live config',
-		summary: 'Ratconfig flips the whole workspace from dark to light, then back.',
+		summary: 'Ratconfig restyles the session to Dracula, then back to ansi.',
 		src: '/media/watch/ratconfig-popup.mp4',
 		poster: '/media/watch/ratconfig-popup-poster.png',
-		label: 'Ratconfig popup switching Nova appearance from dark to light',
+		label: 'Ratconfig popup switching the Zellij dark theme from ansi to Dracula',
 	},
 	{
 		id: 'anima-popup',

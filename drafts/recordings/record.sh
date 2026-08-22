@@ -279,20 +279,23 @@ play_live() {
 }
 
 play_appearance() {
-	sleep 0.9
+	sleep 1.8
 	key alt+shift+k 1.8
-	key slash 0.25
-	type_text 'appearance.mode'
-	key Return 1
-	key space 0.45
-	key j 0.35
-	key space 0.35
+	key 5 1.0
+	sleep 0.5
+	key space 0.55
+	local i
+	for ((i = 0; i < 13; i++)); do
+		key j 0.12
+	done
+	key space 0.4
 	key Return 2.8
-	key space 0.45
-	key k 0.35
-	key space 0.35
+	key space 0.55
+	for ((i = 0; i < 13; i++)); do
+		key k 0.12
+	done
+	key space 0.4
 	key Return 2.8
-	key Escape 0.2
 	key Escape 0.8
 }
 

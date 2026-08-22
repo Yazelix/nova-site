@@ -83,7 +83,7 @@ test('home page exposes product and docs actions', async ({ page, request }) => 
 	await expect(page.getByRole('link', { name: 'watch the full 54 seconds' })).toHaveCount(0);
 	await expect(page.getByRole('link', { name: 'Read the article' })).toHaveCount(0);
 	await expect(page.getByRole('heading', { name: 'Popup tools' })).toBeVisible();
-	await expect(page.getByRole('heading', { name: 'Panes, appearance, Anima' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Panes, theme, Anima' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Move with h j k l' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Keybindings' })).toHaveAttribute('href', '/keybindings/');
 	await expect(page.locator('.hjkl-grid')).toBeVisible();
