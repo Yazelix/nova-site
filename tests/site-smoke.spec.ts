@@ -518,7 +518,7 @@ test('blog exposes the Nova v1 article', async ({ page, request }) => {
 	expect(await demo.evaluate((video) => (video as HTMLVideoElement).currentSrc)).toContain(
 		'/blog/yazelix-nova-v1/media/nova-in-60-seconds.mp4',
 	);
-	await expect(page.locator('.media-take-label')).toHaveText('Nova in under 60 seconds');
+	await expect(page.locator('.media-take-label')).toHaveText('Nova in (almost) under 60 seconds');
 	await expect(page.locator('.blog-lead-strip')).toBeVisible();
 	const leadLayout = await page.evaluate(() => {
 		const strip = document.querySelector('.blog-lead-strip');
