@@ -87,14 +87,14 @@ cut_popup_loop() {
 }
 
 # Timestamps match the article timeline on nova-in-60-seconds.mp4.
-cut_loop "$SIXTY" project-tabs 15.8 3.6 1.6
+cut_loop "$SIXTY" project-tabs 33.0 3.6 1.6
 
 # Sidebar toggle plus stacked shells from drafts/media/nova-live.mp4.
 cut_loop "$LIVE" stacked-panes 0.0 18.4 12.0
 
 # Popup loops hold the workspace ~2s, then open. Hold is cloned first frame.
 # Yazi is a reveal-from-Helix take; it already includes the workspace lead-in.
-cut_popup_loop "$SIXTY" agent-popup 5.6 6.0 1.2 2.8
+cut_popup_loop "$SIXTY" agent-popup 5.8 7.2 1.2 2.8
 cut_loop "$YAZI" yazi-popup 0.0 8.0 3.2
 cut_popup_loop "$POPUPS" git-popup 5.2 5.4 1.2 2.4
 # Anima already includes a workspace lead-in, then Mandelbrot, then boids_predator.

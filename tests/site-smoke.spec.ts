@@ -177,6 +177,7 @@ test('features page exposes the lean Nova product tour', async ({ page }) => {
 	await expect(page.getByRole('heading', { name: 'Popup tools' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Named sessions' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'If you already know Zellij' })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'full 63 seconds' })).toHaveAttribute('href', '/blog/yazelix-nova-v1/');
 	await expect(page.getByRole('link', { name: 'Nova and Zellij' })).toHaveAttribute('href', '/docs/nova-and-zellij/');
 	await expect(page.locator('a[href="/start/#named-sessions"]')).toBeVisible();
 	await expect(page.locator('.feature-page video')).toHaveCount(7);
@@ -508,9 +509,9 @@ test('blog exposes the Nova v1 article', async ({ page, request }) => {
 	expect(leadLayout.captionMatchesVideo).toBe(true);
 	expect(leadLayout.timelineMatchesVideo).toBe(true);
 	expect(leadLayout.articleNarrowerThanVideo).toBe(true);
-	await expect(page.locator('.video-timeline li')).toHaveCount(11);
+	await expect(page.locator('.video-timeline li')).toHaveCount(10);
 	await expect(page.getByRole('button', { name: 'Jump to 0:00' })).toBeVisible();
-	await expect(page.getByRole('button', { name: 'Jump to 0:51' })).toBeVisible();
+	await expect(page.getByRole('button', { name: 'Jump to 0:58' })).toBeVisible();
 	await expect(page.locator('.article-content video')).toHaveCount(0);
 	await expect(page.locator('.article-content img')).toHaveCount(2);
 	await expect(page.locator('.article-content table')).toHaveCount(2);

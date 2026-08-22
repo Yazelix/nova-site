@@ -191,10 +191,30 @@ play_sixty() {
 	key alt+shift+l 1.2
 	type_readably "what's special about yazelix nova, for someone who never used it before? under 2048 chars"
 	key Return 0.9
-	key alt+3 0.8
-	key alt+r 1
-	key j 0.25
-	key Return 1.4
+	key alt+3 0.7
+	key ctrl+y 1.0
+	sleep 0.45
+	key j 0.65
+	sleep 0.4
+	key l 1.2
+	sleep 0.5
+	key j 0.55
+	key j 0.6
+	sleep 0.5
+	key Return 1.8
+	sleep 0.4
+	key space 0.3
+	key f 1.0
+	type_text lib.rs
+	sleep 0.45
+	key Return 1.5
+	key alt+r 1.6
+	key alt+z 1.6
+	type_text anima
+	key Return 2.5
+	type_text src/matrix.rs
+	sleep 0.45
+	key Return 2.0
 	key ctrl+alt+h 0.75
 	key ctrl+alt+h 0.75
 	key ctrl+alt+l 0.75
@@ -214,13 +234,6 @@ play_sixty() {
 	key alt+j 0.45
 	key alt+j 0.45
 	key ctrl+alt+j 1
-	key alt+m 1
-	type_text 'git switch '
-	key Tab 1.8
-	key Escape 0.35
-	key ctrl+c 0.25
-	key ctrl+r 1.8
-	key Escape 0.5
 	key alt+shift+h 0.8
 	key alt+shift+k 2
 	key 5 0.8
@@ -233,8 +246,6 @@ play_sixty() {
 	key space 0.4
 	key Return 1.4
 	key alt+shift+k 0.7
-	key alt+shift+b 3.4
-	key alt+shift+b 0.85
 	key alt+1 4.5
 }
 

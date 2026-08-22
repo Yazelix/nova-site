@@ -40,7 +40,7 @@ const workspaceKeys =
 							poster="/blog/yazelix-nova-v1/media/nova-in-60-seconds-poster.png"
 							width="1784"
 							height="996"
-							aria-label="Nova in under 60 seconds: Mandelbrot opens first, then a walk from Anima to the Nova tab, a Codex ask, files, a sliding tab, stacked panes, Carapace, Atuin, Ratconfig, Mandelbrot again, and the agent's answer"
+							aria-label="Nova in under 60 seconds: Mandelbrot opens first, then a walk from Anima to the Nova tab, a Codex ask, sidebar and Helix picker opening files, reveal and Alt z, a sliding tab, stacked panes, Ratconfig, and the agent's answer"
 						>
 							<source
 								media="(prefers-reduced-motion: no-preference)"
@@ -52,7 +52,7 @@ const workspaceKeys =
 							>
 						</video>
 						<figcaption>
-							A 56-second pass through Nova. Press a time to jump. See the <a
+							A 63-second pass through Nova. Press a time to jump. See the <a
 								href={workspaceKeys}>workspace keys</a
 							>.
 						</figcaption>
@@ -84,49 +84,44 @@ const workspaceKeys =
 								</p>
 							</li>
 							<li>
-								<button type="button" class="video-timeline-time" data-at="13" aria-label="Jump to 0:13"
-									>0:13</button
-								>
-								<p>
-									Back in Anima, Alt r reveals the Helix file in Yazi and another file opens in the
-									editor.
-								</p>
-							</li>
-							<li>
 								<button type="button" class="video-timeline-time" data-at="16" aria-label="Jump to 0:16"
 									>0:16</button
 								>
-								<p>The Anima tab slides along the bar (3 → 2 → 1 → 2 → 3).</p>
+								<p>
+									Back in Anima, the sidebar opens <code>friends_and_enemies.rs</code> as a second
+									Helix buffer.
+								</p>
 							</li>
 							<li>
-								<button type="button" class="video-timeline-time" data-at="20" aria-label="Jump to 0:20"
-									>0:20</button
+								<button type="button" class="video-timeline-time" data-at="23" aria-label="Jump to 0:23"
+									>0:23</button
+								>
+								<p>
+									The Helix picker opens <code>lib.rs</code>. Alt r reveals it, then Alt z opens
+									<code>matrix.rs</code>. Four buffers sit in the editor.
+								</p>
+							</li>
+							<li>
+								<button type="button" class="video-timeline-time" data-at="35" aria-label="Jump to 0:35"
+									>0:35</button
+								>
+								<p>The Anima tab slides along the bar.</p>
+							</li>
+							<li>
+								<button type="button" class="video-timeline-time" data-at="40" aria-label="Jump to 0:40"
+									>0:40</button
 								>
 								<p>Yazi stays on the side. Shells stack, run, then one pane moves through the stack.</p>
 							</li>
 							<li>
-								<button type="button" class="video-timeline-time" data-at="32" aria-label="Jump to 0:32"
-									>0:32</button
-								>
-								<p>
-									Carapace completes <code>git switch</code>; Atuin searches this session's history.
-								</p>
-							</li>
-							<li>
-								<button type="button" class="video-timeline-time" data-at="38" aria-label="Jump to 0:38"
-									>0:38</button
+								<button type="button" class="video-timeline-time" data-at="50" aria-label="Jump to 0:50"
+									>0:50</button
 								>
 								<p>Ratconfig opens over the workspace and rounds the pane corners live.</p>
 							</li>
 							<li>
-								<button type="button" class="video-timeline-time" data-at="47" aria-label="Jump to 0:47"
-									>0:47</button
-								>
-								<p>Mandelbrot returns over the workspace.</p>
-							</li>
-							<li>
-								<button type="button" class="video-timeline-time" data-at="51" aria-label="Jump to 0:51"
-									>0:51</button
+								<button type="button" class="video-timeline-time" data-at="58" aria-label="Jump to 0:58"
+									>0:58</button
 								>
 								<p>Codex answers on the Nova tab while the rest of the workspace stays put.</p>
 							</li>
