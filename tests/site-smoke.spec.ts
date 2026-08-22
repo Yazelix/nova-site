@@ -497,7 +497,7 @@ test('blog exposes the Nova v1 article', async ({ page, request }) => {
 	await page.goto('/blog/');
 	await expect(page.getByRole('link', { name: 'Blog' })).toHaveAttribute('aria-current', 'page');
 	await expect(page.getByText('nova-v1.1.0')).toBeVisible();
-	await expect(page.getByRole('link', { name: /Yazelix Nova v1: the terminal workspace behind yzx/ })).toHaveAttribute(
+	await expect(page.getByRole('link', { name: /Yazelix Nova v1: the terminal workspace I use every day/ })).toHaveAttribute(
 		'href',
 		'/blog/yazelix-nova-v1/',
 	);
@@ -511,7 +511,7 @@ test('blog exposes the Nova v1 article', async ({ page, request }) => {
 	);
 
 	await page.goto('/blog/yazelix-nova-v1/');
-	await expect(page.getByRole('heading', { level: 1, name: 'Yazelix Nova v1: the terminal workspace behind yzx' })).toBeVisible();
+	await expect(page.getByRole('heading', { level: 1, name: 'Yazelix Nova v1: the terminal workspace I use every day' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Note from Lucca Huguet' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Enter once, work with keys' })).toBeVisible();
 	await expect(page.getByText('Most days, you do not type another yzx command after Nova opens.')).toBeVisible();

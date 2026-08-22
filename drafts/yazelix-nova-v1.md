@@ -1,5 +1,5 @@
 ---
-title: "Yazelix Nova v1: the terminal workspace behind yzx"
+title: "Yazelix Nova v1: the terminal workspace I use every day"
 description: "Work across project tabs, Helix, Yazi, shells, and popup tools from one keyboard-driven Yazelix Nova workspace"
 proposedSlug: yazelix-nova-v1
 status: published
