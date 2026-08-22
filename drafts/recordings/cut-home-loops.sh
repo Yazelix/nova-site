@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Cut Home and Features loops from the published sixty-second take, the
-# drafts-only popup, appearance, Yazi reveal, and live takes. Re-run after
+# drafts-only popup, appearance, Yazi reveal, live, and Anima takes. Re-run after
 # recapturing a source.
 
 readonly REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
@@ -11,6 +11,7 @@ readonly POPUPS="$REPO_ROOT/drafts/media/nova-popups.mp4"
 readonly APPEARANCE="$REPO_ROOT/drafts/media/nova-appearance.mp4"
 readonly YAZI="$REPO_ROOT/drafts/media/nova-yazi.mp4"
 readonly LIVE="$REPO_ROOT/drafts/media/nova-live.mp4"
+readonly ANIMA="$REPO_ROOT/drafts/media/nova-anima.mp4"
 readonly DRAFT_DIR="$REPO_ROOT/drafts/media/watch"
 readonly PUBLIC_DIR="$REPO_ROOT/public/media/watch"
 
@@ -36,6 +37,10 @@ fi
 }
 [[ -f "$LIVE" ]] || {
 	printf 'Missing source clip: %s\n' "$LIVE" >&2
+	exit 1
+}
+[[ -f "$ANIMA" ]] || {
+	printf 'Missing source clip: %s\n' "$ANIMA" >&2
 	exit 1
 }
 
@@ -92,7 +97,8 @@ cut_loop "$LIVE" stacked-panes 0.0 18.4 12.0
 cut_popup_loop "$SIXTY" agent-popup 1.4 6.0 1.2 2.8
 cut_loop "$YAZI" yazi-popup 0.0 8.0 3.2
 cut_popup_loop "$POPUPS" git-popup 5.2 5.4 1.2 2.4
-cut_popup_loop "$LIVE" anima-popup 18.6 5.4 1.2 2.4
+# Anima already includes a workspace lead-in, then Mandelbrot, then boids_predator.
+cut_loop "$ANIMA" anima-popup 0.0 12.0 9.2
 
 # Timestamps match drafts/media/nova-appearance.mp4.
 cut_loop "$APPEARANCE" ratconfig-popup 0.0 15.0 8.6

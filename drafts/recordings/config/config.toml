@@ -13,3 +13,8 @@ args = ["--cd", "__NOVA_PRODUCT_REPO__", "--model", "gpt-5.6-sol", "--config", "
 command = "yzx"
 args = ["anima", "mandelbrot"]
 keybinding = "Alt Shift B"
+
+[popups.anima_predator]
+command = "yzx"
+args = ["anima", "boids_predator"]
+keybinding = "Alt Shift N"

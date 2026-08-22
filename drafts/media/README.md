@@ -55,8 +55,10 @@ Xdotool, Xwallpaper, and every remaining capture command.
   and the agent popup come from `nova-in-60-seconds.mp4`. Git comes from
   `nova-popups.mp4`. Yazi comes from `nova-yazi.mp4` (reveal from Helix, then
   another file). Live config comes from `nova-appearance.mp4`. Panes plus
-  sidebar and Anima come from `nova-live.mp4`. Agent, git, and Anima loops hold
-  the tiled workspace about two seconds before opening. Rebuild with
+  sidebar come from `nova-live.mp4`. Anima comes from `nova-anima.mp4`
+  (Mandelbrot, then boids_predator). Agent and git loops hold the tiled
+  workspace about two seconds before opening; Anima already includes that
+  lead-in in the source take. Rebuild with
   `bash drafts/recordings/cut-home-loops.sh`.
 - Popup loops in `watch/`: git cuts from `nova-popups.mp4`. Recapture with
   `bash drafts/recordings/record.sh popups`, then rebuild the cuts.
@@ -71,6 +73,10 @@ Xdotool, Xwallpaper, and every remaining capture command.
 - Live take in `drafts/media/`: `nova-live.mp4` toggles the sidebar, stacks
   shells, moves one pane through the stack, then opens `yzx anima`. Recapture
   with `bash drafts/recordings/record.sh live`. Do not copy that take into the
+  blog public path.
+- Anima take in `drafts/media/`: `nova-anima.mp4` opens Mandelbrot, hides it,
+  then opens boids_predator. Recapture with
+  `bash drafts/recordings/record.sh anima`. Do not copy that take into the
   blog public path.
 - `nova-day-to-day-session.mp4` and `nova-day-to-day-session-poster.png`: the
   same pinned inputs and feature inventory, replayed with longer dwell after
@@ -100,8 +106,8 @@ f1b7a5171bd3e5ea2b9f6fbde8b04a62024ad845148d346bc68bc32e1a707ccd  watch/agent-po
 f3c28816943c2d23656b998110a718e4be2667531ab06e97364fb2b31308e30c  watch/yazi-popup-poster.png
 ece04c3c7cac40a334850caa62ef6436d6ff2ca6d94a5ef4587c838e657f0928  watch/git-popup.mp4
 3235fbe705512ec7ff8038c74924da5ea3302cf578e6bf50c1f3fd1d9a926c5d  watch/git-popup-poster.png
-7bb52d29f79a76de3e80137df6558c1f034206aa218749762e147e28d0626979  watch/anima-popup.mp4
-7bac05078ff3421e788df98d49080a78fa97be917c58e64a368803c45c02ecce  watch/anima-popup-poster.png
+7cde7aff715b52b4f7a8171d6dbefe651cf1ae0324d55cab4b9e0c13c5fee8e9  watch/anima-popup.mp4
+87b0e2d70caa216e7a25923bed0db3194cfce9ac314a376d6bd09d003e5bee92  watch/anima-popup-poster.png
 6f5dcaee244972c2022b802579f650b5c594bcd41260e232a633a63771ef3d40  nova-popups.mp4
 407623ef62bb4916d76a95028be4d56030aa485b1c673a66beadf9a88aa9227a  nova-popups-poster.png
 edf37a2eed2ca87e6338314f21e458408e682a78127da6d17251cd3fc443a63f  nova-appearance.mp4
@@ -110,6 +116,8 @@ edf37a2eed2ca87e6338314f21e458408e682a78127da6d17251cd3fc443a63f  nova-appearanc
 308c924c5371e960ce69b4445d96ae9c473ce8564e99decd6bf2525fe7aa6ba2  nova-yazi-poster.png
 96398d49ad7cb6cfa9010315cdcf1f26f366ecb52c2ee3870bed49a6f95faf42  nova-live.mp4
 2e2878ec377970b3c7c205266b2f93e4e105c45577beb3de65ace7227ad3cd06  nova-live-poster.png
+67d59a7e3ad4d6bc4ffb0b2aa927701ed6c6c67c664db4ac3e70a409ff751b40  nova-anima.mp4
+106b4410f21c1c3d5eb24ad752e0cf6de02197b6608848b95080f775850d0378  nova-anima-poster.png
 623cc1382ad767970da1ca0324242183b795165d01b256ae8170cc268d56e5bd  partenoxenese-blue-faro.jpg (source)
 dd68bae922ba53a2b47aa96dd84dc70b850ef4fb612693805959da68a7ceb979  ratconfig-nova-v1.png
 ```
