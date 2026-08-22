@@ -30,10 +30,10 @@ export const popupClips: HomeWatchClip[] = [
 	{
 		id: 'yazi-popup',
 		title: 'Yazi popup',
-		summary: 'The full file manager opens over the workspace, then hides.',
+		summary: 'Helix reveals the current file in Yazi. Another file opens back in the editor.',
 		src: '/media/watch/yazi-popup.mp4',
 		poster: '/media/watch/yazi-popup-poster.png',
-		label: 'Nova Yazi popup opening over the workspace',
+		label: 'Nova Yazi popup revealing a Helix file then opening another',
 	},
 	{
 		id: 'git-popup',

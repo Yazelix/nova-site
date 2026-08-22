@@ -38,8 +38,13 @@ appearance)
 	readonly POSTER_OFFSET=4
 	readonly CAPTURE_RATCONFIG=0
 	;;
+yazi)
+	readonly CLIP_STEM="nova-yazi"
+	readonly POSTER_OFFSET=3
+	readonly CAPTURE_RATCONFIG=0
+	;;
 *)
-	printf 'usage: record.sh [original|session|sixty|popups|appearance]\n' >&2
+	printf 'usage: record.sh [original|session|sixty|popups|appearance|yazi]\n' >&2
 	exit 2
 	;;
 esac
@@ -236,6 +241,14 @@ play_popups() {
 	key alt+shift+j 0.8
 }
 
+play_yazi() {
+	sleep 1.8
+	key alt+r 1.6
+	key k 0.45
+	sleep 1.8
+	key Return 2.2
+}
+
 play_appearance() {
 	sleep 0.9
 	key alt+shift+k 1.8
@@ -425,7 +438,7 @@ fi
 	-frames:v 1 -y "$RUN_DIR/${CLIP_STEM}-poster.png"
 cp "$RUN_DIR/${CLIP_STEM}.mp4" "$OUTPUT_DIR/${CLIP_STEM}.mp4"
 cp "$RUN_DIR/${CLIP_STEM}-poster.png" "$OUTPUT_DIR/${CLIP_STEM}-poster.png"
-if [[ "$VARIANT" != popups && "$VARIANT" != appearance ]]; then
+if [[ "$VARIANT" != popups && "$VARIANT" != appearance && "$VARIANT" != yazi ]]; then
 	cp "$RUN_DIR/${CLIP_STEM}.mp4" "$PUBLIC_DIR/${CLIP_STEM}.mp4"
 	cp "$RUN_DIR/${CLIP_STEM}-poster.png" "$PUBLIC_DIR/${CLIP_STEM}-poster.png"
 fi
