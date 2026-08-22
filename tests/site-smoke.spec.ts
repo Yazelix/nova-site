@@ -433,9 +433,17 @@ test('blog exposes the Nova v1 article', async ({ page, request }) => {
 	await page.goto('/blog/');
 	await expect(page.getByRole('link', { name: 'Blog' })).toHaveAttribute('aria-current', 'page');
 	await expect(page.getByText('nova-v1.1.0')).toBeVisible();
-	await expect(page.getByRole('link', { name: 'Read the article' })).toHaveAttribute(
+	await expect(page.getByRole('link', { name: /Yazelix Nova v1: the terminal workspace behind yzx/ })).toHaveAttribute(
 		'href',
 		'/blog/yazelix-nova-v1/',
+	);
+	const previewCards = page.locator('.blog-post-card');
+	const previewCount = await previewCards.count();
+	expect(previewCount).toBeGreaterThan(0);
+	await expect(previewCards.locator('img')).toHaveCount(previewCount);
+	await expect(previewCards.locator('img')).toHaveAttribute(
+		'src',
+		'/blog/yazelix-nova-v1/media/nova-in-60-seconds-poster.png',
 	);
 
 	await page.goto('/blog/yazelix-nova-v1/');

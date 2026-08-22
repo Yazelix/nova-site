@@ -8,6 +8,8 @@ authors: Lucca Huguet and GPT-5.6-Sol
 lastReviewed: August 19, 2026
 sourceRevision: da60dc7a855048edabe9706207d4f0721ed3c0a8
 release: nova-v1.1.0
+previewImage: /blog/yazelix-nova-v1/media/nova-in-60-seconds-poster.png
+previewImageAlt: Yazelix Nova workspace on the Anima tab during the Nova in under 60 seconds take
 ---
 
 ## Note from Lucca Huguet

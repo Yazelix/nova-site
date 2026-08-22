@@ -4,6 +4,23 @@ import SiteFooter from '../../components/SiteFooter.astro';
 import SiteHead from '../../components/SiteHead.astro';
 import SiteNav from '../../components/SiteNav.astro';
 import '../../styles/home.css';
+
+const posts = [
+	{
+		href: `/blog/${novaV1.proposedSlug}/`,
+		title: novaV1.title,
+		description: novaV1.description,
+		release: novaV1.release,
+		image: novaV1.previewImage,
+		imageAlt: novaV1.previewImageAlt,
+	},
+];
+
+for (const post of posts) {
+	if (!post.image || !post.imageAlt) {
+		throw new Error(`blog preview is missing an image: ${post.href}`);
+	}
+}
 ---
 
 <!doctype html>
@@ -24,12 +41,29 @@ import '../../styles/home.css';
 						Source-backed writing about Yazelix Nova.
 					</p>
 					<div class="blog-grid blog-preview-grid">
-						<article class="panel blog-post-card">
-							<p class="eyebrow">{novaV1.release}</p>
-							<h2><a href={`/blog/${novaV1.proposedSlug}/`}>{novaV1.title}</a></h2>
-							<p>{novaV1.description}</p>
-							<a class="blog-read-link" href={`/blog/${novaV1.proposedSlug}/`}>Read the article</a>
-						</article>
+						{
+							posts.map((post) => (
+								<article class="panel blog-post-card">
+									<a class="blog-post-card-link" href={post.href}>
+										<div class="blog-post-card-media">
+											<img
+												src={post.image}
+												alt={post.imageAlt}
+												width="1784"
+												height="996"
+												decoding="async"
+											/>
+										</div>
+										<div class="blog-post-card-body">
+											<p class="eyebrow">{post.release}</p>
+											<h2>{post.title}</h2>
+											<p>{post.description}</p>
+											<span class="blog-read-link">Read the article</span>
+										</div>
+									</a>
+								</article>
+							))
+						}
 					</div>
 				</div>
 			</main>
