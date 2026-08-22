@@ -35,8 +35,13 @@ const { label } = Astro.props as { label: string };
 		};
 
 		toggle.addEventListener('click', () => {
-			if (video.paused) void video.play();
-			else video.pause();
+			if (video.paused) {
+				delete video.dataset.userPaused;
+				void video.play();
+			} else {
+				video.dataset.userPaused = 'true';
+				video.pause();
+			}
 		});
 		video.addEventListener('play', sync);
 		video.addEventListener('pause', sync);

@@ -79,6 +79,7 @@ communicate the behavior honestly. Motion media must:
 
 - use one short muted video with a poster
 - load eagerly only at the top of an article
+- play feature clips only near the viewport and pause them outside it
 - keep a stable aspect ratio
 - replace animation with the still when reduced motion is requested
 - link to the exact docs contract
@@ -91,7 +92,8 @@ component owns rendering. Neither layer reconstructs product behavior.
 The homepage uses two motion stages with chapter buttons, then the HJKL table.
 The features page uses one large row per clip or still so the terminal content
 stays readable. Both surfaces collapse to one column on narrow screens. Custom
-pages share the same footer.
+pages share the same footer. Short display copy omits terminal periods; Docs
+and article prose use normal punctuation.
 
 ## Future Capture Gate
 

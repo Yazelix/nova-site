@@ -194,21 +194,6 @@ test('features page exposes the lean Nova product tour', async ({ page }) => {
 	await expect(page.getByRole('link', { name: 'Nova and Zellij' })).toHaveAttribute('href', '/docs/nova-and-zellij/');
 	await expect(page.locator('a[href="/start/#named-sessions"]')).toBeVisible();
 	await expect(page.locator('.feature-page video')).toHaveCount(7);
-	const projectTabsVideo = page.locator('#project-tabs video');
-	const projectTabsPlayback = page.locator('#project-tabs [data-media-playback-toggle]');
-	const projectTabsWasPaused = await projectTabsVideo.evaluate((video) => (video as HTMLVideoElement).paused);
-	await expect(projectTabsPlayback).toHaveAttribute(
-		'aria-label',
-		`${projectTabsWasPaused ? 'Play' : 'Pause'} Project tabs`,
-	);
-	await projectTabsPlayback.click();
-	await expect.poll(() => projectTabsVideo.evaluate((video) => (video as HTMLVideoElement).paused)).toBe(
-		!projectTabsWasPaused,
-	);
-	await expect(projectTabsPlayback).toHaveAttribute(
-		'aria-label',
-		`${projectTabsWasPaused ? 'Pause' : 'Play'} Project tabs`,
-	);
 	await expect(page.locator('#project-tabs')).toBeVisible();
 	await expect(page.locator('#stacked-panes')).toBeVisible();
 	await expect(page.locator('#yazi-popup')).toBeVisible();
@@ -224,6 +209,32 @@ test('features page exposes the lean Nova product tour', async ({ page }) => {
 	);
 	expect(new Set(mediaSources)).toEqual(new Set(['/images/nova_workspace.png']));
 	await expect(page.getByRole('link', { name: 'Docs' }).first()).toBeVisible();
+});
+
+test('feature clips play only near the viewport and preserve an explicit pause', async ({ page }) => {
+	await page.setViewportSize({ width: 1280, height: 720 });
+	await page.goto('/features/');
+	const videos = page.locator('.feature-page video');
+	const projectTabs = page.locator('#project-tabs video');
+	const projectTabsPlayback = page.locator('#project-tabs [data-media-playback-toggle]');
+	const anima = page.locator('#anima-popup video');
+
+	expect(await videos.evaluateAll((items) => items.every((video) => !video.hasAttribute('autoplay')))).toBe(true);
+	await expect
+		.poll(() => videos.evaluateAll((items) => items.every((video) => (video as HTMLVideoElement).paused)))
+		.toBe(true);
+
+	await projectTabs.scrollIntoViewIfNeeded();
+	await expect.poll(() => projectTabs.evaluate((video) => !(video as HTMLVideoElement).paused)).toBe(true);
+	await expect(projectTabsPlayback).toHaveAttribute('aria-label', 'Pause Project tabs');
+	await projectTabsPlayback.click();
+	await expect.poll(() => projectTabs.evaluate((video) => (video as HTMLVideoElement).paused)).toBe(true);
+
+	await anima.scrollIntoViewIfNeeded();
+	await expect.poll(() => anima.evaluate((video) => !(video as HTMLVideoElement).paused)).toBe(true);
+	await projectTabs.scrollIntoViewIfNeeded();
+	await expect.poll(() => projectTabs.evaluate((video) => (video as HTMLVideoElement).paused)).toBe(true);
+	await expect(projectTabsPlayback).toHaveAttribute('aria-label', 'Play Project tabs');
 });
 
 test('docs page exposes the docs index stream', async ({ page }) => {

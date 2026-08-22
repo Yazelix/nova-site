@@ -1,6 +1,6 @@
 ---
 title: "Yazelix Nova v1: the terminal workspace behind yzx"
-description: "Work across project tabs, Helix, Yazi, shells, and popup tools from one keyboard-driven Yazelix Nova workspace."
+description: "Work across project tabs, Helix, Yazi, shells, and popup tools from one keyboard-driven Yazelix Nova workspace"
 proposedSlug: yazelix-nova-v1
 status: published
 publicationDate: 2026-08-19
@@ -14,8 +14,12 @@ previewImageAlt: Yazelix Nova Mandelbrot popup on the Anima tab during the Nova 
 
 ## Note from Lucca Huguet
 
-I've been busy building. And working. I plan to write more in the future.
-But today, let's talk about Nova.
+I've been busy building. And working. I've found the time to finish the website,
+finally!
+
+And Yazelix Nova has also found its way to v1, a big moment for Yazelix, for sure.
+
+So let's talk about Nova.
 
 Yazelix Nova is delicious to use. Persistent popups per tab let you summon
 `lazygit` (or any program you like!), your agent CLI (I use Codex), or Ratconfig (your favorite config TUI)

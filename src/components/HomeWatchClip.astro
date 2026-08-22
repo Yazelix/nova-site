@@ -8,11 +8,11 @@ const { clip } = Astro.props as { clip: HomeWatchClip };
 <figure class="feature-media" id={clip.id}>
 	<div class="feature-media-frame" data-media-player>
 		<video
-			autoplay
 			muted
 			loop
 			playsinline
 			controls
+			data-feature-clip
 			preload="metadata"
 			poster={clip.poster}
 			width="1784"
@@ -28,3 +28,22 @@ const { clip } = Astro.props as { clip: HomeWatchClip };
 		<span>{clip.summary}</span>
 	</figcaption>
 </figure>
+
+<script>
+	if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (!(entry.target instanceof HTMLVideoElement)) continue;
+					if (entry.isIntersecting && entry.target.dataset.userPaused !== 'true') void entry.target.play();
+					else entry.target.pause();
+				}
+			},
+			{ rootMargin: '200px 0px' },
+		);
+
+		for (const video of document.querySelectorAll<HTMLVideoElement>('[data-feature-clip]')) {
+			observer.observe(video);
+		}
+	}
+</script>
