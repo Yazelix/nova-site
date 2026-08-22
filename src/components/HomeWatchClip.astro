@@ -1,16 +1,18 @@
 ---
 import type { HomeWatchClip } from '../data/home_watch';
+import MediaPlaybackToggle from './MediaPlaybackToggle.astro';
 
 const { clip } = Astro.props as { clip: HomeWatchClip };
 ---
 
 <figure class="feature-media" id={clip.id}>
-	<div class="feature-media-frame">
+	<div class="feature-media-frame" data-media-player>
 		<video
 			autoplay
 			muted
 			loop
 			playsinline
+			controls
 			preload="metadata"
 			poster={clip.poster}
 			width="1784"
@@ -19,6 +21,7 @@ const { clip } = Astro.props as { clip: HomeWatchClip };
 		>
 			<source media="(prefers-reduced-motion: no-preference)" src={clip.src} type="video/mp4" />
 		</video>
+		<MediaPlaybackToggle label={clip.title} />
 	</div>
 	<figcaption>
 		<strong>{clip.title}</strong>

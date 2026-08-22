@@ -1,5 +1,6 @@
 ---
 import type { HomeWatchClip } from '../data/home_watch';
+import MediaPlaybackToggle from './MediaPlaybackToggle.astro';
 
 const { clips, groupLabel = 'Clips' } = Astro.props as {
 	clips: HomeWatchClip[];
@@ -10,13 +11,14 @@ if (!first) throw new Error('watch stage clips is empty');
 ---
 
 <figure class="watch-stage">
-	<div class="watch-stage-frame">
+	<div class="watch-stage-frame" data-media-player>
 		<video
 			class="watch-stage-video"
 			autoplay
 			muted
 			loop
 			playsinline
+			controls
 			preload="metadata"
 			poster={first.poster}
 			width="1784"
@@ -25,6 +27,7 @@ if (!first) throw new Error('watch stage clips is empty');
 		>
 			<source media="(prefers-reduced-motion: no-preference)" src={first.src} type="video/mp4" />
 		</video>
+		<MediaPlaybackToggle label={groupLabel} />
 	</div>
 	<div class="watch-switch" role="group" aria-label={groupLabel}>
 		{

@@ -298,6 +298,7 @@ h1 {
 }
 
 .watch-stage-frame {
+	position: relative;
 	aspect-ratio: 16 / 9;
 	overflow: hidden;
 	border: 1px solid rgba(255, 255, 255, 0.11);
@@ -311,6 +312,56 @@ h1 {
 	height: 100%;
 	object-fit: contain;
 	background: #07100c;
+}
+
+.media-playback-toggle {
+	position: absolute;
+	right: 0.65rem;
+	bottom: 0.65rem;
+	z-index: 1;
+	display: none;
+	align-items: center;
+	gap: 0.4rem;
+	min-height: 2.4rem;
+	border: 1px solid rgba(138, 229, 182, 0.48);
+	border-radius: 6px;
+	padding: 0.5rem 0.68rem;
+	background: rgba(7, 16, 12, 0.9);
+	color: #d9ffe8;
+	font: inherit;
+	font-size: 0.88rem;
+	font-weight: 720;
+	cursor: pointer;
+	backdrop-filter: blur(6px);
+}
+
+.media-playback-toggle.is-ready {
+	display: inline-flex;
+}
+
+.media-playback-toggle:hover {
+	border-color: #8ae5b6;
+	background: rgba(16, 26, 21, 0.96);
+}
+
+.media-playback-toggle:focus-visible {
+	outline: 2px solid #8ae5b6;
+	outline-offset: 2px;
+}
+
+.media-playback-toggle svg {
+	width: 0.8rem;
+	height: 0.8rem;
+	fill: currentColor;
+}
+
+.media-playback-toggle [data-media-icon='play'],
+.media-playback-toggle.is-paused [data-media-icon='pause'] {
+	display: none;
+}
+
+.media-playback-toggle.is-paused [data-media-icon='play'] {
+	display: block;
 }
 
 .watch-switch {
@@ -1098,5 +1149,9 @@ h1 {
 @media (prefers-reduced-motion: reduce) {
 	.skip-link {
 		transition: none;
+	}
+
+	.media-playback-toggle.is-ready {
+		display: none;
 	}
 }

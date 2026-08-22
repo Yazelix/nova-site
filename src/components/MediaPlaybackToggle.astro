@@ -1,0 +1,45 @@
+---
+const { label } = Astro.props as { label: string };
+---
+
+<button
+	type="button"
+	class="media-playback-toggle"
+	aria-label={`Pause ${label}`}
+	data-media-playback-toggle
+	data-media-label={label}
+>
+	<svg data-media-icon="pause" viewBox="0 0 16 16" aria-hidden="true">
+		<path d="M4 3h3v10H4zM9 3h3v10H9z" />
+	</svg>
+	<svg data-media-icon="play" viewBox="0 0 16 16" aria-hidden="true">
+		<path d="m5 3 8 5-8 5z" />
+	</svg>
+	<span data-media-action>Pause</span>
+</button>
+
+<script>
+	for (const toggle of document.querySelectorAll<HTMLButtonElement>('[data-media-playback-toggle]')) {
+		const video = toggle.closest('[data-media-player]')?.querySelector('video');
+		const action = toggle.querySelector('[data-media-action]');
+		const label = toggle.dataset.mediaLabel;
+		if (!(video instanceof HTMLVideoElement) || !(action instanceof HTMLElement) || !label) continue;
+		video.controls = false;
+		toggle.classList.add('is-ready');
+
+		const sync = () => {
+			const nextAction = video.paused ? 'Play' : 'Pause';
+			toggle.classList.toggle('is-paused', video.paused);
+			toggle.setAttribute('aria-label', `${nextAction} ${label}`);
+			action.textContent = nextAction;
+		};
+
+		toggle.addEventListener('click', () => {
+			if (video.paused) void video.play();
+			else video.pause();
+		});
+		video.addEventListener('play', sync);
+		video.addEventListener('pause', sync);
+		sync();
+	}
+</script>

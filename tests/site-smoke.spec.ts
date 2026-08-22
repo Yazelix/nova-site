@@ -89,6 +89,15 @@ test('home page exposes product and docs actions', async ({ page, request }) => 
 	await expect(page.locator('.hjkl-grid')).toBeVisible();
 	const stages = page.locator('.watch-stage video');
 	await expect(stages).toHaveCount(2);
+	const popupPlayback = page.locator('.watch-stage').first().locator('[data-media-playback-toggle]');
+	const popupWasPaused = await stages.first().evaluate((video) => (video as HTMLVideoElement).paused);
+	await expect(popupPlayback).toHaveAttribute('aria-label', `${popupWasPaused ? 'Play' : 'Pause'} Popup clips`);
+	await popupPlayback.click();
+	await expect.poll(() => stages.first().evaluate((video) => (video as HTMLVideoElement).paused)).toBe(!popupWasPaused);
+	await expect(popupPlayback).toHaveAttribute('aria-label', `${popupWasPaused ? 'Pause' : 'Play'} Popup clips`);
+	await popupPlayback.click();
+	await expect.poll(() => stages.first().evaluate((video) => (video as HTMLVideoElement).paused)).toBe(popupWasPaused);
+	await expect(popupPlayback).toHaveAttribute('aria-label', `${popupWasPaused ? 'Play' : 'Pause'} Popup clips`);
 	await expect(page.locator('.hero-visual video')).toHaveCount(0);
 	await expect(page.locator('.watch-stage').first().locator('source')).toHaveAttribute(
 		'src',
@@ -151,6 +160,10 @@ test('home page exposes product and docs actions', async ({ page, request }) => 
 	await page.reload();
 	expect(await stages.first().evaluate((video) => (video as HTMLVideoElement).currentSrc)).toBe('');
 	expect(await stages.nth(1).evaluate((video) => (video as HTMLVideoElement).currentSrc)).toBe('');
+	const playbackToggles = page.locator('[data-media-playback-toggle]');
+	await expect(playbackToggles).toHaveCount(2);
+	await expect(playbackToggles.first()).toBeHidden();
+	await expect(playbackToggles.nth(1)).toBeHidden();
 });
 
 test('home page keeps its identity and primary action in the first viewport', async ({ page }) => {
@@ -181,6 +194,21 @@ test('features page exposes the lean Nova product tour', async ({ page }) => {
 	await expect(page.getByRole('link', { name: 'Nova and Zellij' })).toHaveAttribute('href', '/docs/nova-and-zellij/');
 	await expect(page.locator('a[href="/start/#named-sessions"]')).toBeVisible();
 	await expect(page.locator('.feature-page video')).toHaveCount(7);
+	const projectTabsVideo = page.locator('#project-tabs video');
+	const projectTabsPlayback = page.locator('#project-tabs [data-media-playback-toggle]');
+	const projectTabsWasPaused = await projectTabsVideo.evaluate((video) => (video as HTMLVideoElement).paused);
+	await expect(projectTabsPlayback).toHaveAttribute(
+		'aria-label',
+		`${projectTabsWasPaused ? 'Play' : 'Pause'} Project tabs`,
+	);
+	await projectTabsPlayback.click();
+	await expect.poll(() => projectTabsVideo.evaluate((video) => (video as HTMLVideoElement).paused)).toBe(
+		!projectTabsWasPaused,
+	);
+	await expect(projectTabsPlayback).toHaveAttribute(
+		'aria-label',
+		`${projectTabsWasPaused ? 'Pause' : 'Play'} Project tabs`,
+	);
 	await expect(page.locator('#project-tabs')).toBeVisible();
 	await expect(page.locator('#stacked-panes')).toBeVisible();
 	await expect(page.locator('#yazi-popup')).toBeVisible();
@@ -300,6 +328,16 @@ test('custom and Starlight pages stay dark without a preference control', async 
 
 test.describe('without JavaScript', () => {
 	test.use({ javaScriptEnabled: false });
+
+	test('motion media keeps native pause controls', async ({ page }) => {
+		await page.goto('/');
+		await expect(page.locator('.watch-stage video').first()).toHaveAttribute('controls', '');
+		await expect(page.locator('[data-media-playback-toggle]').first()).toBeHidden();
+
+		await page.goto('/features/');
+		await expect(page.locator('.feature-page video').first()).toHaveAttribute('controls', '');
+		await expect(page.locator('[data-media-playback-toggle]').first()).toBeHidden();
+	});
 
 	test('combined Docs ships complete, unique fragment targets', async ({ page }) => {
 		await page.goto('/start/');
