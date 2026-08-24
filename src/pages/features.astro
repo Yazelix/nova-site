@@ -44,10 +44,9 @@ const clipCount = paneClips.length + popupClips.length;
 						<div class="section-heading-row">
 							<div>
 								<p class="eyebrow">Workspace</p>
-								<h2>One composition</h2>
+								<h2 id="workspace"><a class="feature-section-link" href="#workspace">One composition</a></h2>
 								<p class="section-lede">
-									Yazi, the editor, shells, and the Nova bar in one keyboard-driven session. See the
-									<a href="/docs/runtime-model/">runtime model</a>
+									Yazi, the editor, shells, and the Nova bar in one keyboard-driven session
 								</p>
 							</div>
 						</div>
@@ -62,9 +61,11 @@ const clipCount = paneClips.length + popupClips.length;
 						<div class="section-heading-row">
 							<div>
 								<p class="eyebrow">{paneClips.length} clips</p>
-								<h2>Projects and panes</h2>
+								<h2 id="projects-and-panes">
+									<a class="feature-section-link" href="#projects-and-panes">Projects and panes</a>
+								</h2>
 								<p class="section-lede">
-									Tabs hold projects. The default stack keeps files beside shells. See the
+									Tabs hold projects. The default stack keeps files beside shells. See the{' '}
 									<a href="/blog/yazelix-nova-v1/">full 63 seconds</a>
 								</p>
 							</div>
@@ -80,10 +81,9 @@ const clipCount = paneClips.length + popupClips.length;
 						<div class="section-heading-row">
 							<div>
 								<p class="eyebrow">{popupClips.length} clips</p>
-								<h2>Popup tools</h2>
+								<h2 id="popup-tools"><a class="feature-section-link" href="#popup-tools">Popup tools</a></h2>
 								<p class="section-lede">
-									Summon a tool over the workspace, then hide it. The tiled session stays put. See the
-									<a href="/keybindings/">workspace keys</a>
+									Summon a tool over the workspace, then hide it. The tiled session stays put
 								</p>
 							</div>
 						</div>
@@ -95,11 +95,13 @@ const clipCount = paneClips.length + popupClips.length;
 
 				<section class="section">
 					<div class="section-inner">
-						<h2>If you already know Zellij</h2>
+						<h2 id="nova-and-zellij">
+							<a class="feature-section-link" href="#nova-and-zellij">If you already know Zellij</a>
+						</h2>
 						<p class="section-lede">
 							Tabs, stacked panes, and floating panes are Zellij. The sidebar layout, popups, top bar,
 							and <code>yzx</code> are Yazelix. The Nova Zellij fork keeps upstream Zellij and adds Yazi
-							image previews, session appearance, stable stack order, and a few plugin seams. See
+							image previews, session appearance, stable stack order, and a few plugin seams. See{' '}
 							<a href="/docs/nova-and-zellij/">Nova and Zellij</a>
 						</p>
 					</div>
@@ -107,11 +109,13 @@ const clipCount = paneClips.length + popupClips.length;
 
 				<section class="section strip">
 					<div class="section-inner">
-						<h2>Named sessions</h2>
+						<h2 id="named-sessions">
+							<a class="feature-section-link" href="#named-sessions">Named sessions</a>
+						</h2>
 						<p class="section-lede">
 							<code>yzx launch</code> opens Mars, then the workspace.
 							<code>yzx enter</code> uses the current terminal or SSH. Add
-							<code>--session NAME</code> to create a workspace you can attach to later. Steps are in
+							<code>--session NAME</code> to create a workspace you can attach to later. Steps are in{' '}
 							<a href="/docs/#start-named-sessions">Start</a>
 						</p>
 					</div>

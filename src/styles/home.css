@@ -249,6 +249,18 @@ h1 {
 	letter-spacing: 0;
 }
 
+.feature-section-link {
+	color: inherit;
+	text-decoration-color: #8ae5b6;
+	text-decoration-thickness: 0.08em;
+	text-underline-offset: 0.16em;
+}
+
+.feature-section-link:hover,
+.feature-section-link:focus-visible {
+	color: #b9f7d5;
+}
+
 .section-lede {
 	max-width: 44rem;
 	margin: 1rem 0 0;

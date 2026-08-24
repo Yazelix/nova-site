@@ -189,8 +189,14 @@ test('features page exposes the lean Nova product tour', async ({ page }) => {
 	await expect(page.getByRole('heading', { name: 'Popup tools' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Named sessions' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'If you already know Zellij' })).toBeVisible();
-	await expect(page.getByRole('link', { name: 'runtime model' })).toHaveAttribute('href', '/docs/runtime-model/');
-	await expect(page.getByRole('link', { name: 'workspace keys' })).toHaveAttribute('href', '/keybindings/');
+	expect(await page.locator('.feature-section-link').evaluateAll((links) => links.map((link) => link.getAttribute('href')))).toEqual([
+		'#workspace',
+		'#projects-and-panes',
+		'#popup-tools',
+		'#nova-and-zellij',
+		'#named-sessions',
+	]);
+	await expect(page.locator('.feature-section-link').first()).toHaveCSS('text-decoration-line', 'underline');
 	await expect(page.getByRole('link', { name: 'full 63 seconds' })).toHaveAttribute('href', '/blog/yazelix-nova-v1/');
 	await expect(page.getByRole('link', { name: 'Nova and Zellij' })).toHaveAttribute('href', '/docs/nova-and-zellij/');
 	await expect(page.locator('a[href="/docs/#start-named-sessions"]')).toBeVisible();
