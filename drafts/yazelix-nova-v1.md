@@ -52,7 +52,7 @@ to try Nova first, [start with the guide](/docs/#start).
 
 ## How Nova fits together
 
-*Written by GPT-5.6-Sol with xhigh reasoning.*
+*Written by GPT-5.6-Sol with xhigh reasoning and Lucca Huguet.*
 
 Yazelix Nova v1 gives Nix users a packaged terminal workspace built around
 Mars, Yazi, and Yazelix's Zellij and Helix forks. We call the forks Nova Zellij
