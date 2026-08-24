@@ -189,6 +189,11 @@ test('features page exposes the lean Nova product tour', async ({ page }) => {
 	await expect(page.getByRole('heading', { name: 'Popup tools' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Named sessions' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'If you already know Zellij' })).toBeVisible();
+	expect(
+		await page.getByRole('navigation', { name: 'Feature sections' }).getByRole('link').evaluateAll((links) =>
+			links.map((link) => link.getAttribute('href')),
+		),
+	).toEqual(['#workspace', '#projects-and-panes', '#popup-tools', '#nova-and-zellij', '#named-sessions']);
 	await expect(page.getByRole('link', { name: 'full 63 seconds' })).toHaveAttribute('href', '/blog/yazelix-nova-v1/');
 	await expect(page.getByRole('link', { name: 'Nova and Zellij' })).toHaveAttribute('href', '/docs/nova-and-zellij/');
 	await expect(page.locator('a[href="/docs/#start-named-sessions"]')).toBeVisible();
@@ -208,6 +213,8 @@ test('features page exposes the lean Nova product tour', async ({ page }) => {
 	);
 	expect(new Set(mediaSources)).toEqual(new Set(['/images/nova_workspace.png']));
 	await expect(page.getByRole('link', { name: 'Docs' }).first()).toBeVisible();
+	await page.setViewportSize({ width: 320, height: 568 });
+	expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1)).toBe(false);
 });
 
 test('feature clips play only near the viewport and preserve an explicit pause', async ({ page }) => {
