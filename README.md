@@ -21,12 +21,20 @@ verification, deployment, and DNS ownership.
 ## Commands
 
 ```sh
-bun install
+nix develop
+bun install --frozen-lockfile
 bun run dev
+bun run check:typos
 bun run check
 bun run build
 bun run test:e2e
 ```
+
+The pinned development shell supplies Bun, Node.js, the Chromium revision used
+by Playwright, typo and workflow linters, FFmpeg, and the recording tools. Run
+the typo, diagnostics, build, and browser-test commands above before submitting
+site changes. Playwright uses the shell's browser closure and does not download
+another browser during installation.
 
 The reproducible Nova demo workflow lives in
 [`drafts/recordings/`](drafts/recordings/). Run

@@ -9,6 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "check:typos": "typos README.md ARCHITECTURE.md docs src tests drafts/recordings drafts/media",
     "test:e2e": "env -u NO_COLOR playwright test",
     "astro": "astro"
   },

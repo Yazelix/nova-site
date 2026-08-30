@@ -75,8 +75,13 @@ its route class instead of recreating that policy in a page.
 
 ## Build and verification
 
-`package.json` owns developer commands. `bun.lock` pins the dependency graph,
-and production installation uses `bun install --frozen-lockfile`.
+`flake.nix` and `flake.lock` pin developer CLI and browser versions. The
+development shell supplies Bun, Node.js, the exact Chromium closure used by
+Playwright, source and workflow linters, FFmpeg, and recording tools. It also
+prevents Playwright from downloading or selecting a separate browser.
+`package.json` owns developer commands, while `bun.lock` independently pins the
+JavaScript dependency graph. Production installation uses
+`bun install --frozen-lockfile`.
 `astro.config.mjs` owns the permanent site origin, Starlight integration,
 sidebar, and theme override. Astro emits static output because the repository
 configures no adapter or server output. Generated output lives in `dist/`.
@@ -85,6 +90,7 @@ The verification layers prove different contracts:
 
 | Check | Proves |
 | --- | --- |
+| `bun run check:typos` | Repository prose and source match the typo policy |
 | `bun run check` | Astro, content, and TypeScript diagnostics |
 | `bun run build` | Static routes, Pagefind, sitemap, assets, and build-time content composition |
 | `bun run test:e2e` | Built static output, Pagefind, assets, 404 behavior, representative routes, metadata, navigation, content invariants, links, Docs rail behavior, overflow, and Blog absence contracts |
@@ -98,8 +104,9 @@ in Beads; the accepted launch record is
 ## Deployment ownership
 
 The Vercel Git integration watches `main` as the production source branch.
-`vercel.json` is the only deployment configuration: Vercel installs the frozen
-Bun graph, runs diagnostics and the static build, and publishes `dist/`.
+It remains independent of the developer shell: `vercel.json` is the only
+deployment configuration, and Vercel installs the frozen Bun graph, runs
+diagnostics and the static build, and publishes `dist/`.
 Vercel owns the deployed artifact, edge delivery, managed TLS, and deployment
 rollback.
 
