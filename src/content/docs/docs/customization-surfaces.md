@@ -11,7 +11,7 @@ overrides to `~/.config/yazelix/config.toml`.
 Use it for:
 
 - appearance mode
-- shell and editor commands
+- shell, Atuin history, and editor commands
 - welcome behavior
 - managed popup and sidebar keys
 - agent command and arguments
@@ -23,8 +23,7 @@ Use sidecars for tool-specific preferences that Yazelix does not render:
 
 | Surface | Path |
 | --- | --- |
-| Cursor config | `~/.config/yazelix/cursors.toml` |
-| Mars overrides | `~/.config/yazelix/mars/config.toml` |
+| Nova Rio configuration | `~/.config/yazelix/rio/config.toml` |
 | Zellij scalar sidecar | `~/.config/yazelix/zellij/config.kdl` |
 | Extra Zellij plugins | `~/.config/yazelix/zellij/plugins.kdl` |
 | Starship overrides | `~/.config/yazelix/starship.toml` |

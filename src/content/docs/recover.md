@@ -11,7 +11,7 @@ yzx doctor
 
 `yzx doctor` validates Nova's owned config, helpers, selected editor, Yazi pair,
 Zellij package, layout, and plugins. A failed preflight prints the failing
-check without opening Mars or Zellij.
+check without opening Rio or Zellij.
 
 ## Inspect runtime ownership
 

@@ -65,15 +65,25 @@ articles. The Blog does not own runtime behavior.
 
 ## Media Contract
 
-The accepted launch source is:
+Current Home and Features media is recorded from Nova 1.1 Stable revision
+`16810b21ef76e98057707c3bb18068a04ba4a350` with
+`drafts/recordings/record.sh`. The accepted workspace still is
+`public/images/nova_workspace.png`; its source is the same isolated Rio session
+as `drafts/media/nova-day-to-day.mp4`. Exact demo-repository revisions,
+commands, recording-only font corrections, and checksums live in
+`drafts/media/README.md`.
 
-- canonical repository revision: `e2ddb4d4901ed99c75c615e039428ea9c7e1e46f`
-- source: `assets/screenshots/nova_workspace.png`
-- site asset: `public/images/nova_workspace.png`
+The recorder uses fresh temporary copies of the pinned public repositories and
+isolated config and state. Its real Codex popup never submits the composed
+prompt, starts no configured MCP server, and loads no app or plugin. The
+temporary trust override applies only to the verified public Nova clone for the
+life of that process.
 
-Every public image or clip must record current Nova provenance. Stale Classic
-captures, planned placeholders, and media kept only to fill a gallery do not
-ship.
+Every public image or clip must record current Nova provenance. The Nova v1
+article and `public/blog/yazelix-nova-v1/media/` are the explicit historical
+exception: their Mars-era assets remain frozen and are never inputs to current
+loops. Stale Classic captures, planned placeholders, and media kept only to
+fill a gallery do not ship.
 
 Static images are the default. Motion is justified only when a still cannot
 communicate the behavior honestly. Motion media must:

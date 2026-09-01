@@ -15,6 +15,7 @@ pkgs.buildEnv {
     pkgs.coreutils
     pkgs.ffmpeg-full
     pkgs.git
+    pkgs.jq
     pkgs.gnused
     pkgs.picom
     pkgs.xdotool

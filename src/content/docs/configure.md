@@ -29,6 +29,7 @@ Common fields include:
 | --- | --- | --- |
 | `appearance.mode` | `dark` | Managed component appearance |
 | `shell.program` | `nu` | New panes |
+| `shell.atuin` | `true` | New managed shells |
 | `editor.command` | `yzx-hx` | New editor opens |
 | `welcome.enabled` | `true` | New launches |
 | `agent.command` | `auto` | New agent popups |
@@ -56,8 +57,7 @@ Component-specific configuration lives beside `config.toml`:
 
 | Surface | Path |
 | --- | --- |
-| Cursor definitions and selection | `~/.config/yazelix/cursors.toml` |
-| Mars overrides | `~/.config/yazelix/mars/config.toml` |
+| Nova Rio configuration | `~/.config/yazelix/rio/config.toml` |
 | Guarded Zellij scalars | `~/.config/yazelix/zellij/config.kdl` |
 | Extra Zellij plugins | `~/.config/yazelix/zellij/plugins.kdl` |
 | Starship overrides | `~/.config/yazelix/starship.toml` |

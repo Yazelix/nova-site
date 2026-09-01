@@ -1,129 +1,127 @@
-# Nova v1 draft media
+# Nova recording media
 
-These source files stay under `drafts/`. Approved copies live under the
-article's public media path.
+This directory keeps the source captures used by the current Nova site. Public
+Home and Features loops are cut from these files into `public/media/watch/`.
+The separate Nova v1 article and its media remain frozen history.
 
-The day-to-day capture pins Nova 1.1 Edge commit
-`5a673c059c454042085b191d5e8ec15c01b3d121`, with isolated temporary config and
-state directories.
+## Current Stable captures
 
-## Recording workflow
+The accepted captures use Nova 1.1 Stable at
+`16810b21ef76e98057707c3bb18068a04ba4a350`. The recorder also pins the public
+repositories shown in the workspace:
 
-The day-to-day demo is generated from pinned Nova, Mars, Nixpkgs, Ratconfig,
-Starcompass, and Anima revisions, plus an authenticated local Codex CLI:
+| Source | Revision | Branch label in the demo |
+| --- | --- | --- |
+| `Yazelix/nova` | `16810b21ef76e98057707c3bb18068a04ba4a350` | `stable` |
+| `Yazelix/ratconfig` | `675a21f17900df47585b2a8290c5436204d120e4` | `main` |
+| `Yazelix/starcompass` | `621bc6fcec916521c116e89d1ae8b146973145d5` | `edge` |
+| `Yazelix/anima` | `ea6cbedd3e5e9292b5d730003a5a9020389451f2` | `main` |
+| Nixpkgs recording toolchain | `e9a7635a57597d9754eccebdfc7045e6c8600e6b` | n/a |
+
+Run one capture with:
 
 ```sh
-nix run .#record-demo
-nix run .#record-demo -- sixty
+nix run .#record-demo -- original
 ```
 
-The command checks out the three demo repositories under the ignored
-`drafts/recordings/.work/` directory, seeds Nova's directory picker, launches
-the pinned Mars build in an isolated X display, replays the workflow, and
-replaces the draft MP4/poster copies. The sixty take is also copied under the
-article public path; original and session stay drafts-only. The workflow
-requires Nix with flakes and network access; `nix run` supplies Xvfb, Picom,
-FFmpeg, Git, Xdotool, Xwallpaper, and every remaining capture command.
+Other supported variants are `session`, `popups`, `appearance`, `yazi`,
+`live`, and `anima`. Rebuild the public loops after recapturing their sources:
 
-- `nova-day-to-day.mp4` and `nova-day-to-day-poster.png`: Mars is captured at
-  1784 by 996 pixels and 30 frames per second from `yzx launch`. Nova runs
-  Nushell with its pinned Starship prompt and Nerd Font file icons. The capture
-  explicitly unsets `NO_COLOR` so managed Yazi renders its full theme. The clip
-  keeps Rust from Ratconfig, Starcompass, and Anima open in Helix. In Yazi,
-  `Alt z` retargets the third tab
-  to Anima. From Helix, `Alt r` reveals `boids.rs` in the full Yazi popup; the
-  next file opens back in the managed editor. The clip also toggles the sidebar,
-  traverses horizontally to the next tab while the hidden sidebar is skipped,
-  restores the sidebar, reorders the tab, and opens and moves a Nu pane. The
-  Ratconfig popup jumps directly to Zellij with `5`, expands all settings with
-  `a`, and switches Zellij's pane corners off and back on live. A three-second
-  Anima Mandelbrot popup follows through `yzx anima`. The clip starts a fresh
-  `gpt-5.6-sol` session at xhigh reasoning in Nova's managed agent popup, asks a
-  short question, leaves it running in the Ratconfig tab during the workspace
-  tour, and returns to the completed answer. At Lucca's request, Codex selected
-  `partenoxenese-blue-faro.jpg` from his active COSMIC wallpaper carousel. Mars
-  renders its 0.88 opacity over that wallpaper through Picom. JetBrains Mono at
-  16 pixels and 1.12 line height match Nova and the Home Manager configuration;
-  the fixed Reef cursor preserves Mars's animated cursor trail reproducibly.
-  The complete Nova Bar remains visible beside three tabs. FFmpeg encodes the
-  native 30 FPS H.264 stream with no audio. Reduced-motion visitors see the
-  matching poster. Recapture with `bash drafts/recordings/record.sh original`.
-  Do not copy that take into the blog public path.
-- `nova-in-60-seconds.mp4` and `nova-in-60-seconds-poster.png`: the
-  "Nova in under 60 seconds" take. It opens on Mandelbrot, walks the three
-  project tabs, asks Codex on Nova, then in Anima opens a file from the tiled
-  sidebar, another from the Helix picker, reveals it, and uses Alt z to open a
-  fourth Helix buffer. A MoveTab sweep, stacked panes, and Ratconfig follow.
-  Ratconfig and Anima hide by toggle rather than quitting the pane.
-- Homepage loops in `watch/`: muted native 1784 by 996 cuts. Project tabs
-  and the agent popup come from `nova-in-60-seconds.mp4`. Git comes from
-  `nova-popups.mp4`. Yazi comes from `nova-yazi.mp4` (reveal from Helix, then
-  another file). Live config comes from `nova-appearance.mp4`. Panes plus
-  sidebar come from `nova-live.mp4`. Anima comes from `nova-anima.mp4`
-  (Mandelbrot, then boids_predator). Agent and git loops hold the tiled
-  workspace about two seconds before opening; Anima already includes that
-  lead-in in the source take. Rebuild with
-  `bash drafts/recordings/cut-home-loops.sh`.
-- Popup loops in `watch/`: git cuts from `nova-popups.mp4`. Recapture with
-  `bash drafts/recordings/record.sh popups`, then rebuild the cuts.
-- Yazi reveal take in `drafts/media/`: `nova-yazi.mp4` shows Helix, `Alt r`
-  reveal in the Yazi popup, another file, then that file opening in the editor.
-  Recapture with `bash drafts/recordings/record.sh yazi`. Do not copy that take
-  into the blog public path.
-- Appearance take in `drafts/media/`: `nova-appearance.mp4` opens Ratconfig on
-  the Zellij tab and switches Dark theme from ansi to Dracula and back.
-  Recapture with `bash drafts/recordings/record.sh appearance`. Do not copy that
-  take into the blog public path.
-- Live take in `drafts/media/`: `nova-live.mp4` toggles the sidebar, stacks
-  shells, moves one pane through the stack, then opens `yzx anima`. Recapture
-  with `bash drafts/recordings/record.sh live`. Do not copy that take into the
-  blog public path.
-- Anima take in `drafts/media/`: `nova-anima.mp4` opens Mandelbrot, hides it,
-  then opens boids_predator. Recapture with
-  `bash drafts/recordings/record.sh anima`. Do not copy that take into the
-  blog public path.
-- `nova-day-to-day-session.mp4` and `nova-day-to-day-session-poster.png`: the
-  same pinned inputs and feature inventory, replayed with longer dwell after
-  each mode change so agent, tabs, Yazi, sidebar, Ratconfig, and Anima can be
-  compared against the current take without replacing it. Recapture with
-  `bash drafts/recordings/record.sh session`. Do not copy that take into the
-  blog public path.
-- `ratconfig-nova-v1.png`: the same pinned Mars run opens `yzx config` against
-  an absent user configuration and captures Ratconfig at 1784 by 996 pixels.
+```sh
+bash drafts/recordings/cut-home-loops.sh
+```
 
-SHA-256:
+`record.sh` verifies the cached clones, copies them to a fresh
+`/tmp/nova-site-recording.*` tree, and gives the demo only those public paths.
+Nova starts with `yzx launch` under Xvfb and its packaged Rio terminal. Config,
+state, Atuin history, and zoxide data are isolated. The script resolves the
+same Zellij binary from the pinned Nova Nix closure for startup cleanup and
+teardown, then refuses to accept a capture while its recording socket remains.
+
+The Stable Rio template at this revision points Noto Fonts at `share/noto` and
+names `Noto Sans Symbols2`. The installed font uses `share/fonts/noto` and the
+family name `Noto Sans Symbols 2`. For legible recordings, the script corrects
+those two values only in its temporary copy of Rio's config. It does not change
+the pinned Nova checkout or claim that Stable already contains the fix.
+
+The agent popup is a real local Codex CLI. The accepted capture used Codex
+0.151.0 with `gpt-5.6-sol` at medium reasoning. The recorder gives the verified
+public Nova clone a process-local trust entry, disables every configured MCP
+server plus apps and plugins for that process, types a harmless prompt, and
+never submits it. No agent turn or tool call is part of the recording.
+
+All current MP4 files are muted H.264 at 1784 by 996 pixels and 30 frames per
+second. Their matching PNG files are reduced-motion posters.
+
+- `nova-day-to-day.*`: project tabs, the unsubmitted agent composition, Yazi,
+  sidebar navigation, tab movement, stacked panes, Ratconfig, and Anima. The
+  workspace still at `public/images/nova_workspace.png` is captured from the
+  same setup.
+- `nova-day-to-day-session.*`: the same workflow with longer dwell times for
+  review.
+- `nova-popups.*`: Yazi followed by Lazygit.
+- `nova-appearance.*`: Ratconfig changes a live Zellij setting and restores it.
+- `nova-yazi.*`: Helix reveals a file in Yazi and opens another file back in
+  the managed editor.
+- `nova-live.*`: sidebar, stacked shells, pane movement, and Anima.
+- `nova-anima.*`: Mandelbrot followed by `boids_predator`.
+- `watch/*`: current Home and Features loops cut only from the captures above.
+  `project-tabs` and `agent-popup` use `nova-day-to-day.mp4`; no current loop
+  reads the frozen v1 video.
+
+## Frozen Nova v1 media
+
+`nova-in-60-seconds.*` and `ratconfig-nova-v1.png` document the original
+Mars-based Nova v1 article. The public copies under
+`public/blog/yazelix-nova-v1/media/` are immutable. They are not inputs to the
+current Stable site or its loop cutter.
+
+## SHA-256
+
+Current source captures:
 
 ```text
-21ba29fe104b58c943ea8a8e62f0ebab64e1fed0f5ec03bd93cf614732773ad4  nova-day-to-day.mp4
-9baf062bbe2b184cd025e2f0f95f1b28b7598b41c851802e3a14a92c8f2ca2c4  nova-day-to-day-poster.png
-a44fa6893458b70a46eadf254631a6a63ea7c52a443dcbeb4c971874ab5b09ba  nova-day-to-day-session.mp4
-8978af55d5b4fad8e511c2ffbd7a4da607c879ec5dbb67ba68d25da8e170186e  nova-day-to-day-session-poster.png
+b21472f0aa894f573c1ba01279bc0c4cea04732c3f311e478554f3e264a5ec00  nova-day-to-day.mp4
+efe8304fbc0dced5be05bd38c5e55afe8d03bcad9071a815cb2e19d66746d580  nova-day-to-day-poster.png
+21e5add653e62dbc4fd34859836bf4b199f901a5d098130f4f66d528d193349c  nova-day-to-day-session.mp4
+b8c38dff630349d2411acd133ce3da2d7f8d871486c572091b23f8d429147402  nova-day-to-day-session-poster.png
+a4331bfcf2b1ae7d020f9e3d1b16ddd5d5b61a018ca84ab836bc46f3286d4f69  nova-popups.mp4
+48a0c49b7fe04e274cd941603b6325e0528ad1c360b0dbfdafdad68be73eba24  nova-popups-poster.png
+b809ad70d7e0793d60fb21f78d39130331660ed049e53bd07f36086e0973b221  nova-appearance.mp4
+7d628d9adeecd5c7094e67898444589b5157fbfb05381afaf0d3688cf1f4a6ac  nova-appearance-poster.png
+ea5b5080061d97e321e4d2c89695fffb406d5e0486d0807d6ca153895126b8c7  nova-yazi.mp4
+e18cd6eed90ce0f3305caafe782ffe3c12768c6a8e2c11aacf8e4b2c42a89087  nova-yazi-poster.png
+82bf0806936168814e7671dc770bb1a2a9f8c263ad33c828bbe2a42370f175ea  nova-live.mp4
+fbbe943bf0ad9a12b4b66661e9f3cbed68e1158bac88db55045880d0a1960fb1  nova-live-poster.png
+c841552f227ea86e0c922d5453b114b75b15dda367d0945612b631b8efc79cf8  nova-anima.mp4
+f875966c2ed949bbbede3347b5e904dccec2f2bf110492d0b68222b251142405  nova-anima-poster.png
+```
+
+Current loop files (the draft and public copies are byte-identical):
+
+```text
+dc5d6b97543334beee76218b90e690eaa42108171c7d4ae3206a068260f9fbfa  watch/project-tabs.mp4
+8354324a43b65fc6ffabb7afaf73d349204e49311e4eea6dd127005ea2887c4c  watch/project-tabs-poster.png
+e920a43d0999a535c7e7d215f20c7789eb50043d7bdb1a3ee48a0c008c021453  watch/stacked-panes.mp4
+00bbde4a51246808021465d8f330a3fbc9940a260bd910fd931e00ce02421810  watch/stacked-panes-poster.png
+06ba2ac089b54d2ce5e85a4d2073c57c4042a324df09c32c4538dce0e9241de1  watch/ratconfig-popup.mp4
+af29cf2817352ac1286ec7553f1e8a64c2c91c766d684530261300ece75add1d  watch/ratconfig-popup-poster.png
+33ec7f25d32fda28a32101b1c015f0f72b1f4731099713b7c0cd0f91b5ee7355  watch/agent-popup.mp4
+e7a9e8f6d61fcf27bc01482bd664481cb20c556cd6a28f3b9d914cd337a36ef1  watch/agent-popup-poster.png
+37faba0679b64e9d588f0dbf1c5e9cc93d992d45664678303099e3ef779a1c9c  watch/yazi-popup.mp4
+49de09ae8fe5077aad40df7932a91ea36a377590fa4b44e69d16b729dc0ad9e0  watch/yazi-popup-poster.png
+d53122ca3b4d4ebc0a71299099f5daac912f0649987f2c41411869c3a83a2892  watch/git-popup.mp4
+fb8dd74d48d98418d7b8e2043e2a6dad5f718a9c1f474a6a08feac0d273e17ba  watch/git-popup-poster.png
+90a2bc7959394fefe6388f9469cc494ff33e9a9c2050b7528087ebb379a030f3  watch/anima-popup.mp4
+574d8f7299e29a891db44a3dfdb3ba8a80c100d8894d41fd48d72733cb8d1c27  watch/anima-popup-poster.png
+```
+
+Still, wallpaper, and frozen v1 assets:
+
+```text
+e2f90d1acfde7ed7ce2cadb47a2a709b8fb13f87b266545f0532a1c56bed1f2f  public/images/nova_workspace.png
+623cc1382ad767970da1ca0324242183b795165d01b256ae8170cc268d56e5bd  partenoxenese-blue-faro.jpg
 0c69eb0b80a88ef1b5b7b44bda90a5891e20fc58a014a8b189541a14fa6cf31b  nova-in-60-seconds.mp4
 fb2ffd30b68bb08ddcc959155b99222eee47f1b4af10ca795cf4b2ec6322c4e7  nova-in-60-seconds-poster.png
-22198dfe87a174e67117a35d8fa4b8e08b98e66e82ac956f44e9f7c4b6ec3643  watch/project-tabs.mp4
-5084a56649a3a87d4e2f114c4e424096283a6231cd038c2422663f331cf3bd0e  watch/project-tabs-poster.png
-492f4a0ef6e7b3f469213f91b48d1493a2267379c7265633c8cad97d171c7258  watch/stacked-panes.mp4
-91c164e783011d7559269cc57af8d6330caf1673a98775da29cf7fb32308395e  watch/stacked-panes-poster.png
-063626d674165a64cc88fbf3026ad4478daa64b3e654df648269ed03144b9f20  watch/ratconfig-popup.mp4
-4ceffc03a0ded6cce3da238fccd66954286f2539a0264c42b6831d337b2941a8  watch/ratconfig-popup-poster.png
-75b4f4417a5a20dcb2262265426fddf83ba56a3a817e4ab768b5213208ec73d0  watch/agent-popup.mp4
-3aba41d543c06573584c6fb47ba102fde24fc3c3483925ca7b2a5ffb3c055324  watch/agent-popup-poster.png
-1d6dbc6cfbbe4532e02863bfe368682f356bf6bffadf51211d62f3aa5f2b4419  watch/yazi-popup.mp4
-f3c28816943c2d23656b998110a718e4be2667531ab06e97364fb2b31308e30c  watch/yazi-popup-poster.png
-ece04c3c7cac40a334850caa62ef6436d6ff2ca6d94a5ef4587c838e657f0928  watch/git-popup.mp4
-3235fbe705512ec7ff8038c74924da5ea3302cf578e6bf50c1f3fd1d9a926c5d  watch/git-popup-poster.png
-7cde7aff715b52b4f7a8171d6dbefe651cf1ae0324d55cab4b9e0c13c5fee8e9  watch/anima-popup.mp4
-87b0e2d70caa216e7a25923bed0db3194cfce9ac314a376d6bd09d003e5bee92  watch/anima-popup-poster.png
-6f5dcaee244972c2022b802579f650b5c594bcd41260e232a633a63771ef3d40  nova-popups.mp4
-407623ef62bb4916d76a95028be4d56030aa485b1c673a66beadf9a88aa9227a  nova-popups-poster.png
-edf37a2eed2ca87e6338314f21e458408e682a78127da6d17251cd3fc443a63f  nova-appearance.mp4
-9042a13655eda1e658c368baa07544459e49b241175f8a21f6100042f409395e  nova-appearance-poster.png
-6a4345a4d4f5fc42b66d002e8e0bc8f05e4142b0c1124ad3ee37f3b385ebe424  nova-yazi.mp4
-308c924c5371e960ce69b4445d96ae9c473ce8564e99decd6bf2525fe7aa6ba2  nova-yazi-poster.png
-96398d49ad7cb6cfa9010315cdcf1f26f366ecb52c2ee3870bed49a6f95faf42  nova-live.mp4
-2e2878ec377970b3c7c205266b2f93e4e105c45577beb3de65ace7227ad3cd06  nova-live-poster.png
-67d59a7e3ad4d6bc4ffb0b2aa927701ed6c6c67c664db4ac3e70a409ff751b40  nova-anima.mp4
-106b4410f21c1c3d5eb24ad752e0cf6de02197b6608848b95080f775850d0378  nova-anima-poster.png
-623cc1382ad767970da1ca0324242183b795165d01b256ae8170cc268d56e5bd  partenoxenese-blue-faro.jpg (source)
 dd68bae922ba53a2b47aa96dd84dc70b850ef4fb612693805959da68a7ceb979  ratconfig-nova-v1.png
 ```

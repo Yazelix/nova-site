@@ -7,7 +7,9 @@ atuin = true
 
 [agent]
 command = "codex"
-args = ["--cd", "__NOVA_PRODUCT_REPO__", "--model", "gpt-5.6-sol", "--config", "model_reasoning_effort=\"medium\"", "--config", "features.apps=false", "--config", "features.plugins=false", "--config", "mcp_servers.node_repl.enabled=false", "--config", "mcp_servers.openaiDeveloperDocs.enabled=false", "--config", "tui.show_tooltips=false"]
+# The project trust override is process-local. record.sh verifies that the pinned
+# public clone is clean and contains no project-local Codex configuration.
+args = ["--cd", "__NOVA_PRODUCT_REPO__", "--model", "gpt-5.6-sol", "--config", "model_reasoning_effort=\"medium\"", "--config", "projects={\"__NOVA_PRODUCT_REPO__\"={trust_level=\"trusted\"}}", "--config", "__CODEX_MCP_OVERRIDES__", "--config", "features.apps=false", "--config", "features.plugins=false", "--config", "tui.show_tooltips=false"]
 
 [popups.anima]
 command = "yzx"
