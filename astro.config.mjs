@@ -14,7 +14,7 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'Yazelix Nova',
-			description: 'A Nix-packaged terminal workspace with Mars, Yazelix Zellij, Yazi, managed Helix, and yzx.',
+			description: 'A Nix-packaged terminal workspace with Nova Rio, Nova Zellij, Yazi, managed Helix, and yzx.',
 			logo: {
 				src: './public/favicon.png',
 				alt: 'Yazelix logo',

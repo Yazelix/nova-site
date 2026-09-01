@@ -1,6 +1,6 @@
 ---
 title: Start with Yazelix Nova
-description: Try or install Stable, then choose the Mars or current-terminal entrypoint.
+description: Try or install Stable, then choose the Nova Rio or current-terminal entrypoint.
 draft: true
 ---
 
@@ -24,7 +24,7 @@ selected revision until you update it.
 nix profile add --refresh github:Yazelix/nova/stable
 ```
 
-Open the desktop workspace through Mars:
+Open the desktop workspace through Nova Rio:
 
 ```bash
 yzx launch
@@ -47,10 +47,10 @@ rest of the workspace.
 
 ```bash
 nix run github:Yazelix/nova/stable -- launch
-nix run github:Yazelix/nova/stable#yazelix-no-mars -- enter
+nix run github:Yazelix/nova/stable -- enter
 ```
 
-Run the owned preflight without opening Mars or Zellij:
+Run the owned preflight without opening Rio or Zellij:
 
 ```bash
 nix run github:Yazelix/nova/stable -- doctor
@@ -58,6 +58,7 @@ nix run github:Yazelix/nova/stable -- doctor
 
 ## Named sessions
 
+A session is the outer live Nova environment; its tabs hold project workspaces.
 Plain `yzx launch` and `yzx enter` start independent sessions. Add
 `--session NAME` to create a fresh named session:
 
@@ -85,20 +86,25 @@ seconds. Press `Alt 1-9` to select a tab, then retry. See
 
 ## Choose a package
 
-Package names follow `yazelix[-no-mars][-no-helix][-no-yazi]`. The suffixes
-remove Mars, managed Helix, or managed Yazi while retaining the remaining Nova
-integration.
+Package names follow `yazelix[-no-helix][-no-yazi]`:
+
+| Package | Managed Helix | Managed Yazi |
+| --- | --- | --- |
+| `yazelix` | Yes | Yes |
+| `yazelix-no-helix` | No | Yes |
+| `yazelix-no-yazi` | Yes | No |
+| `yazelix-no-helix-no-yazi` | No | No |
 
 ```bash
-nix profile add --refresh github:Yazelix/nova/stable#yazelix-no-mars
+nix profile add --refresh github:Yazelix/nova/stable#yazelix-no-helix
 ```
 
-Use `yzx enter` with a Mars-free package. Helix-free packages need an installed
-editor selected through `editor.command`. Yazi-free packages need matching
-host `yazi` and `ya` commands.
+All four packages retain Nova Rio. Helix-free packages need an installed editor
+selected through `editor.command`. Yazi-free packages need matching host `yazi`
+and `ya` commands.
 
 See the canonical [installation and package guide](https://github.com/Yazelix/nova/blob/stable/docs/installation.md)
-for the full matrix, platform evidence, Home Manager, and installed sizes.
+for the full matrix, platform evidence, and Home Manager.
 
 ## First five minutes
 
@@ -108,7 +114,7 @@ Start the packaged tutor after entering Nova:
 yzx tutor begin
 ```
 
-- `yzx launch` opens Mars, then the managed workspace
+- `yzx launch` opens Nova Rio, then the managed workspace
 - `yzx enter` opens the managed workspace in the current terminal
 - `Alt Shift K` opens Ratconfig inside Nova
 - `yzx config` opens Ratconfig from another terminal

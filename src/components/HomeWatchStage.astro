@@ -7,7 +7,7 @@ const { clips, groupLabel = 'Clips' } = Astro.props as {
 	groupLabel?: string;
 };
 const first = clips[0];
-if (!first) throw new Error('watch stage clips is empty');
+if (!first) throw new Error('watch stage clip list is empty');
 ---
 
 <figure class="watch-stage">

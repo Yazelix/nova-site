@@ -4,11 +4,11 @@ set -euo pipefail
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 readonly WORK_DIR="$SCRIPT_DIR/.work"
-readonly SOURCE_DIR="$WORK_DIR/sources"
+readonly SOURCE_CACHE_DIR="$WORK_DIR/sources"
 readonly OUTPUT_DIR="$REPO_ROOT/drafts/media"
-readonly PUBLIC_DIR="$REPO_ROOT/public/blog/yazelix-nova-v1/media"
+readonly WORKSPACE_STILL="$REPO_ROOT/public/images/nova_workspace.png"
 readonly WALLPAPER="$SCRIPT_DIR/partenoxenese-blue-faro.jpg"
-readonly NOVA_REV="5a673c059c454042085b191d5e8ec15c01b3d121"
+readonly NOVA_REV="16810b21ef76e98057707c3bb18068a04ba4a350"
 readonly WIDTH=1784
 readonly HEIGHT=996
 readonly VARIANT="${1:-original}"
@@ -16,51 +16,39 @@ case "$VARIANT" in
 original)
 	readonly CLIP_STEM="nova-day-to-day"
 	readonly POSTER_OFFSET=9
-	readonly CAPTURE_RATCONFIG=1
 	;;
 session)
 	readonly CLIP_STEM="nova-day-to-day-session"
 	readonly POSTER_OFFSET=8
-	readonly CAPTURE_RATCONFIG=0
-	;;
-sixty)
-	readonly CLIP_STEM="nova-in-60-seconds"
-	readonly POSTER_OFFSET=1.6
-	readonly CAPTURE_RATCONFIG=0
 	;;
 popups)
 	readonly CLIP_STEM="nova-popups"
 	readonly POSTER_OFFSET=2
-	readonly CAPTURE_RATCONFIG=0
 	;;
 appearance)
 	readonly CLIP_STEM="nova-appearance"
 	readonly POSTER_OFFSET=4
-	readonly CAPTURE_RATCONFIG=0
 	;;
 yazi)
 	readonly CLIP_STEM="nova-yazi"
 	readonly POSTER_OFFSET=3
-	readonly CAPTURE_RATCONFIG=0
 	;;
 live)
 	readonly CLIP_STEM="nova-live"
 	readonly POSTER_OFFSET=6
-	readonly CAPTURE_RATCONFIG=0
 	;;
 anima)
 	readonly CLIP_STEM="nova-anima"
 	readonly POSTER_OFFSET=9
-	readonly CAPTURE_RATCONFIG=0
 	;;
 *)
-	printf 'usage: record.sh [original|session|sixty|popups|appearance|yazi|live|anima]\n' >&2
+	printf 'usage: record.sh [original|session|popups|appearance|yazi|live|anima]\n' >&2
 	exit 2
 	;;
 esac
 TOOLCHAIN=""
 NOVA=""
-MARS=""
+ZELLIJ=""
 RUN_DIR=""
 DISPLAY=""
 NOVA_SITE_SESSION=""
@@ -70,44 +58,95 @@ nova_pid=""
 capture_pid=""
 
 recording_zellij() {
-	if command -v zellij >/dev/null 2>&1; then
-		command -v zellij
-	elif [[ -n "$NOVA" && -x "$NOVA/bin/zellij" ]]; then
-		printf '%s\n' "$NOVA/bin/zellij"
+	if [[ -n "$ZELLIJ" && -x "$ZELLIJ" ]]; then
+		printf '%s\n' "$ZELLIJ"
 	fi
+}
+
+zellij_runtime_dir() {
+	printf '%s/zellij\n' "${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+}
+
+recording_session_is_live() {
+	local session="$1" socket
+	for socket in "$(zellij_runtime_dir)"/*/"$session"; do
+		[[ -S "$socket" ]] && return 0
+	done
+	return 1
 }
 
 # Zellij's server detaches from yzx, so killing nova_pid leaves Helix/Codex resident.
-delete_recording_sessions() {
-	local zellij_bin session
+kill_recording_sessions() {
+	local zellij_bin session socket
 	zellij_bin="$(recording_zellij)"
 	[[ -n "$zellij_bin" ]] || return 0
 	if [[ -n "${1:-}" ]]; then
-		"$zellij_bin" delete-session --force "$1" >/dev/null 2>&1 || true
-		return 0
+		for _ in $(seq 1 20); do
+			"$zellij_bin" kill-session "$1" >/dev/null 2>&1 || true
+			recording_session_is_live "$1" || return 0
+			sleep 0.25
+		done
+		printf 'recording session %s did not stop\n' "$1" >&2
+		return 1
 	fi
-	while IFS= read -r session; do
-		[[ "$session" == nova-site-recording-* ]] || continue
-		"$zellij_bin" delete-session --force "$session" >/dev/null 2>&1 || true
-	done < <("$zellij_bin" list-sessions --short --no-formatting 2>/dev/null || true)
+	for socket in "$(zellij_runtime_dir)"/*/nova-site-recording-*; do
+		[[ -S "$socket" ]] || continue
+		session="${socket##*/}"
+		kill_recording_sessions "$session"
+	done
 }
 
 cleanup() {
+	local session_stopped=1
 	for pid in "$capture_pid" "$nova_pid" "$picom_pid" "$xvfb_pid"; do
 		[[ -z "$pid" ]] || kill "$pid" 2>/dev/null || true
 	done
-	[[ -z "$NOVA_SITE_SESSION" ]] || delete_recording_sessions "$NOVA_SITE_SESSION"
+	if [[ -n "$NOVA_SITE_SESSION" ]] && ! kill_recording_sessions "$NOVA_SITE_SESSION"; then
+		session_stopped=0
+	fi
+	if [[ -n "$RUN_DIR" && -d "$RUN_DIR" && "$session_stopped" == 1 ]]; then
+		case "$RUN_DIR" in
+		"${TMPDIR:-/tmp}"/nova-site-recording.??????)
+			"${TOOLCHAIN:+$TOOLCHAIN/bin/}rm" -rf -- "$RUN_DIR"
+			;;
+		*)
+			printf 'refusing to remove unexpected recording directory: %s\n' "$RUN_DIR" >&2
+			;;
+		esac
+	fi
 }
 trap cleanup EXIT
 
 clone_at() {
 	local name="$1" url="$2" revision="$3" branch="$4"
-	local destination="$SOURCE_DIR/$name"
+	local destination="$SOURCE_CACHE_DIR/$name"
 	if [[ ! -d "$destination/.git" ]]; then
 		"$TOOLCHAIN/bin/git" clone --filter=blob:none --no-checkout "$url" "$destination"
 	fi
-	"$TOOLCHAIN/bin/git" -C "$destination" fetch --depth 1 origin "$revision"
-	"$TOOLCHAIN/bin/git" -C "$destination" checkout --force -B "$branch" FETCH_HEAD
+	if [[ "$("$TOOLCHAIN/bin/git" -C "$destination" remote get-url origin)" != "$url" ]]; then
+		printf 'source %s has an unexpected origin\n' "$name" >&2
+		exit 1
+	fi
+	if "$TOOLCHAIN/bin/git" -C "$destination" cat-file -e "$revision^{commit}" 2>/dev/null; then
+		printf 'source %s: reuse %s\n' "$name" "$revision"
+	else
+		printf 'source %s: fetch %s\n' "$name" "$revision"
+		"$TOOLCHAIN/bin/git" -C "$destination" fetch --depth 1 origin "$revision"
+	fi
+	"$TOOLCHAIN/bin/git" -C "$destination" checkout --force -B "$branch" "$revision"
+	if [[ -n "$("$TOOLCHAIN/bin/git" -C "$destination" status --porcelain)" ]]; then
+		printf 'source %s is not a clean pinned checkout\n' "$name" >&2
+		exit 1
+	fi
+}
+
+prepare_demo_clone() {
+	local name="$1" revision="$2" branch="$3"
+	local source="$SOURCE_CACHE_DIR/$name"
+	local destination="$DEMO_SOURCE_DIR/$name"
+	printf 'demo source %s: copy pinned working tree\n' "$name"
+	cp -a "$source" "$destination"
+	"$TOOLCHAIN/bin/git" -C "$destination" checkout --quiet --force -B "$branch" "$revision"
 }
 
 key() {
@@ -126,6 +165,7 @@ type_readably() {
 play_original() {
 	sleep 0.8
 	key alt+shift+l 3
+	type_readably "Summarize public Nova behavior without using tools."
 	key alt+2 1.2
 	key ctrl+t
 	key n 1.2
@@ -168,6 +208,7 @@ play_original() {
 play_session() {
 	sleep 6
 	key alt+shift+l 5
+	type_readably "Summarize public Nova behavior without using tools."
 	key alt+2 3
 	key ctrl+t
 	key n 2.5
@@ -206,72 +247,6 @@ play_session() {
 	key Return 1
 	sleep 4
 	key alt+1 3
-}
-
-play_sixty() {
-	sleep 3.4
-	key alt+shift+b 0.85
-	key alt+2 0.85
-	key alt+1 1
-	key alt+shift+l 1.2
-	type_readably "what's special about yazelix nova, for someone who never used it before? under 2048 chars"
-	key Return 0.9
-	key alt+3 0.7
-	key ctrl+y 1.0
-	sleep 0.45
-	key j 0.65
-	sleep 0.4
-	key l 1.2
-	sleep 0.5
-	key j 0.55
-	key j 0.6
-	sleep 0.5
-	key Return 1.8
-	sleep 0.4
-	key space 0.3
-	key f 1.0
-	type_text lib.rs
-	sleep 0.45
-	key Return 1.5
-	key alt+r 1.6
-	key alt+z 1.6
-	type_text anima
-	key Return 2.5
-	type_text src/matrix.rs
-	sleep 0.45
-	key Return 2.0
-	key ctrl+alt+h 0.75
-	key ctrl+alt+h 0.75
-	key ctrl+alt+l 0.75
-	key ctrl+alt+l 0.8
-	key alt+shift+h 0.7
-	key alt+m 1
-	type_text 'yzx --version'
-	key Return 1.1
-	key alt+m 1
-	type_text 'ls src'
-	key Return 1.1
-	key alt+m 1
-	type_text 'git log -1 --oneline'
-	key Return 1.1
-	key alt+k 0.45
-	key alt+k 0.45
-	key alt+j 0.45
-	key alt+j 0.45
-	key ctrl+alt+j 1
-	key alt+shift+h 0.8
-	key alt+shift+k 2
-	key 5 0.8
-	key a 0.8
-	key slash 0.2
-	type_text rounded
-	key Return 0.8
-	key space 0.4
-	key Return 1.4
-	key space 0.4
-	key Return 1.4
-	key alt+shift+k 0.7
-	key alt+1 4.5
 }
 
 play_popups() {
@@ -354,18 +329,46 @@ play_appearance() {
 
 readonly TOOLCHAIN="$(nix build --no-link --print-out-paths --impure --expr "(import $SCRIPT_DIR/toolchain.nix {})")"
 readonly NOVA="$(nix build --no-link --print-out-paths "github:Yazelix/nova/$NOVA_REV")"
-readonly MARS="$(nix-store -qR "$NOVA" | sed -n '/-mars$/p' | head -n1)"
-delete_recording_sessions
+mapfile -t zellij_bins < <(
+	nix-store -qR "$NOVA" | while IFS= read -r store_path; do
+		[[ -x "$store_path/bin/zellij" ]] && printf '%s/bin/zellij\n' "$store_path"
+	done
+)
+if [[ "${#zellij_bins[@]}" -ne 1 ]]; then
+	printf 'expected one Zellij binary in the pinned Nova closure, found %s\n' "${#zellij_bins[@]}" >&2
+	exit 1
+fi
+ZELLIJ="${zellij_bins[0]}"
+kill_recording_sessions
 mkdir -p "$WORK_DIR"
-readonly RUN_DIR="$(mktemp -d "$WORK_DIR/run.XXXXXX")"
+readonly RUN_DIR="$(mktemp -d "${TMPDIR:-/tmp}/nova-site-recording.XXXXXX")"
+readonly DEMO_SOURCE_DIR="$RUN_DIR/github.com/Yazelix"
 
-mkdir -p "$SOURCE_DIR" "$RUN_DIR/state" "$RUN_DIR/zoxide" "$OUTPUT_DIR" "$PUBLIC_DIR"
+mkdir -p "$SOURCE_CACHE_DIR" "$DEMO_SOURCE_DIR" "$RUN_DIR/state" "$RUN_DIR/zoxide" "$OUTPUT_DIR"
+clone_at nova https://github.com/Yazelix/nova.git "$NOVA_REV" stable
 clone_at ratconfig https://github.com/Yazelix/ratconfig.git 675a21f17900df47585b2a8290c5436204d120e4 main
 clone_at starcompass https://github.com/Yazelix/starcompass.git 621bc6fcec916521c116e89d1ae8b146973145d5 edge
 clone_at anima https://github.com/Yazelix/anima.git ea6cbedd3e5e9292b5d730003a5a9020389451f2 main
-"$TOOLCHAIN/bin/git" -C "$SOURCE_DIR/anima" branch -f edge
-"$TOOLCHAIN/bin/git" -C "$SOURCE_DIR/anima" branch -f stable
+prepare_demo_clone nova "$NOVA_REV" stable
+prepare_demo_clone ratconfig 675a21f17900df47585b2a8290c5436204d120e4 main
+prepare_demo_clone starcompass 621bc6fcec916521c116e89d1ae8b146973145d5 edge
+prepare_demo_clone anima ea6cbedd3e5e9292b5d730003a5a9020389451f2 main
+if [[ -e "$DEMO_SOURCE_DIR/nova/.codex" ]]; then
+	printf 'refusing to trust a Nova checkout with project-local Codex configuration\n' >&2
+	exit 1
+fi
+"$TOOLCHAIN/bin/git" -C "$DEMO_SOURCE_DIR/anima" branch -f edge
+"$TOOLCHAIN/bin/git" -C "$DEMO_SOURCE_DIR/anima" branch -f stable
 cp -R "$SCRIPT_DIR/config" "$RUN_DIR/config"
+mkdir -p "$RUN_DIR/config/rio"
+cp -R "$NOVA/share/yazelix/rio/." "$RUN_DIR/config/rio/"
+chmod -R u+w "$RUN_DIR/config/rio"
+sed -i \
+	-e '/-noto-fonts-[^c]/s|/share/noto|/share/fonts/noto|' \
+	-e 's/Noto Sans Symbols2/Noto Sans Symbols 2/' \
+	"$RUN_DIR/config/rio/config.toml"
+grep -Fq 'font-family = "Noto Sans Symbols 2"' "$RUN_DIR/config/rio/config.toml"
+grep -Eq -- '-noto-fonts-[^c][^/]*/share/fonts/noto' "$RUN_DIR/config/rio/config.toml"
 mkdir -p "$RUN_DIR/atuin"
 cat >"$RUN_DIR/atuin/config.toml" <<EOF
 db_path = "$RUN_DIR/atuin/history.db"
@@ -373,14 +376,21 @@ auto_sync = false
 update_check = false
 EOF
 export ATUIN_CONFIG_DIR="$RUN_DIR/atuin"
-readonly NOVA_PRODUCT_REPO="$(cd "$REPO_ROOT/../nova" && pwd)"
+readonly NOVA_PRODUCT_REPO="$DEMO_SOURCE_DIR/nova"
+readonly CODEX_MCP_OVERRIDES="$(codex mcp list --json | "$TOOLCHAIN/bin/jq" -er '
+	if all(.[].name; test("^[A-Za-z0-9_-]+$")) then
+		"mcp_servers={" + (map(.name + "={enabled=false}") | join(",")) + "}"
+	else
+		error("MCP server name cannot be represented as a safe TOML bare key")
+	end
+')"
 sed -i \
-	-e "s|__NOVA_SITE_REPO_ROOT__|$REPO_ROOT|" \
-	-e "s|__NOVA_PRODUCT_REPO__|$NOVA_PRODUCT_REPO|" \
+	-e "s|__NOVA_PRODUCT_REPO__|$NOVA_PRODUCT_REPO|g" \
+	-e "s|__CODEX_MCP_OVERRIDES__|$CODEX_MCP_OVERRIDES|" \
 	"$RUN_DIR/config/config.toml"
-ln -s "$SOURCE_DIR" "$RUN_DIR/sources"
+ln -s "$DEMO_SOURCE_DIR" "$RUN_DIR/sources"
 
-for path in "$REPO_ROOT" "$SOURCE_DIR/ratconfig" "$SOURCE_DIR/starcompass" "$SOURCE_DIR/anima"; do
+for path in "$DEMO_SOURCE_DIR/ratconfig" "$DEMO_SOURCE_DIR/starcompass" "$DEMO_SOURCE_DIR/anima"; do
 	_ZO_DATA_DIR="$RUN_DIR/zoxide" "$TOOLCHAIN/bin/zoxide" add --score 8 "$path"
 done
 _ZO_DATA_DIR="$RUN_DIR/zoxide" "$TOOLCHAIN/bin/zoxide" add --score 20 "$NOVA_PRODUCT_REPO"
@@ -412,9 +422,6 @@ sleep 1
 export NOVA_SITE_NOVA="$NOVA"
 export NOVA_SITE_RECORDING_ROOT="$RUN_DIR"
 export NOVA_SITE_SESSION="nova-site-recording-$$"
-if [[ "$VARIANT" == sixty ]]; then
-	export NOVA_SITE_START_DIR="$NOVA_PRODUCT_REPO"
-fi
 env -u WAYLAND_DISPLAY -u XDG_SESSION_TYPE -u XDG_CURRENT_DESKTOP -u NO_COLOR \
 	WINIT_UNIX_BACKEND=x11 PATH="$SCRIPT_DIR:$TOOLCHAIN/bin:$PATH" \
 	"$SCRIPT_DIR/run-nova.sh" >"$RUN_DIR/nova.log" 2>&1 &
@@ -431,26 +438,21 @@ done
 	cat "$RUN_DIR/nova.log" >&2
 	exit 1
 }
-"$TOOLCHAIN/bin/xdotool" windowmove "$window" 0 0 windowsize "$window" "$WIDTH" "$HEIGHT" windowfocus --sync "$window"
+"$TOOLCHAIN/bin/xdotool" windowmap --sync "$window" \
+	windowmove "$window" 0 0 \
+	windowsize "$window" "$WIDTH" "$HEIGHT" \
+	windowraise "$window" \
+	windowfocus --sync "$window"
 sleep 12
 
-# Prepare tabs before recording. Sixty starts on tab 3 with Mandelbrot already open.
+# Prepare deterministic project tabs before recording.
 key alt+m 0.8
-if [[ "$VARIANT" == sixty ]]; then
-	type_text 'hx AGENTS.md'
-	key Return 4
-	key ctrl+t
-	key r
-	type_text nova
-	key Return 1
-else
-	type_text 'hx src/render.rs'
-	key Return 4
-	key ctrl+t
-	key r
-	type_text ratconfig
-	key Return 1
-fi
+type_text 'hx src/render.rs'
+key Return 4
+key ctrl+t
+key r
+type_text ratconfig
+key Return 1
 key ctrl+t
 key n 2.2
 key ctrl+y 0.6
@@ -459,18 +461,13 @@ type_text starcompass
 key Return 4.5
 type_text src/starcompass.rs
 key Return 3.5
-if [[ "$VARIANT" == sixty ]]; then
-	key ctrl+t
-	key n 2.2
-	key ctrl+y 0.6
-	key alt+z 1.5
-	type_text anima
-	key Return 4.5
-	type_text src/boids.rs
-	key Return 3.5
-	key alt+shift+b 2.0
-else
-	key alt+1 1.2
+key alt+1 1.2
+
+if [[ "$VARIANT" == original ]]; then
+	"$TOOLCHAIN/bin/ffmpeg" -hide_banner -loglevel error \
+		-f x11grab -draw_mouse 0 -video_size "${WIDTH}x${HEIGHT}" -i "$DISPLAY" \
+		-frames:v 1 -y "$RUN_DIR/nova_workspace.png"
+	cp "$RUN_DIR/nova_workspace.png" "$WORKSPACE_STILL"
 fi
 
 "$TOOLCHAIN/bin/ffmpeg" -hide_banner -loglevel error \
@@ -486,44 +483,13 @@ capture_pid=""
 kill "$nova_pid" 2>/dev/null || true
 wait "$nova_pid" 2>/dev/null || true
 nova_pid=""
-
-if [[ "$CAPTURE_RATCONFIG" == 1 ]]; then
-	mkdir -p "$RUN_DIR/ratconfig"
-	env -u WAYLAND_DISPLAY -u XDG_SESSION_TYPE -u XDG_CURRENT_DESKTOP -u NO_COLOR \
-		DISPLAY="$DISPLAY" WINIT_UNIX_BACKEND=x11 \
-		MARS_APP_ID=nova-ratconfig MARS_CONFIG_HOME="$SCRIPT_DIR/config/mars" \
-		MARS_BASE_CONFIG_HOME="$MARS/share/mars" YAZELIX_CURSOR_CONFIG="$SCRIPT_DIR/config/cursors.toml" \
-		YAZELIX_CONFIG_HOME="$RUN_DIR/ratconfig" PATH="$NOVA/bin:$PATH" \
-		"$MARS/bin/mars" --title-placeholder nova-ratconfig -e "$NOVA/bin/yzx" config \
-		>"$RUN_DIR/ratconfig.log" 2>&1 &
-	nova_pid=$!
-	window=""
-	for _ in $(seq 1 100); do
-		window="$("$TOOLCHAIN/bin/xdotool" search --class nova-ratconfig 2>/dev/null | head -n1 || true)"
-		[[ -z "$window" ]] || break
-		sleep 0.1
-	done
-	[[ -n "$window" ]]
-	"$TOOLCHAIN/bin/xdotool" windowmove "$window" 0 0 windowsize "$window" "$WIDTH" "$HEIGHT"
-	sleep 3
-	"$TOOLCHAIN/bin/ffmpeg" -hide_banner -loglevel error \
-		-f x11grab -draw_mouse 0 -framerate 30 -video_size "${WIDTH}x${HEIGHT}" -i "$DISPLAY" \
-		-frames:v 1 -y "$RUN_DIR/ratconfig-nova-v1.png"
-	kill "$nova_pid" 2>/dev/null || true
-	wait "$nova_pid" 2>/dev/null || true
-	nova_pid=""
-	cp "$RUN_DIR/ratconfig-nova-v1.png" "$OUTPUT_DIR/ratconfig-nova-v1.png"
-	cp "$RUN_DIR/ratconfig-nova-v1.png" "$PUBLIC_DIR/ratconfig-nova-v1.png"
-fi
+kill_recording_sessions "$NOVA_SITE_SESSION"
+NOVA_SITE_SESSION=""
 
 "$TOOLCHAIN/bin/ffmpeg" -hide_banner -loglevel error -ss "$POSTER_OFFSET" -i "$RUN_DIR/${CLIP_STEM}.mp4" \
 	-frames:v 1 -y "$RUN_DIR/${CLIP_STEM}-poster.png"
 cp "$RUN_DIR/${CLIP_STEM}.mp4" "$OUTPUT_DIR/${CLIP_STEM}.mp4"
 cp "$RUN_DIR/${CLIP_STEM}-poster.png" "$OUTPUT_DIR/${CLIP_STEM}-poster.png"
-if [[ "$VARIANT" == sixty ]]; then
-	cp "$RUN_DIR/${CLIP_STEM}.mp4" "$PUBLIC_DIR/${CLIP_STEM}.mp4"
-	cp "$RUN_DIR/${CLIP_STEM}-poster.png" "$PUBLIC_DIR/${CLIP_STEM}-poster.png"
-fi
 
 readonly MP4_SHA256="$(sha256sum "$OUTPUT_DIR/${CLIP_STEM}.mp4" | cut -d ' ' -f 1)"
 readonly POSTER_SHA256="$(sha256sum "$OUTPUT_DIR/${CLIP_STEM}-poster.png" | cut -d ' ' -f 1)"
@@ -536,15 +502,7 @@ else
 	printf '%s  %s.mp4\n%s  %s-poster.png\n' "$MP4_SHA256" "$CLIP_STEM" "$POSTER_SHA256" "$CLIP_STEM" \
 		>>"$OUTPUT_DIR/README.md"
 fi
-if [[ "$CAPTURE_RATCONFIG" == 1 ]]; then
-	readonly RATCONFIG_SHA256="$(sha256sum "$OUTPUT_DIR/ratconfig-nova-v1.png" | cut -d ' ' -f 1)"
-	sed -i -E \
-		-e "s/^[0-9a-f]{64}  ratconfig-nova-v1\\.png$/$RATCONFIG_SHA256  ratconfig-nova-v1.png/" \
-		"$OUTPUT_DIR/README.md"
-fi
-
 "$TOOLCHAIN/bin/ffprobe" -v error \
 	-show_entries format=duration:stream=codec_name,width,height,pix_fmt,r_frame_rate,avg_frame_rate,nb_frames \
 	-of default=noprint_wrappers=1 "$OUTPUT_DIR/${CLIP_STEM}.mp4"
 sha256sum "$OUTPUT_DIR/${CLIP_STEM}.mp4" "$OUTPUT_DIR/${CLIP_STEM}-poster.png"
-"$TOOLCHAIN/bin/rm" -rf -- "$RUN_DIR"

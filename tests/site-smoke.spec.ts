@@ -79,6 +79,8 @@ test('home page exposes product and docs actions', async ({ page, request }) => 
 	await expect(page.getByRole('link', { name: 'See features' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Read docs' })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'See them on Features' })).toHaveCount(2);
+	const normalizedHomeCopy = (await page.locator('body').innerText()).replace(/\s+/g, ' ');
+	expect(normalizedHomeCopy.match(/hide\. See them on Features/g)).toHaveLength(2);
 	await expect(page.getByRole('link', { name: 'watch the full 56 seconds' })).toHaveCount(0);
 	await expect(page.getByRole('link', { name: 'Read the article' })).toHaveCount(0);
 	await expect(page.getByRole('heading', { name: 'Popup tools' })).toBeVisible();
@@ -197,9 +199,16 @@ test('features page exposes the lean Nova product tour', async ({ page }) => {
 		'#named-sessions',
 	]);
 	await expect(page.locator('.feature-section-link').first()).toHaveCSS('text-decoration-line', 'underline');
-	await expect(page.getByRole('link', { name: 'full 63 seconds' })).toHaveAttribute('href', '/blog/yazelix-nova-v1/');
+	await expect(page.getByRole('link', { name: 'historical Nova v1 tour' })).toHaveAttribute(
+		'href',
+		'/blog/yazelix-nova-v1/',
+	);
 	await expect(page.getByRole('link', { name: 'Nova and Zellij' })).toHaveAttribute('href', '/docs/nova-and-zellij/');
 	await expect(page.locator('a[href="/docs/#start-named-sessions"]')).toBeVisible();
+	const normalizedFeaturesCopy = (await page.locator('body').innerText()).replace(/\s+/g, ' ');
+	expect(normalizedFeaturesCopy).toContain('workspace. yzx enter');
+	expect(normalizedFeaturesCopy).toContain('Add --session NAME');
+	expect(normalizedFeaturesCopy).toContain('project workspaces remain tabs inside it');
 	await expect(page.locator('.feature-page video')).toHaveCount(7);
 	await expect(page.locator('#project-tabs')).toBeVisible();
 	await expect(page.locator('#stacked-panes')).toBeVisible();
@@ -410,7 +419,10 @@ test('public Nova contract and internal links stay valid', async ({ page }) => {
 	for (const required of [
 		'nix profile add --refresh github:Yazelix/nova/stable',
 		'nix run github:Yazelix/nova/stable -- launch',
-		'nix run github:Yazelix/nova/stable#yazelix-no-mars -- enter',
+		'nix run github:Yazelix/nova/stable -- enter',
+		'Nova Rio, Nova Zellij, Yazi, managed Helix, and Nushell',
+		'Package names follow yazelix[-no-helix][-no-yazi]',
+		'yazelix-no-helix-no-yazi',
 		'Set a terminal profile to run yzx enter, or open the installed Linux desktop entry.',
 		'Most days, you do not type another yzx command after Nova opens.',
 		'Alt Shift K opens Ratconfig',
@@ -423,11 +435,19 @@ test('public Nova contract and internal links stay valid', async ({ page }) => {
 		'Select a live session to switch, or type a missing name and press Enter',
 		'may pause for several seconds. Press Alt 1-9 to select a tab, then retry',
 		'~/.config/yazelix/config.toml',
+		'~/.config/yazelix/rio/config.toml',
+		'shell.atuin',
+		'Sessions, tabs, and panes',
+		'the session is the window: one live Nova environment that can hold several projects',
+		'each tab is a project workspace with one canonical root',
+		'--session NAME names the outer live session, not a project tab',
+		'One named session can contain several project tabs.',
+		'This is live reattachment, not structural restore after the session has ended.',
 	]) {
 		expect.soft(publicCopy.includes(required), `missing public Nova contract: ${required}`).toBe(true);
 	}
 	const classicOnly =
-		/settings\.jsonc|yazelix_cursors|yzx (?:update|restart|desktop|reset|keys)|doctor --|version-short|right agent sidebar/i;
+		/settings\.jsonc|yazelix_cursors|no-mars|mars\/config|yzx (?:update|restart|desktop|reset|keys)|doctor --|version-short|right agent sidebar/i;
 	expect.soft(classicOnly.test(publicCopy), 'Classic-only public contract returned').toBe(false);
 
 	const externalLinks = await page.locator('a[href^="https://"]').evaluateAll((links) =>

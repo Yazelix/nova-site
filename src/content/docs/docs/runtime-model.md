@@ -6,27 +6,26 @@ description: The yzx entrypoints, package variants, config boundary, and compone
 Yazelix Nova is a Nix-packaged terminal workspace with one front door: `yzx`.
 
 ```text
-yzx launch -> Mars -> managed Zellij workspace
+yzx launch -> Nova Rio -> managed Zellij workspace
 yzx enter  -> current terminal -> managed Zellij workspace
 yzx run    -> prepared Nova environment -> requested program
 ```
 
-Bare `yzx` prints help. `launch` is the only Mars route. `enter` needs an
+Bare `yzx` prints help. `launch` is the only Nova Rio route. `enter` needs an
 interactive terminal and works without a display server.
 
 ## Packages
 
 The full package includes:
 
-- Mars for graphical launch
+- Nova Rio for graphical launch
 - the Yazelix Zellij fork and managed layout
 - managed Yazi, Helix, and Nushell
 - popup, config, screen, tutor, Git, prompt, and completion tools
 
-Package names follow `yazelix[-no-mars][-no-helix][-no-yazi]`. Each suffix
+Package names follow `yazelix[-no-helix][-no-yazi]`. Each suffix
 removes that managed package while retaining the remaining integration.
-Mars-free packages use `yzx enter`; Helix-free and Yazi-free packages use the
-selected host tools.
+Helix-free and Yazi-free packages use the selected host tools.
 
 ## Generated runtime state
 
@@ -49,6 +48,32 @@ The optional sparse semantic config is:
 Component-native files live under the same `~/.config/yazelix/` root. Normal
 host config at `~/.config/{helix,yazi,starship}` is not loaded by default.
 
+## Sessions, tabs, and panes
+
+A useful mental model is a browser window:
+
+- the session is the window: one live Nova environment that can hold several projects
+- each tab is a project workspace with one canonical root
+- panes are the editor, Yazi sidebar, shells, and tools working in that tab
+- processes run inside those panes
+
+Zellij owns the session, tabs, panes, their processes, and live attachment.
+Nova gives that structure project semantics: the pane orchestrator tracks one
+workspace root per tab and routes the managed sidebar, editor, popups, and tools
+around it.
+
+`--session NAME` names the outer live session, not a project tab. It gives that
+session a stable reattachment target:
+
+```bash
+yzx enter --session daily
+yzx enter attach daily
+```
+
+The first command creates a fresh session. The second attaches while that
+session is still running. One named session can contain several project tabs.
+This is live reattachment, not structural restore after the session has ended.
+
 ## Workspace identity
 
 Nova targets managed panes by identity:
@@ -62,11 +87,11 @@ Nova targets managed panes by identity:
 
 ## Ownership
 
-Mars owns the terminal. Zellij owns multiplexing. Ratconfig owns the config UI
-toolkit, and focused first-party packages own popups, pane orchestration, the
-top bar, screens, cursors, and Yazi themes. Nova pins and composes their
-package outputs. [Nova and Zellij](/docs/nova-and-zellij/) lists the packaged
-layout, plugins, and the Nova Zellij fork delta.
+Nova Rio owns graphical launch. Zellij owns multiplexing. Ratconfig owns the
+config UI toolkit, and focused first-party packages own popups, pane
+orchestration, the top bar, screens, and Yazi themes. Nova pins and composes
+their package outputs. [Nova and Zellij](/docs/nova-and-zellij/) lists the
+packaged layout, plugins, and the Nova Zellij fork delta.
 
 See the canonical [architecture](https://github.com/Yazelix/nova/blob/stable/ARCHITECTURE.md)
 for component contracts and verification gaps.

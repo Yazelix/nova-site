@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Cut Home and Features loops from the published sixty-second take, the
-# drafts-only popup, appearance, Yazi reveal, live, and Anima takes. Re-run after
-# recapturing a source.
+# Cut Home and Features loops only from current Stable draft captures.
 
 readonly REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-readonly SIXTY="$REPO_ROOT/public/blog/yazelix-nova-v1/media/nova-in-60-seconds.mp4"
+readonly DAY_TO_DAY="$REPO_ROOT/drafts/media/nova-day-to-day.mp4"
 readonly POPUPS="$REPO_ROOT/drafts/media/nova-popups.mp4"
 readonly APPEARANCE="$REPO_ROOT/drafts/media/nova-appearance.mp4"
 readonly YAZI="$REPO_ROOT/drafts/media/nova-yazi.mp4"
@@ -19,8 +17,8 @@ if ! command -v ffmpeg >/dev/null; then
 	printf 'ffmpeg is required\n' >&2
 	exit 1
 fi
-[[ -f "$SIXTY" ]] || {
-	printf 'Missing source clip: %s\n' "$SIXTY" >&2
+[[ -f "$DAY_TO_DAY" ]] || {
+	printf 'Missing source clip: %s\n' "$DAY_TO_DAY" >&2
 	exit 1
 }
 [[ -f "$POPUPS" ]] || {
@@ -86,15 +84,16 @@ cut_popup_loop() {
 	cp "$poster" "$DRAFT_DIR/${name}-poster.png"
 }
 
-# Timestamps match the article timeline on nova-in-60-seconds.mp4.
-cut_loop "$SIXTY" project-tabs 33.0 3.6 1.6
+# Project tabs and the real, unsubmitted Codex composition come from the current
+# Stable day-to-day capture.
+cut_loop "$DAY_TO_DAY" project-tabs 8.5 8.5 3.0
 
 # Sidebar toggle plus stacked shells from drafts/media/nova-live.mp4.
 cut_loop "$LIVE" stacked-panes 0.0 18.4 12.0
 
 # Popup loops hold the workspace ~2s, then open. Hold is cloned first frame.
 # Yazi is a reveal-from-Helix take; it already includes the workspace lead-in.
-cut_popup_loop "$SIXTY" agent-popup 5.8 7.2 1.2 2.8
+cut_loop "$DAY_TO_DAY" agent-popup 0.0 9.2 4.0
 cut_loop "$YAZI" yazi-popup 0.0 8.0 3.2
 cut_popup_loop "$POPUPS" git-popup 5.2 5.4 1.2 2.4
 # Anima already includes a workspace lead-in, then Mandelbrot, then boids_predator.

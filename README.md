@@ -21,12 +21,20 @@ verification, deployment, and DNS ownership.
 ## Commands
 
 ```sh
-bun install
+nix develop
+bun install --frozen-lockfile
 bun run dev
+bun run check:typos
 bun run check
 bun run build
 bun run test:e2e
 ```
+
+The pinned development shell supplies Bun, Node.js, the Chromium revision used
+by Playwright, typo and workflow linters, FFmpeg, and the recording tools. Run
+the typo, diagnostics, build, and browser-test commands above before submitting
+site changes. Playwright uses the shell's browser closure and does not download
+another browser during installation.
 
 The reproducible Nova demo workflow lives in
 [`drafts/recordings/`](drafts/recordings/). Run
@@ -36,16 +44,18 @@ product, demo-repository, capture-tool, and rendering inputs.
 ## Product Source
 
 The canonical [Yazelix repository](https://github.com/Yazelix/nova)
-owns Nova behavior. Site copy and media were checked against revision
-`e733f1996c4d3997ab091415a39607a2154d2378`, including:
+owns Nova behavior. Site copy was checked against Stable revision
+`16810b21ef76e98057707c3bb18068a04ba4a350`, including:
 
 - `README.md` for the public product and command surface
 - `docs/installation.md` for channels, packages, updates, and Home Manager
 - `docs/configuration.md` for settings and native files
 - `ARCHITECTURE.md` for runtime and ownership boundaries
 
-Update the recorded revision when the public contract changes. Keep uncertain
-or unsupported behavior off the site.
+Exact current and frozen historical media provenance is recorded in
+[`drafts/media/README.md`](drafts/media/README.md). Update the recorded
+revision when the public contract changes. Keep uncertain or unsupported
+behavior off the site.
 
 ## Site Shape
 
